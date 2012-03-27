@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>$action.getText("daily.backup.action.name")</title>
+        <meta name="help-path" content="/admin/help/dailybackup.vm"/>
+        <content tag="selectedWebItem">dailybackup</content>
+    </head>
+    <body>
+        #parse ( "/template/includes/actionerrors.vm" )
+        <p>
+
+        #applyDecorator ("message")
+            #decoratorParam("type" "warning")
+            $action.getText('backup.warning', [$docBean.getLink("help.configuring.daily.backups")])
+        #end
+
+        #applyDecorator ("info" "")
+            $action.getText('backup.disable.tip', ["$req.contextPath/admin/scheduledjobs/viewscheduledjobs.action"])
+        #end
+
+        <form name="dailybackup" action="editdailybackupsettings.action" method="GET">
+            <table id="backupInformation" class="grid">
+                <tr><td class="label">$action.getText("backup.path")</td><td>#if ($textUtil.stringSet($backupPath)) $backupPath #else $action.getText("daily.backup.disabled") #end</td></tr>
+                <tr><td class="label">$action.getText("backup.daily.on")</td><td id="dailyBackupOn">#if ($backupEnabled) <strong class="good">$action.getText("common.words.on")</strong> #else <strong class="bad">$action.getText("common.words.off")</strong> #end</td></tr>
+                #if($backupEnabled)
+                <tr><td class="label">$action.getText("backup.attachments")</td><td>#if ($backupAttachments) <strong class="good">$action.getText("common.words.on")</strong> #else <strong class="bad">$action.getText("common.words.off")</strong> #end</td></tr>
+                #end
+                <tr><td class="label">$action.getText("backup.file.pattern")</td><td>$dailyBackupFilePrefix$action.getExampleOfDatePattern()</td></tr>
+            </table>
+
+            <input type="submit" value="$action.getText('edit.name')" id="edit">
+        </form>
+        #parse("/breadcrumbs.vm")
+    </body>
+</html>

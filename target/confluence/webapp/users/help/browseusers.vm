@@ -1,0 +1,10 @@
+$action.getText('browseusers.action.description')
+</br>
+</br>
+$action.getText('browseusers.locate.user.by.search')
+</br>
+</br>
+$action.getText('browseusers.click.add.new.user')
+</br>
+</br>
+#doc("help.edit.user.details" "$action.getText('more.about.managing.users')")

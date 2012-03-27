@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>
+			$action.getText("title.view.history")
+		</title>
+	</head>
+
+	<body>
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    #if ($actionErrors.size() == 0)
+        #bodytag ("Component" "template='general-pagelist.vm'")
+            #param ("pages" "history")
+            #param ("parentWindow" "true")
+            #param ("displayPageSummaries" "false")
+            #param ("contentOther" "true")
+        #end
+    #end
+	</body>
+</html>

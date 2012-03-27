@@ -1,0 +1,97 @@
+<html>
+    <head>
+         #if ($possibleAlternativesInTrash.size() > 0)
+            <title>$action.title ($action.getText("alternatives.intrash.title"))</title>
+         #else
+            <title>$action.title ($action.getText("alternatives.title"))</title>
+         #end
+        <meta name="infopanel-width" content="25%">
+    </head>
+
+    <body>
+        #parse ( "/template/includes/actionerrors.vm" )
+
+        #if ($actionErrors.size() == 0)
+            <div align="center">
+
+            #if ($possibleAlternativesInTrash.size() > 0)
+
+                <div class="greyboxfilled" style="padding: 5px; width: 70%">
+                    $action.getText("page.in.trash")
+                </div>
+                #if ($permissionHelper.canAdminister($action.remoteUser, $space))
+                  <table class="grid" width="50%">
+                  #foreach ($page in $possibleAlternativesInTrash)
+                    <tr>
+                        <td>$page.title</td>
+                        <td><div class="smalltext" style="margin-left: 20px; margin-bottom:3px;">$action.stripToPlainText($page.bodyAsString)</div></td>
+                        <td><a href="$req.contextPath/pages/restoretrashitem.action?key=$generalUtil.urlEncode($space.key)&contentId=$page.id">Restore</a></td>
+                    </tr>
+                  #end
+                  </table>
+                #end
+
+            #else
+                <p>$action.getText("alternatives.available")</p>
+                <table class="grid" width="50%">
+                #if ($possibleAlternativesInSpace.size() != 0)
+                    <tr><th>$action.getText("alternatives.space.title")</th></tr>
+                    <tr><td id="alternative-pages-in-space">
+                    #if ($possibleAlternativesInSpace.size() == 1)
+                        <p>$action.getText("alternatives.space.one")</p>
+                    #else
+                        <p>$action.getText("alternatives.space.many")</p>
+                    #end
+                    <ul>
+                    #foreach ($page in $possibleAlternativesInSpace)
+                        #contentLink($page)
+                        <div class="smalltext" style="margin-left: 20px; margin-bottom:3px;">$action.stripToPlainText($page.bodyAsString)</div>
+                    #end
+                    </ul></td></tr>
+                #end
+
+                #if ($possibleAlternativesElsewhere.size() != 0)
+                    <tr><th>$action.getText("alternatives.elsewhere.title")</th></tr>
+                    <tr><td id="alternative-pages-elsewhere">
+                    #if ($possibleAlternativesElsewhere.size() == 1)
+                        <p>$action.getText("alternatives.elsewhere.one")</p>
+                    #else
+                        <p>$action.getText("alternatives.elsewhere.many")</p>
+                    #end
+                    <ul>
+                    #foreach ($page in $possibleAlternativesElsewhere)
+                        #contentLink($page)<br />
+                        <div class="smalltext" style="margin-left: 20px; margin-bottom:3px;">$action.stripToPlainText($page.bodyAsString)</div>
+                    #end
+                    </ul></td></tr>
+                #end
+
+                #if ($possibleAlternativesInSpaceSearch.size() != 0)
+                    <tr><th>$action.getText('alternatives.space.title')</th></tr>
+                    <tr><td id="alternative-pages-in-space-search">
+                    #if ($possibleAlternativesInSpaceSearch.size() == 1)
+                        <p>$action.getText('alternative.page.similar.one')</p>
+                    #else
+                        <p>$action.getText('alternative.page.similar.many')</p>
+                    #end
+                    <ul>
+                    #foreach ($page in $possibleAlternativesInSpaceSearch)
+                        #contentLink($page)<br />
+                        <div class="smalltext" style="margin-left: 20px; margin-bottom:3px;">$action.stripToPlainText($page.bodyAsString)</div>
+                    #end
+                    </ul></td></tr>
+                #end
+
+                </table>
+            #end
+
+            </div>
+        #end
+    #parse ( "/breadcrumbs.vm" )
+
+    #if ($space.key)
+        <content tag="spacename">$webwork.htmlEncode($space.name)</content>
+        <content tag="spacekey">$space.key</content>
+    #end
+    </body>
+</html>

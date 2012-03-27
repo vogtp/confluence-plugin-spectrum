@@ -1,0 +1,14 @@
+#set( $labelValue = $i18n.getText($parameters.label) )
+#if( !$labelValue )
+    #set( $labelValue = $parameters.label )
+#end
+
+#if (!$parameters.id)
+    #set( $parameters.id = $parameters.name)
+#end
+
+<div class="field-group
+    #if ($editMode == false)viewMode#end
+    ">
+    #parse("/template/aui/text-include.vm")
+</div>## .field-group

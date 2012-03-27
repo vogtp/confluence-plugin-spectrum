@@ -1,0 +1,41 @@
+#requireResource("confluence.web.resources:breadcrumbs")
+
+<content tag="breadcrumbs">
+    #set ($breadcrumbs = $helper.breadcrumbs)
+    #set ($ellipsisCrumbs = $helper.getEllipsisCrumbs($breadcrumbs))
+    #set ($ellipsisShown = false)
+    #set ($numCrumbs = $breadcrumbs.size())
+
+    <ol id="breadcrumbs">
+    #foreach( $breadcrumb in $breadcrumbs )
+        #if ($ellipsisCrumbs.contains($breadcrumb))
+            #set ($breadcrumbHidden = true)
+            #if(!$ellipsisShown)
+                <li id="ellipsis" title="$i18n.getText("breadcrumbs.ellipsis.tooltip")"><span><strong>&#8230;</strong></span></li>
+                #set ($ellipsisShown = true)
+            #end
+        #else
+            #set ($breadcrumbHidden = false)
+        #end
+
+        #set($showTooltip = false)
+        #if($breadcrumb.tooltip)
+            #set($showTooltip = true)
+            #set ($toolTip = $i18n.getText($generalUtil.htmlEncode($breadcrumb.tooltip)))
+        #end
+
+        <li#if ($breadcrumbHidden) class="hidden-crumb" #end#if ($velocityCount == 1) class="first" #end>
+        #if ($breadcrumb.displayTitle)
+            #set ($displayTitle = $breadcrumb.displayTitle)
+        #else
+            #set ($displayTitle = $action.getText($generalUtil.htmlEncode($breadcrumb.title)))
+        #end
+        #if ($breadcrumb.target)
+            <span><a href="$req.contextPath$breadcrumb.target"#if ($showTooltip) title="$toolTip"#end>$displayTitle</a></span>
+        #else
+            <span>$displayTitle</span>
+        #end
+        </li>
+    #end
+    </ol>
+</content>

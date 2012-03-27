@@ -1,0 +1,43 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.user.actions.ResizeProfilePictureAction" *#
+<html>
+	<head>
+		<title>$generalUtil.htmlEncode($pageTitle)</title>
+    </head>
+
+    #requireResource("confluence.web.resources:jquery")
+    #requireResource("confluence.web.resources:avataror")
+    #set($frameWidth = $action.imageWidth + 20)
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  "edit-profile")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("infopanel-width" "200px")
+
+        <body>
+            <div class="thickPadded avatarorframe" style="width: ${frameWidth}px">
+            #if ($action.temporaryPictureNotFound)
+                $action.getText("user.profile.picture.resize.session-expired", "$req.contextPath/users/editmyprofilepicture.action");
+            #else
+            <form name="resizeimage" method="POST" action="doresizemyprofilepicture.action">
+                <input type="hidden" name="offsetX" id="avatar-offsetX" value="$action.offsetX">
+                <input type="hidden" name="offsetY" id="avatar-offsetY" value="$action.offsetY">
+                <input type="hidden" name="width" id="avatar-width" value="$action.width">
+
+                <div class="submit-buttons">
+                    <input type="submit" value="$action.getText("save.name")">
+                </div>
+                <p>$action.getText("user.profile.picture.resize.blurb")</p>
+                <div class="avataror">
+                    <img src="$req.contextPath$action.imageDownloadPath" alt="" title="" width="$action.imageWidth" height="$action.imageHeight"/>
+                </div>
+                
+                <div class="submit-buttons">
+                    <input type="submit" value="$action.getText("save.name")">
+                </div>
+            </form>
+            #end
+            </div>
+        </body>
+    #end
+</html>

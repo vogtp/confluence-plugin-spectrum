@@ -1,0 +1,14 @@
+#set( $submitValue = $action.getText($parameters.nameValue) )
+#if( !$submitValue )
+    #set( $submitValue = $parameters.nameValue )
+#end
+<input#*
+  *##if ($parameters.id) id="${parameters.id}"#end#*
+  *##if ($parameters.tabindex) tabindex="$!webwork.htmlEncode($parameters.tabindex)" #end#*
+  *##if ($parameters.accessKey) accessKey="$!webwork.htmlEncode($parameters.accessKey)" #end#*
+  *##if ($parameters.onClick) onClick="$!webwork.htmlEncode($parameters.onClick)" #end#*
+  *##if ($parameters.style) style="$parameters.style" #end#*
+  *##if ($parameters.cssClass) class="$!webwork.htmlEncode($parameters.cssClass)" #end#*
+  *##parse("/template/simple/scripting-events.vm")#*
+  *##if ($parameters.type) type="$parameters.type" #else type="submit" #end#*
+  *##if( ${parameters.name} ) name="${parameters.name}"#end value="$!{submitValue}">

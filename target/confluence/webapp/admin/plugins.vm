@@ -1,0 +1,165 @@
+<html>
+	<head>
+		<title>$action.getText("title.plugins")</title>
+		<meta name="help-path" content="/admin/help/plugins.vm"/>
+        <content tag="selectedWebItem">plugins</content>
+	</head>
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        <div class="steptitle">
+        $action.getText("manage.plugins")
+        </div>
+
+        <form name="plugin-upload" method="POST" action="olduploadplugin.action" enctype="multipart/form-data">
+        #form_xsrfToken()
+        <div class="greybox padded">
+            $action.getText("rescan.for.new", ["scanforplugins.action?#url_xsrfToken()"])
+            <br/>
+            $action.getText("upload.plugin"):
+            <input type="file" name="file_0" size="50">
+            #tag ("Submit" "name='confirm'" "value='upload.button'" "theme='notable'")
+        </div>
+        </form>
+
+        #if ($action.newPlugins)
+        <div class="warningPanel">
+            $action.getText('rescan.complete',["$action.newPlugins"])
+        </div>
+        #end
+
+        #if ($action.pluginRepositoryEnabled)
+        <div class="warningPanel">
+            $action.getText("plugin.repository.about", ["$req.contextPath/admin/plugin-repository/plugins.action"])
+        </div>
+        #end
+
+        <div class="steptitle topPadding">
+        $action.getText("installed.plugins.heading")
+        </div>
+
+		#applyDecorator ("root")
+		    #decoratorParam("context" "plugins")
+
+            #if ($selectedPlugin)
+                <div class="greybackground padded">
+                    #if ($selectedPlugin.name)
+                        #set($pluginName = $selectedPlugin.name)
+                    #else
+                        #set($pluginName = $action.getText("plugin.unknown.name"))
+                    #end
+                    #if($selectedPlugin.i18nNameKey) #set($pluginName = $action.getText($selectedPlugin.i18nNameKey)) #end
+                    <h3 style="margin:0 0 5px 0; padding: 0 0 0 0;">$pluginName</h3>
+                    #set ($pluginInfo = $selectedPlugin.pluginInformation)
+                    #if ($pluginInfo.vendorName)
+                      <strong>$action.getText("plugin.vendorName")</strong>: <a href="$pluginInfo.vendorUrl">$!pluginInfo.vendorName</a><br/>
+                    #end
+                    #if ($pluginInfo.version)
+                      <strong>$action.getText("plugin.version")</strong>: $!pluginInfo.version<br/>
+                    #end
+                    #if($selectedPlugin.systemPlugin)
+                    <strong>$action.getText("system.plugin")</strong>: $action.getText("yes.name")<br/>
+                    #end
+                    $action.getHtmlSafePluginDescription($pluginInfo)
+                    <br/>
+                    ## When there are plugin errors, don't allow the user to enable the plugin
+                    <ul class="static-menu">
+                    #if (!$action.isUnloadablePlugin($selectedPlugin))
+                        #if ($pluginInfo.parameters.containsKey("configure.url"))
+                            <li><a href="$req.contextPath${pluginInfo.parameters.get("configure.url")}">$action.getText("configure.plugin")</a></li>
+                        #end
+
+                        #if ($action.isPluginEnabled($selectedPlugin.key))
+                            #if (!$selectedPlugin.systemPlugin)
+                            <li><a href="disableplugin.action?pluginKey=$generalUtil.urlEncode($selectedPlugin.key)&#url_xsrfToken()">$action.getText("disable.plugin")</a></li>
+                            #end
+                        #else
+                            <li><a href="enableplugin.action?pluginKey=$generalUtil.urlEncode($selectedPlugin.key)&#url_xsrfToken()">$action.getText("enable.plugin")</a></li>
+                        #end
+                    #end
+                    #if ($selectedPlugin.uninstallable == true && $selectedPlugin.bundledPlugin == false)
+                        <li><a href="uninstallplugin.action?pluginKey=$generalUtil.urlEncode($selectedPlugin.key)&#url_xsrfToken()">$action.getText("uninstall.plugin")</a></li>
+                    #end
+                    </ul>
+                </div>
+                <div class="padded">
+                    #if ($action.isUnloadablePlugin($selectedPlugin))
+                        <div class="errorbox">
+                            <span class="errorMessage">$action.getText("plugin.error.desc")</span>
+                            ## Display plugin error text, if it exists
+                            #if ($selectedPlugin.errorText.length() > 0)
+                                <br />
+                                <br />
+                                <span class="errorMessage"><strong>Cause:</strong></span>
+                                <br />
+                                <span class="errorMessage">$selectedPlugin.errorText</span>
+                            #end
+                        </div>
+                    #elseif (!$action.isPluginEnabled($selectedPlugin.key))
+                        <div class="errorbox">
+                            <span class="errorMessage"><strong>NOTE:</strong> $action.getText("enable.plugin.desc")</span>
+                        </div>
+                    #end
+
+                    <center>
+                        <table class="grid" width="95%">
+                        #foreach ($module in $selectedPlugin.moduleDescriptors)
+                            #set ($moduleEnabled = false)
+                            #if ($action.isModuleEnabled($module.completeKey))
+                                #set ($moduleEnabled = true)
+                            #end
+                            <tr #if ($moduleEnabled) class="testpassed" #else class="testfailed" #end >
+                                <td valign="top">
+                                    #if ($module.name)
+                                        <span class="module-name">$module.name</span>
+                                    #else
+                                        <span class="module-key">$module.key</span>
+                                    #end
+                                    #if ($module.description)
+                                      <br />
+                                      <span class="smalltext">$module.description</span>
+                                    #end
+                                    #if ($action.isUnloadableModule($module) || $action.isUnrecognisedModule($module))
+                                      <br />
+                                      <strong>Error:</strong>
+                                      <span class="smalltext">$module.errorText</span>
+                                    #end
+                                </td>
+                                ## Only show the table cell when the plugin is enabled
+                                #if ($action.isPluginEnabled($selectedPlugin.key))
+                                    <td valign="top" class="smallfont" nowrap width=16 align="center">
+                                        #if ($module.params.containsKey("configure.url"))
+                                            <a href="$req.contextPath${module.params.get("configure.url")}">$action.getText("configure.word")</a><br />
+                                        #end
+                                        #if ($moduleEnabled)
+                                            <a id="disable-${module.key}" href="disableplugin.action?moduleKey=$generalUtil.urlEncode($module.completeKey)&#url_xsrfToken()">$action.getText("disable.name")</a>
+                                        #elseif($action.isUnrecognisedModule($module))
+                                            $action.getText("plugin.module.disabled")
+                                        #else
+                                            <a id="enable-${module.key}" href="enableplugin.action?moduleKey=$generalUtil.urlEncode($module.completeKey)&#url_xsrfToken()">$action.getText("enable.name")</a>
+                                        #end
+                                    </td>
+                                #end
+                            </tr>
+                        #end
+                        </table>
+                    </center>
+                </div>
+            #elseif ($action.mode=="uninstall")
+                 <table class="grid" width="100%">
+                     #if ($action.uninstallSuccessful)
+                     <tr class="testpassed"><td>
+                        $action.getText("uninstall.plugin.successful")
+                     #else
+                         <tr class="testfailed"><td>
+                        $action.getText("uninstall.plugin.failed")
+                     #end
+                 </td></tr></table>
+            #else
+                <div class="errorbox">$action.getText("select.a.plugin")</div>
+            #end
+		#end
+
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

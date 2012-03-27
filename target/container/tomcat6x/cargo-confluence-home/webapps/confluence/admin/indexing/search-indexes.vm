@@ -1,0 +1,117 @@
+<html>
+<head>
+    <title>$action.getActionName($action.getClass().getName())</title>
+    <meta name="help-path" content="/admin/indexing/help/search-indexes.vm"/>
+    #requireResource("confluence.web.resources:ajs")
+    #requireResource("confluence.sections.admin.indexing:resources")
+</head>
+<body>
+<content tag="selectedWebItem">indexing</content>
+#macro (indexStatus $idPrefix)
+    <div id="${idPrefix}-success-status" class="index-status padded success">
+        $action.getText('admin.indexing.built')
+    </div>
+    <div id="${idPrefix}-error-status" class="index-status padded error">
+        $action.getText('admin.indexing.not.built')
+    </div>
+    <div id="${idPrefix}-inprogress-status" class="index-status padded in-progress">
+        $action.getText('admin.indexing.in.progress')&hellip;
+    </div>
+#end
+
+#macro (overlay $idPrefix)
+    <div id="${idPrefix}-index-disabling-overlay" class="thickPadded vertical-center-aligning-container">
+        <div class="vertical-center-div-outer">
+            <div id="${idPrefix}-overlay-message" class="vertical-center-div-inner heading-text-color">&nbsp;</div>
+        </div>
+    </div>
+#end
+
+
+    #set ($selectedTab = "summary")
+    #parse("/admin/indexing/indexing-tabs.vm")
+
+    <br/>
+
+    #overlay("search")
+    <div id="search-index-panel" class="functionbox thickPadded">
+        <div id="search-index-panel-contents">
+            <h2>$action.getText('admin.indexing.search.index')</h2>
+
+            <p>$action.getText('admin.indexing.search.index.desc')</p>
+
+            #set ($searchIndexExists = $action.searchIndexExists())
+            #set ($searchIndexBuildInProgress = $action.isSearchIndexBuildInProgress())
+
+            #if ($searchIndexExists)
+                #set ($searchIndexSubmitButtonName = $action.getText('admin.indexing.rebuild'))
+            #else
+                #set ($searchIndexSubmitButtonName = $action.getText('admin.indexing.build'))
+            #end
+
+            #indexStatus("search-index")
+
+            <div>
+                <div id="search-index-task-progress-container"></div>
+                <div id="search-index-elapsed-time-container" class="elapsedTime">
+                    <div class="grey">($action.getText('elapsed.time'): <span id="search-index-elapsed-time">$!action.getLastSearchIndexRebuildElapsedTime()</span>)</div>
+                </div>
+            </div>
+
+            <br/>
+            <br/>
+            <form method="POST" name="rebuild-search-index-form" action="reindex.action">
+                #form_xsrfToken()
+                <input id="build-search-index-button" type="submit" value="$searchIndexSubmitButtonName"/>
+                #if ($searchIndexBuildInProgress) <input type="hidden" id="reindex-task-in-progress" value="true"/> #end
+                #if ($searchIndexExists) <input type="hidden" id="search-index-exists" value="true"/> #end
+            </form>
+        </div>
+    </div>
+
+
+    #overlay("dym")
+    <div id="dym-index-panel" class="functionbox thickPadded">
+        <div id="dym-index-panel-contents">
+            <h2 class="margin-top-zero">$action.getText('admin.indexing.dym.index')</h2>
+
+            <p>$action.getText('admin.indexing.dym.index.desc', ['<strong>', '</strong>'])</p>
+
+            <form id="did-you-mean-build-index-form" name="did-you-mean-build-index-form" action="$req.contextPath/admin/didyoumean/build-index.action" method="POST">
+                #form_xsrfToken()
+                #set ($dymIndexExists = $action.didYouMeanIndexExists())
+
+                #if ($dymIndexExists)
+                    #set ($dymSubmitButtonName = $action.getText('admin.indexing.rebuild'))
+                #else
+                    #set ($dymSubmitButtonName = $action.getText('admin.indexing.build'))
+                #end
+
+                #indexStatus("dym-index")
+
+                <div>
+                    <div id="dym-index-task-progress-container"></div>
+                    <div id="dym-index-elapsed-time-container" class="elapsedTime">
+                        <div class="grey">($action.getText('elapsed.time'): <span id="dym-index-elapsed-time">$!action.getLastDidYouMeanIndexRebuildElapsedTime()</span>)</div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+
+                <input type="submit" id="build-dym-index-button" value="$dymSubmitButtonName" />
+
+                #if ($action.isDidYouMeanIndexBuildInProgress()) <input type="hidden" id="dym-index-in-progress" value="true"/> #end
+                #if ($dymIndexExists) <input type="hidden" id="dym-index-exists" value="true"/> #end
+                #if ($action.isReadyToBuildDidYouMeanIndex()) <input type="hidden" id="ready-to-build-dym-index" value="true"/> #end
+                #if ($action.isLanguageCorrectForDidYouMean()) <input type="hidden" id="language-correct-for-dym" value="true"/> #end
+
+                <input type="hidden" id="i18n-key-build-index-first" value="$action.getText('admin.indexing.build.index.first')"/>
+				<input type="hidden" id="i18n-key-dym-wrong-language" value="$action.getText('admin.indexing.dym.wrong.language',["$req.contextPath/admin/viewgeneralconfig.action","$req.contextPath/admin/configurelanguage.action"])"/>
+                <input type="hidden" id="i18n-key-dym-build-in-progress" value="$action.getText('admin.indexing.dym.index.progress')"/>
+                <input type="hidden" id="i18n-key-search-build-in-progress" value="$action.getText('admin.indexing.search.index.progress')"/>
+            </form>
+        </div>
+    </div>
+
+   #parse("/breadcrumbs.vm")
+</body>

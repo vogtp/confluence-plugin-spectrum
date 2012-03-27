@@ -1,0 +1,21 @@
+<li class="#if($velocityCount == 1)first#end #if($statusId == $status.id)focused#end">
+    <span class="status-text">
+        $statusTextRenderer.render($status.status)
+    </span>
+    <br>
+    <div class="status-actions">
+        <ul>
+            #if($permissionHelper.canRemove($remoteUser, $status))
+            #if ($status.current && $remoteUser.name == $status.creatorName)
+            <li class="first-status-action"><a id="clear-$status.id" href="$req.contextPath$status.clearPath&#url_xsrfToken()">$action.getText("clear.name")</a></li>
+            <li><a id="delete-$status.id" href="$req.contextPath$status.deletePath&#url_xsrfToken()">$deleteName</a></li>
+            #else
+            <li class="first-status-action"><a id="delete-$status.id" href="$req.contextPath$status.deletePath&#url_xsrfToken()">$deleteName</a></li>
+            #end
+            <li><a id="view-$status.id" href="$req.contextPath$status.urlPath" title="$action.dateFormatter.formatDateTime($status.lastModificationDate)">$action.formatFriendlyDate($status.lastModificationDate)</a></li>
+            #else
+            <li class="first-status-action"><a id="view-$status.id" title="$action.dateFormatter.formatDateTime($status.lastModificationDate)" href="$req.contextPath$status.urlPath">$action.formatFriendlyDate($status.lastModificationDate)</a></li>
+            #end
+        </ul>
+    </div>
+</li>

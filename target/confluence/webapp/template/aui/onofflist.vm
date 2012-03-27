@@ -1,0 +1,8 @@
+#set( $labelValue = $i18n.getText($parameters.label) )
+#if( !$labelValue )
+    #set( $labelValue = $parameters.label )
+#end
+
+<div class="group">
+    #parse("/template/aui/onofflist-include.vm")
+</div>

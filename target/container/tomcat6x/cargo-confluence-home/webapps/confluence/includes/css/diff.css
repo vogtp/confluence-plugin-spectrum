@@ -1,0 +1,289 @@
+/**
+ * Diff menu / navigation toolbar styles
+ */
+
+.diff-menu {
+    border-bottom: 1px solid #DDD;
+    margin-top: 30px; /* Honestly, this really, really belongs somewhere else. It's the same top-margin as .wiki-content */
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.diff-menu .page-navigation {
+    display: inline-block;
+    position: relative;
+}
+
+.diff-menu .legend {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.diff-menu .legend ul {
+    list-style: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diff-menu .legend li {
+    line-height: 20px;
+    margin: 0;
+    
+}
+
+.diff-menu .diff-title,
+.diff-menu .legend-title {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.diff-menu .diff-author {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.diff-menu #version-comment {
+    display: block;
+}
+
+/* page-navigation section - the bit where the page versions being compared are listed. */
+.page-navigation .page-version {
+    background-color: #f0f0f0;
+    display: inline-block;
+    margin: 0;
+    padding: 8px 16px;
+}
+
+.page-navigation .page-version .version-title {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.page-navigation .page-version a.version-navigation {
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.page-navigation .page-version .metadata {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.page-navigation .page-version dl.metadata dt,
+.page-navigation .page-version dl.metadata dd {
+    margin: 0;
+    padding: 0;
+}
+
+.page-navigation .page-version .metadata.modified {
+    font-size: 12px;
+}
+
+/* diff-navigation section - a collection of links to other diff views. */
+.diff-navigation ul {
+    list-style: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diff-navigation .version-navigation {
+    background-color: #ddd;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.diff-navigation a.version-navigation span {
+    display: inline;
+    left: -1000em;
+    position: absolute;
+}
+
+.diff-navigation a.version-navigation.previous {
+    background-image: url(../../images/icons/sidebar/expand.gif);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20px;
+}
+
+.diff-navigation a.version-navigation.previous:hover {
+    background-image: url(../../images/icons/sidebar/expand-hover.gif);
+}
+
+.diff-navigation a.version-navigation.next {
+    background-image: url(../../images/icons/sidebar/collapse.gif);
+    bottom: 0;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+}
+
+.diff-navigation a.version-navigation.next:hover {
+    background-image: url(../../images/icons/sidebar/collapse-hover.gif);
+}
+
+.diff-navigation a.version-navigation.all {
+    background-color: transparent;
+    bottom: 0;
+    left: 0;
+    margin-bottom: -24px;
+    position: absolute;
+}
+
+.diff-navigation a.version-navigation.all span {
+    position: static;
+}
+
+.page-navigation {
+    /* to make room for the 'version history' link */
+    margin-bottom: 24px;
+    /* to make room for the diff shoulder buttons */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+
+/**
+ * Diff content styles
+ */
+
+.diff-tag-added,
+.diff-tag-removed,
+.diff-html-added,
+.diff-html-removed,
+.diff-html-changed,
+.diff-image-overlay {
+    font-size: 100%;
+    border: 0;
+    padding: 2px 4px;
+}
+
+/*
+ * Styles for the Tag Diff
+ */
+.diff-tag-html {
+    font-family: Monaco, Consolas, 'Courier New', monospace;
+    font-size: 80%;
+}
+
+.diff-tag-removed,
+.diff-html-removed {
+    text-decoration: line-through;
+}
+
+.diff-html-added img {
+    border-width: 2px;
+    border-style: solid;
+}
+
+.diff-html-removed img {
+    border-width: 2px;
+    border-style: solid;
+}
+
+.diff-html-changed img {
+    border-width: 2px;
+    border-style: dotted;
+}
+
+.diff-html-added img.emoticon,
+.diff-html-removed img.emoticon,
+.diff-html-changed img.emoticon {
+    border: 0;
+}
+
+.diff-html-image-container {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.diff-html-image-container .diff-image-overlay {
+    display: block;
+    padding: 4px 4px 8px 4px;
+}
+
+.diff-image-overlay.diff-removed-image {
+    text-decoration: none;
+}
+
+/**
+ * Macro diff formatting
+ */
+.macro-placeholder-icon {
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.diff-macro {
+    border: 1px solid #ddd;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 10px 0;
+    width: 100%;
+    padding: 0 2px 2px;
+}
+
+.diff-macro.bodyless {
+    margin: 5px 0;
+    padding: 0;
+    width: auto;
+}
+
+.diff-macro .diff-macro-title {
+    font-weight: normal;
+    padding: 5px;
+    text-align: left;
+}
+
+.diff-macro-title span.macro-placeholder-icon {
+    background-position: 0 -2px; /* because the images have padding at the top. */
+    margin-right: 0.5em;
+    width: 20px;
+}
+
+/* TODO: This rule is only here so the diff status of a macro is easier to see.
+   It should be removed when the diff status is directly applied to
+   the table.diff-macro element. */
+.diff-macro .diff-macro-title .diff-html-added,
+.diff-macro .diff-macro-title .diff-html-removed,
+.diff-macro .diff-macro-title .diff-html-changed {
+    display: block;
+}
+
+.diff-macro .diff-macro-properties {
+    padding: 0;
+    border: 1px solid #ddd;
+}
+
+.diff-macro .diff-macro-properties > th,
+.diff-macro .diff-macro-properties > td {
+    padding: 0 0 0 5px;
+    font-size: 12px;
+}
+
+.diff-macro .diff-macro-properties > table {
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+
+.diff-macro .diff-macro-body {
+    padding: 10px;
+    border: 1px solid #ddd;
+}

@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>$action.getText('blog.by.date.with.spacename', [$generalUtil.htmlEncode($action.getSpace().getName()),$action.getFormattedDateRangeDescription()])</title>
+
+
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "space-blogposts")
+        #decoratorParam("mode" "view-blogposts")
+        #decoratorParam("view-blogposts-date-mode" "true")
+
+    #end
+</html>

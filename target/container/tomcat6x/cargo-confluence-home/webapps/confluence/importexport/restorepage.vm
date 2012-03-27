@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>$action.getActionName($action.getClass().getName())</title>
+
+
+</head>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.themeHelper)
+        #decoratorParam("context" "space-administration")
+        #decoratorParam("mode"  "view-space-administration")
+
+
+        <body>
+
+            #applyDecorator ("root")
+                #decoratorParam ("context" "spaceadminpanel")
+                #decoratorParam ("selection" "importpage")
+                #decoratorParam ("title" $action.getActionName($action.getClass().getName()))
+                #decoratorParam ("selectedTab" "admin")
+                #decoratorParam("helper" $action.themeHelper)
+
+                <p>
+                    $action.getText("restore.page.desc")
+                </p>
+
+                <table>
+                    <form method="POST" action="restore.action?key=$generalUtil.urlEncode($key)" enctype="multipart/form-data">
+                        #form_xsrfToken()
+                        #tag( "File" "label='file'" "name='file'" )
+                        <tr>
+                            <td colspan="2">
+                                #tag ("Submit" "value=getText('restore-action')" "theme='notable'" )
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            #end
+        </body>
+
+    #end
+</html>

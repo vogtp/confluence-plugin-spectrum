@@ -1,0 +1,38 @@
+<div class="greybox" style="padding: 0px;">
+    <div style="padding: 8px;">
+        <span class="label">$spaceName:</span> $webwork.htmlEncode($space.name) <br/>
+        <span class="label">$spaceKeyText:</span> $space.key <br/>
+
+        #if( $space.homePage )
+            <span class="label">$spaceHomePage:</span>
+            #contentLink2($space.homePage true false) <br/>
+        #end
+
+        <span class="label">$spaceCreator:</span>
+        #usernameLink ($space.creatorName)
+        <span class="smallfont">($dateFormatter.format($space.creationDate))</span><br>
+
+        <span class="label">$spaceLabelsText:</span>
+        #labels($action.getLabelsOnThisSpace())
+        #if($permissionHelper.canAdminister($remoteUser, $space))
+            <span class="smallfont">[<a href="$req.contextPath/spaces/editspacelabels.action?key=$generalUtil.urlEncode($space.key)" id="editSpaceLabelsLink">$action.getText('edit.name')</a>]</span>
+        #end
+        <br/>
+
+        <span class="label">$spaceTeamLabelsText:</span>
+        #labels($action.getTeamLabelsOnThisSpace())
+        #if($permissionHelper.canAdminister($remoteUser, $space))
+            <span class="smallfont">[<a href="$req.contextPath/spaces/editspacelabels.action?key=$generalUtil.urlEncode($space.key)" id="editTeamLabelsLink">$action.getText('edit.name')</a>]</span>
+        #end
+        <br/>
+
+        <span class="label">$spaceDescription:</span>
+        $webwork.htmlEncode($space.description.bodyContent.body)
+`
+        #if( $permissionHelper.canEdit($action.remoteUser, $space))
+            <div style="background: #f0f0f0; padding: 8px;">
+                <a href="$req.contextPath/spaces/editspace.action?key=$generalUtil.urlEncode($space.key)"><img src="$staticResourceUrlPrefix/images/icons/edit_only_16.gif" height=16 width=16 border=0 align=absmiddle title="$editSpaceName"></a>
+                <strong><a href="$req.contextPath/spaces/editspace.action?key=$generalUtil.urlEncode($space.key)">$editSpaceName</a></strong>
+            </div>
+        #end
+</div>

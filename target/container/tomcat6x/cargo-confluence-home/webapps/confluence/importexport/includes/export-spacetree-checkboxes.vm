@@ -1,0 +1,90 @@
+#**
+ * Required context variables:
+ *
+ * $action      - the Webwork export action that is performing the export
+ * $contentTree - the ContentTree to be displayed
+ *#
+ 
+#requireResource("confluence.web.resources:ajs")
+#requireResource("confluence.sections.space.export.view:spaceexport")
+
+#macro (displayPageHierarchyWithCheckboxes $contentTree $checkboxName)
+    #foreach ($rootNode in $contentTree.getRootNodes())
+        #displayPageHierarchyWithCheckboxesHelper($rootNode $checkboxName)
+    #end
+#end
+
+#macro (displayPageHierarchyWithCheckboxesHelper $node $checkboxName)
+    <li style="list-style:none">
+        <input type="checkbox" name="$checkboxName" class="exportContentTreeCheckbox" value="$node.getPage().getId()" checked="checked" style="vertical-align: middle" />
+        <label class="label">#contentLink2($node.getPage() false false)</label>
+        #if (!$node.children.isEmpty())
+            <a class="togglemeonlytreenode" href="#">&nbsp;</a>
+        #end
+
+        #foreach ($childNode in $node.children)
+            <ul style="list-style:none">
+            #displayPageHierarchyWithCheckboxesHelper($childNode $checkboxName)
+            </ul>
+        #end
+    </li>
+#end
+
+<div class="export-container">
+    #if ($visibilityOption == true)
+        <fieldset class="group">
+            <legend><span>$action.getText("pages.to.be.exported")</span></legend>
+            <div class="matrix">
+                <div class="radio">
+                  <input class="radio centered" type="radio"  id="contentOptionAll" name="contentOption" value="all">
+                  <label for="contentOptionAll">$action.getText('export.space.content.option.all')</label>
+                </div>
+                <div class="radio">
+                  <input class="radio centered" type="radio"  id="contentOptionVisible" name="contentOption" value="visible" checked="checked">
+                  <label for="contentOptionVisible">$action.getText('export.space.content.option.visible')</label>
+                </div>
+            </div>
+        </fieldset>
+    #end
+    <ul class="options">
+        <li>
+            <a class="checkAllLink" href="#">$action.getText("select-all")</a>
+        </li>
+        <li>
+            <a class="clearAllLink" href="#">$action.getText("deselect-all")</a>
+        </li>
+        #if ($includeCommentsOption == true)
+            <li>
+                <input type="checkbox" class="centered" name="includeComments" id="includeComments" value="true" #if( ${includeComments.toString()} == "true" )checked="checked"#end/><label for="includeComments">$action.getText("include-comments")</label>
+            </li>
+        #end
+        #if ($backupAttachmentsOption == true)
+            <li>
+                <input type="checkbox" class="centered" name="backupAttachments" id="backupAttachments" value="true" #if ($backupAttachments) checked #end/><label for="backupAttachments">$action.getText("include.attachments")</label>
+            </li>
+        #end
+    </ul>
+    <div class="tree-container">
+        <ul id="exportContentTree">
+            #displayPageHierarchyWithCheckboxes($contentTree 'contentToBeExported')
+        </ul>
+    </div>
+    <ul class="options">
+        <li>
+            <a class="checkAllLink" href="#">$action.getText("select-all")</a>
+        </li>
+        <li>
+            <a class="clearAllLink" href="#">$action.getText("deselect-all")</a>
+        </li>
+        #if ($includeCommentsOption == true)
+            <li>
+                <input type="checkbox" class="centered" name="includeCommentsCopy" id="includeCommentsCopy" value="true" #if( ${includeComments.toString()} == "true" )checked="checked"#end/><label for="includeCommentsCopy">$action.getText("include-comments")</label>
+            </li>
+        #end
+        #if ($backupAttachmentsOption == true)
+            <li>
+                <input type="checkbox" class="centered" name="backupAttachmentsCopy" id="backupAttachmentsCopy" value="true" #if ($backupAttachments) checked #end/><label for="backupAttachmentsCopy">$action.getText("include.attachments")</label>
+            </li>
+        #end
+    </ul>
+</div>

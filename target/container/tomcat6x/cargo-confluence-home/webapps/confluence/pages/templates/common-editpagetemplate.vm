@@ -1,0 +1,5 @@
+#parse ( "/template/includes/actionerrors.vm" )
+
+#if ($actionErrors.size() == 0 || $versionMismatch )
+    #parse ("/pages/includes/editpagetemplate-form.vm")
+#end

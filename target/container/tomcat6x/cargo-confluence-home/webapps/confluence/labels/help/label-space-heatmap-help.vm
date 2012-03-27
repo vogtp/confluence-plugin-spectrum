@@ -1,0 +1,2 @@
+<p>$action.getText('heatmap.description')</p>
+#parse("/labels/help/labels-help.vm")

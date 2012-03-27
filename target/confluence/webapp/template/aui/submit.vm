@@ -1,0 +1,51 @@
+#set( $submitValue = $i18n.getText('submit.name') )
+#set( $editValue = $i18n.getText('edit.name') )
+#set( $cancelValue = $i18n.getText('cancel.name') )
+#if ($parameters.cssClass)
+    #set ($cssClass = "$!webwork.htmlEncode($parameters.cssClass)")
+#end
+<div class="buttons-container">
+    <div class="buttons">
+
+#if ($editMode == true || $parameters.editMode == "true")
+    #if ($parameters.submitValue)
+        #set( $submitValue = $parameters.submitValue )
+    #end
+    <input id="confirm" class="submit button $!cssClass"#*
+    *##if ($parameters.tabindex) tabindex="$!webwork.htmlEncode($parameters.tabindex)" #end#*
+    *##if ($parameters.accessKey) accessKey="$!webwork.htmlEncode($parameters.accessKey)" #end#*
+    *##if ($parameters.onClick) onClick="$!webwork.htmlEncode($parameters.onClick)" #end#*
+    *##if ($parameters.style) style="$parameters.style" #end#*
+    *##parse("/template/simple/scripting-events.vm")#*
+    *##if ($parameters.type) type="$parameters.type" #else type="submit" #end#*
+    *# name="confirm" value="$!{submitValue}">
+
+    #if ($parameters.cancelValue)
+        #set( $cancelValue = $action.getText($parameters.cancelValue) )
+    #end
+    <input id="cancel" class="cancel button $!cssClass"#*
+    *##if ($parameters.tabindex) tabindex="$!webwork.htmlEncode($parameters.tabindex)" #end#*
+    *##if ($parameters.accessKey) accessKey="$!webwork.htmlEncode($parameters.accessKey)" #end#*
+    *##if ($parameters.onClick) onClick="$!webwork.htmlEncode($parameters.onClick)" #end#*
+    *##if ($parameters.style) style="$parameters.style" #end#*
+    *##if ($parameters.cssClass) class="$!webwork.htmlEncode($parameters.cssClass)" #end#*
+    *##parse("/template/simple/scripting-events.vm")#*
+    *##if ($parameters.type) type="$parameters.type" #else type="submit" #end#*
+    *# name="cancel" value="$!{cancelValue}">
+#else
+    #if ($parameters.editValue)
+        #set( $editValue = $action.getText($parameters.editValue) )
+    #end
+    <input id="edit" class="submit button $!cssClass"#*
+    *##if ($parameters.tabindex) tabindex="$!webwork.htmlEncode($parameters.tabindex)" #end#*
+    *##if ($parameters.viewAccessKey) accessKey="$!webwork.htmlEncode($parameters.viewAccessKey)" #end#*
+    *##if ($parameters.onClick) onClick="$!webwork.htmlEncode($parameters.onClick)" #end#*
+    *##if ($parameters.style) style="$parameters.style" #end#*
+    *##if ($parameters.cssClass) class="$!webwork.htmlEncode($parameters.cssClass)" #end#*
+    *##parse("/template/simple/scripting-events.vm")#*
+    *##if ($parameters.type) type="$parameters.type" #else type="submit" #end#*
+    *# name="edit" value="$!{editValue}">
+#end
+
+    </div>## .buttons
+</div>## .buttons-container

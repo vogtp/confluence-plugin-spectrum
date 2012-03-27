@@ -1,0 +1,11 @@
+$action.getText('editprofile.can.edit.profile.here')
+
+<p>
+$action.getText('editprofile.email.description')
+</p>
+<p>
+$action.getText('editprofile.notify.of.own.actions')
+</p>
+<p>
+$action.getText('editprofile.email.formats')
+</p>

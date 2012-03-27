@@ -1,0 +1,23 @@
+#set ($statusList = $stack.findValue($parameters.statusList))
+#set ($contextPath = $parameters.contextPath)
+#set ($statusId = $parameters.statusId)
+#set ($deleteName = $action.getText("delete.name"))
+#set ($viewingMyProfile = $parameters.viewingMyProfile)
+#requireResource("confluence.userstatus:userstatus-resources")
+
+#if( !$statusList || $statusList.size()==0 )
+    #if($viewingMyProfile==true)
+        $action.getText("statuslist.empty.yours")
+    #else
+        $action.getText("statuslist.empty.for",$generalUtil.htmlEncode($user.fullName),"")
+    #end
+#else    
+    <div class="statuslist">        
+    <ul>
+        #foreach ($status in $statusList)
+            #parse("/template/xhtml/single-status-in-list.vm")
+        #end
+    </ul>
+    </div>
+    #pagination($action.paginationSupport $contextPath)
+#end

@@ -1,0 +1,58 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.admin.actions.RaiseSupportRequestAction" *#
+<html>
+	<head>
+		<title>$action.getText("raise.support.request.title")</title>
+    </head>
+	<body>
+        <content tag="selectedWebItem">supportrequest</content>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        <h1 class="steptitle">$action.getText("raise.support.request.subtitle")</h1>
+        #if (!$action.isMailServerAvailable())
+            #if ($permissionHelper.isSystemAdministrator($remoteUser))
+                <div class="warningMessage">$action.getText("raise.support.request.no.mail.server", ["${req.contextPath}/admin/mail/viewmailservers.action"])</div>
+            #else
+                <div class="warningMessage">$action.getText("raise.support.request.no.mail.server.not.sysadmin")</div>
+            #end
+            <br/>
+        #end
+        <div class="warningMessage">$action.getText("raise.support.request.large.logs.warning")</div>
+        #applyDecorator("form-aui")
+            #decoratorParam("formName" "raisesupportrequest")
+            #decoratorParam("submitAction"  "$req.contextPath/admin/doraisesupportrequest.action")
+            #decoratorParam("editMode" "$editMode")
+
+            #form_xsrfToken()
+
+            <h2>$i18n.getText("raise.support.request.email.subtitle")</h2>
+            <span class="smalltext">$action.getText("raise.support.request.description")</span>
+            <span class="smalltext">$action.getText("raise.support.request.patience")</span>
+            <br/>
+            #tag( "TextField" "label='raise.support.request.to.field'" "name='toAddresses'" "value=toAddresses" "theme='aui'" "readonly=true")
+            #bodytag( "TextField" "label='raise.support.request.subject.field'" "name='subject'" "value=subject" "size=100" "required='true'" "theme='aui'")
+                #param("description" "$action.getText('raise.support.request.subject.help')")
+            #end
+            #tag( "Textarea" "label='raise.support.request.description.field'" "name='description'" "value=description" "rows=15" "cols=100" "required='true'" "theme='aui'")
+            #bodytag( "TextField" "label='raise.support.request.existing.field'" "name='existingRequest'" "value=existingRequest" "size=100" "theme='aui'")
+                #param("description" "$action.getText('raise.support.request.existing.help')")
+            #end
+            #tag( "TextField" "label='raise.support.request.contactname.field'" "name='contactName'" "value=contactName" "size=100" "required='true'" "theme='aui'")
+            #tag( "TextField" "label='raise.support.request.contactemail.field'" "name='contactEmail'" "value=contactEmail" "size=100" "required='true'" "theme='aui'")
+            #tag( "TextField" "label='raise.support.request.contactnumber.field'" "name='contactNumber'" "value=contactNumber" "size=100" "theme='aui'")
+
+            <br/>
+            <h2>$action.getText("create.support.zip.title")</h2>
+            #parse("/admin/includes/support-zip-fields.vm")
+
+            #bodytag( "Submit" "theme='aui'" )
+                #param ("submitValue", "$i18n.getText('send.name')")
+            #end
+        #end
+        <p>
+        <div class="smalltext">$action.getText("raise.support.request.environment.notes")</div>
+        <p>
+        <div class="steptitle">$action.getText("raise.support.request.environment.field")</div>
+        #parse ( "/admin/systeminfo.vm" )        
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

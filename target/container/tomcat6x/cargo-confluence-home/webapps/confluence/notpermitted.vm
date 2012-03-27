@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>$action.getText("title.not.permitted")</title>
+</head>
+<body style="margin:5px">
+
+    #parse ( "/breadcrumbs.vm" )
+
+    <div id="content" style="margin:10px;">
+
+        <p>$action.getText("not.permitted.description")</p>
+
+    </div>
+
+</body>
+</html>

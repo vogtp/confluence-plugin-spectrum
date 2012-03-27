@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>$action.getText("title.formatting.config")</title>
+		<meta name="help-path" content="/admin/help/formattingconfig.vm"/>
+	</head>
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+		#if ($actionErrors.size() == 0)
+		    <div align="center">
+				<table class="grid" width="80%">
+					<form method="POST" action="formattingconfiguration.action">
+						#tag( "TextField" "label='defaultEncoding'" "name='defaultEncoding'" "value=defaultEncoding" "size=30" )
+						#tag( "TextField" "label='defaultTimeFormatterPattern'" "name='defaultTimeFormatterPattern'" "value=defaultTimeFormatterPattern" "size=30" )
+						#tag( "TextField" "label='defaultDateTimeFormatterPattern'" "name='defaultDateTimeFormatterPattern'" "value=defaultDateTimeFormatterPattern" "size=30" )
+						#tag( "TextField" "label='defaultDateFormatterPattern'" "name='defaultDateFormatterPattern'" "value=defaultDateFormatterPattern" "size=30" )
+						#tag( "TextField" "label='defaultLongNumberFormatterPattern'" "name='defaultLongNumberFormatterPattern'" "value=defaultLongNumberFormatterPattern" "size=30" )
+						#tag( "TextField" "label='defaultDecimalNumberFormatterPattern'" "name='defaultDecimalNumberFormatterPattern'" "value=defaultDecimalNumberFormatterPattern" "size=30" )
+						<tr>
+							<td colspan="2" align="center">
+								#tag( "Submit" "name='confirm'" "value='update.name'" "theme='notable'" )
+								#tag( "Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+							</td>
+						</tr>
+					</form>
+				</table>
+			</div>
+		#end
+
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

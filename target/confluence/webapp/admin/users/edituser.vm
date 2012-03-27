@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>$action.getText("title.edit.user") #if ($username): $username #end</title>
+        #requireResource("confluence.web.resources:aui-forms")
+	</head>
+
+	<body>
+        #parse ( "/template/includes/actionerrors.vm" )
+
+       &laquo; <a href="viewuser.action?username=$!generalUtil.doubleUrlEncode($user.name)">$action.getText("return.to.view.user")</a><br/>
+            #if ($actionErrors.size() == 0)
+                #applyDecorator("form-aui")
+                    #decoratorParam("formName" "editUser")
+                    #decoratorParam("submitAction"  "doedituser.action?#url_xsrfToken()&username=$!generalUtil.doubleUrlEncode($user.name)")
+                    #decoratorParam("editMode" "true")
+                    <fieldset>
+                        <h2>$action.getText('title.edit.user'): $username</h2>
+                        <legend>$action.getText('title.edit.user'): $username</legend>
+                        #if (!$settingsManager.getGlobalSettings().isExternalUserManagement() && !$userAccessor.isReadOnly($user))
+                            #bodytag( "TextField" "label='fullname.name'" "name='fullName'" "size='50'" "theme='aui'" )
+                                #param("required" "$action.getText('required.field')")
+                            #end
+                            #bodytag( "TextField" "label='email.name'" "name='email'" "size='50'" "theme='aui'" )
+                                #param("required" "$action.getText('required.field')")
+                            #end
+                        #else
+                            #tag( "TextField" "label='fullname.name'" "name='fullName'" "size='50'" "theme='aui'" "readonly=true" )
+                            #tag( "TextField" "label='email.name'" "name='email'" "size='50'" "theme='aui'" "readonly=true" )
+                        #end
+
+                        #foreach ($group in $action.userDetailsGroups)
+                            #foreach ($key in $action.getUserDetailsKeys($group))
+                                #tag( "TextField" "label='confluence.user.profile.$key'" "name='userparam-$key'" "value=getUserProperty('$key')" "size='50'" "theme='aui'" )
+                            #end
+                        #end
+
+                            #bodytag ("Component" "name='personalInformation'" "template='textarea.vm'" "theme='aui'")
+                                #param ("label" "$action.getText('personal.info')")
+                                #param ("rows" 8)
+                                #param ("cols" 70)
+                            #end
+
+                        #tag( "Submit" "theme='aui'" )
+                    </fieldset>
+                #end
+            #end
+
+		#parse ( "/breadcrumbs.vm" )
+	</body>
+</html>

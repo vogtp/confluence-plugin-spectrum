@@ -1,0 +1,22 @@
+<html>
+<head><title>$action.getText("edit.name") - $!page.title</title>
+</head>
+<body>
+    <!-- call the page decorator -->
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" $contentType)
+        #decoratorParam("mode" "edit")
+
+
+    #set ($helper = $action.helper)
+
+    #parse("/pages/includes/editpage-form.vm")
+
+    #end
+
+    ## needs to be outside of the applyDecorator macro so that this tag bubbles up to main.vmd
+    <content tag="bodyClass">contenteditor edit</content>
+</body>
+</html>
+

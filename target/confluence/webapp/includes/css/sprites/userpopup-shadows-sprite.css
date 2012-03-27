@@ -1,0 +1,70 @@
+/*************************************************************
+ * NOTE: Smartsprites used to generate sprites automatically *
+ *************************************************************/
+
+/* TODO: From Confluence 4.0 onwards (when IE7 is no longer supported), shadows should not use images */
+
+#content-hover-shadow {
+    z-index: -1;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: -16px;
+}
+#content-hover-shadow * {
+    position: absolute;
+}
+#content-hover-shadow .tl {
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 17px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -0px top;
+}
+#content-hover-shadow .tr {
+    right: 0;
+    top: 0;
+    width: 16px;
+    height: 17px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -16px top;
+}
+#content-hover-shadow .br {
+    right: 0;
+    bottom: 0;
+    width: 29px;
+    height: 29px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -32px top;
+}
+#content-hover-shadow .bl {
+    left: 0;
+    bottom: 0;
+    width: 29px;
+    height: 29px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -61px top;
+}
+#content-hover-shadow .b {
+    left: 29px;
+    bottom: 0;
+    height: 29px;
+    width: 29px;
+    background-image: url(../../../images/shadow-light/b.png); /* not a sprite because it tiles horizontally */
+}
+#content-hover-shadow .l {
+    left: 0;
+    top: 17px;
+    width: 16px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -90px top;
+}
+#content-hover-shadow .r {
+    right: 0;
+    top: 17px;
+    width: 16px;
+  background-image: url('../../../images/sprites/userpopup-shadows.png');
+  background-position: -106px top;
+}

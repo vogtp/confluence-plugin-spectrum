@@ -1,0 +1,5 @@
+$action.getText('mailservers.page.description')
+<br/>
+<br/>
+#doc("help.configure.server.outgoing.mail" "$action.getText('more.about.configuring.mail')")
+

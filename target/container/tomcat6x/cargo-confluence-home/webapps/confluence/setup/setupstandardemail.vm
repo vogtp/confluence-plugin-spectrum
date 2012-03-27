@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.standard.email")</title>
+	</head>
+
+	<body>
+		<p>$action.getText("setup.step.description")</p>
+
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        <form method="POST" action="setupstandardemail.action">
+            <table border="0" width="80%" class="grid">
+                <tr>
+                    <th width="30%">&nbsp;</th>
+                    <th width="70%">&nbsp;</th>
+                </tr>
+				#tag( "TextField" "label='mail.server.name'" "name='name'" )
+				#tag( "TextField" "label='mail.server.from.address'" "name='from'" )
+				#tag( "TextField" "label='mail.server.subject.prefix'" "name='prefix'" )
+				#tag( "TextField" "label='mail.server.host'" "name='host'" )
+				#tag( "TextField" "label='mail.server.userName'" "name='userName'" )
+				#tag( "Password" "label='mail.server.password'" "name='password'" )
+                #tag( "Submit" "value=getText('next.name')" "align='center'" )
+            </table>
+        </form>
+	</body>
+</html>

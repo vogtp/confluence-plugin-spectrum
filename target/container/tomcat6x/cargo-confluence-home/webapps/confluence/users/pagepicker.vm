@@ -1,0 +1,114 @@
+#* vtlvariable name="action" type="com.atlassian.confluence.user.actions.PagePickerAction" *#
+<html>
+	<head>
+		<title>
+			$action.getActionName($action.getClass().getName())
+        </title>
+	</head>
+
+	<body>
+	<script language="javascript">
+        // takes a page link and inserts it into the parent window's form field element
+        // String pageLink
+        // String formname name of the form in the parent window (the opener window)
+        // String fieldname name of the textarea/textfield in the above form
+        function populateDestinationLinkField(pageLink) {
+           pageLink = formatLink(pageLink);
+           opener.document.forms['$generalUtil.htmlEncode($formname)'].elements['$generalUtil.htmlEncode($fieldname)'].value=pageLink;
+           window.close();
+        }
+
+       // if page link is to another page in the current space
+        // strip off the space key
+        // if its a hyperlink
+        function formatLink(link) {
+            var result;
+            if (link.indexOf('http://') != -1) {
+                result = link;
+            } else {
+                var linkSpaceKey = link.split(":")[0];
+                var linkPageTitle = link.split(":")[1];
+                if (linkSpaceKey == '$generalUtil.htmlEscapeQuotes($currentspace)') {
+                    result = linkPageTitle;
+                } else {
+                    result = link;
+                }
+            }
+
+            return result;
+        }
+	</script>
+
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    #if ($actionErrors.size() == 0)
+    <form name="insertlink">
+        <table border=0 width="100%">
+        <tr><td>
+        <ul class="tabnav">
+            <li class="tabs">
+            <a href="$req.getRequestURI()?pageId=$pageId&currentspace=$generalUtil.urlEncode($currentspace)&formname=$generalUtil.urlEncode($formname)&fieldname=$generalUtil.urlEncode($fieldname)&mode=search"  #if ($mode == 'search') class="current"#end>Search</a>
+            <a href="$req.getRequestURI()?pageId=$pageId&currentspace=$generalUtil.urlEncode($currentspace)&formname=$generalUtil.urlEncode($formname)&fieldname=$generalUtil.urlEncode($fieldname)&mode=history"  #if ($mode == 'history') class="current"#end>History</a>
+            <a href="$req.getRequestURI()?pageId=$pageId&currentspace=$generalUtil.urlEncode($currentspace)&formname=$generalUtil.urlEncode($formname)&fieldname=$generalUtil.urlEncode($fieldname)&mode=recent"  #if ($mode == 'recent') class="current"#end>Recently Modified</a>
+            <a href="$req.getRequestURI()?pageId=$pageId&currentspace=$generalUtil.urlEncode($currentspace)&formname=$generalUtil.urlEncode($formname)&fieldname=$generalUtil.urlEncode($fieldname)&mode=referring"  #if ($mode == 'referring') class="current"#end>Referring Pages</a>
+            </li>
+        </ul>
+        <!-- clears the floated elements above -->
+        <br class="after-tabnav">
+        </td></tr>
+
+
+        #if ($mode == 'search')
+
+            <tr><td>
+            <form action="$req.getRequestURI()" method="post">
+
+            #set ($actionNameStart = $req.getRequestURL().lastIndexOf('/') + 1)
+            #if ($req.getRequestURL().substring($actionNameStart) != 'spacepagepicker.action')
+                #bodytag ("Select" "label='dest.space'" "theme='custom'" "name='searchQuery.spaceKey'" "template='space-select.vm'")
+                    #param ("value" "searchQuery.spaceKey")
+                #end
+            #else
+                $searchQuery.setSpaceKey($currentspace)
+                <input type="hidden" name="searchQuery.spaceKey" value="$generalUtil.htmlEncode($currentspace)">
+            #end
+            <input type="text" name="query" value="$generalUtil.escapeXml($!searchQuery.queryString)">&nbsp;<input type="submit" value="Search">
+            <input type="hidden" name="currentspace" value="$generalUtil.htmlEncode($currentspace)">
+            <input type="hidden" name="formname" value="$generalUtil.htmlEncode($formname)">
+            <input type="hidden" name="fieldname" value="$generalUtil.htmlEncode($fieldname)">
+            <input type="hidden" name="mode" value="$mode">
+            </form>
+            <p/>
+            #if ("$!query" != "")
+                #bodytag ("Component" "template='general-pagelist.vm'")
+                    #param ("pages" "searchResults")
+                    #param ("thereAreNoPages" $action.getText("no.pages.found", [$generalUtil.escapeXml($searchQuery.queryString)]))
+                    #param ("insertLink" "true")
+                    #param ("contentOther" "true")
+                #end
+            #end
+
+            </td></tr>
+            </table>
+        #else
+
+            #if ($mode == 'history')
+                #set($methodName = "historyPages")
+            #elseif ($mode == 'recent')
+                #set($methodName = "recentlyUpdatedPages")
+            #elseif ($mode == 'referring')
+                #set($methodName = "referringPages")
+            #else
+                #set($methodName = "historyPages")
+            #end
+
+            #bodytag ("Component" "template='general-pagelist.vm'")
+                #param ("pages" $methodName)
+                #param ("insertLink" "true")
+            #end
+
+        #end
+    </form>
+    #end
+	</body>
+</html>

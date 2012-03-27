@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+	</head>
+	<body>
+		<p>$action.getText("action.description")</p>
+	    #parse ( "/template/includes/actionerrors.vm" )
+        <ul class="step-choice-list">
+            <li>
+                <div class="steptitle">$action.getText("demo.hint")</div>
+                <div class="stepdesc">$action.getText("demo.description")</div>
+                <form method="POST" action="setupdata.action" id="demoChoiceForm">
+                    <div class="stepfield" align="right">
+                        <input type="submit" name="dbchoiceSelect" value="$action.getText("demo.label") >>" />
+                    </div>
+
+                    #tag( "Hidden" "name='contentChoice'" "value='demo'")
+                </form>
+            </li>
+            <li>
+                <div class="steptitle">$action.getText("blank.hint")</div>
+                <div class="stepdesc">$action.getText("blank.description")</div>
+                <form method="POST" action="setupdata.action" id="blankChoiceForm">
+                    <div class="stepfield" align="right">
+                        <input type="submit" name="dbchoiceSelect" value="$action.getText("blank.label") >>" />
+                    </div>
+                    #tag( "Hidden" "name='contentChoice'" "value='blank'")
+                </form>
+            </li>
+            <li>
+                <div class="steptitle">$action.getText("import.hint")</div>
+                <div class="stepdesc">$action.getText("import.description")</div>
+                <form method="POST" action="setupdata.action" id="restoreChoiceForm">
+                    <div class="stepfield" align="right">
+                        <input type="submit" name="dbchoiceSelect" value="$action.getText("import.label") >>" />
+                    </div>
+                    #tag( "Hidden" "name='contentChoice'" "value='import'")
+                 </form>
+            </li>
+        </ul>
+	</body>
+</html>

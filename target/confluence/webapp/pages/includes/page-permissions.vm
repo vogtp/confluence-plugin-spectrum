@@ -1,0 +1,93 @@
+<!-- Start restrictions section -->
+## The main permission editor
+<script type="text/x-template" title="page-permissions-div">
+<div id="page-permissions-div">
+    <div id="page-permissions-editor-form">
+
+        ## Where errors are displayed (e.g. if an entered username doesn't exist)
+        <div id="page-permissions-error-div" class="hidden">
+            <a href="#" id="permissions-error-div-close">$i18n.getText('page.perms.close.validation.error')</a>
+            <div></div>
+        </div>
+
+        ## Where the user chooses and types user/group names.
+        <div id="page-permissions-type-radios" class="page-permissions-label-rows">
+            <div>
+                <input id="restrictViewRadio" type="radio" checked="checked" name="pagePermissionTypeRadio" value="view"/>
+                <label for="restrictViewRadio">$i18n.getText('page.perms.form.radio.viewing')</label>
+                <input id="restrictEditRadio" type="radio" name="pagePermissionTypeRadio" value="edit"/>
+                <label for="restrictEditRadio">$i18n.getText('page.perms.form.radio.editing')</label>
+            </div>
+        </div>
+        <div id="page-permissions-input" class="page-permissions-label-rows">
+            <div class="page-permissions-label">$i18n.getText('page.perms.form.to.label')</div>
+            <div id="page-permissions-chooser-box">
+                #if ($remoteUser)
+                    <span id="page-permissions-choose-me" class="ajs-button normal">
+                        <img class="permission-entity-picture" src="$req.contextPath${generalUtil.userAccessor.getUserProfilePicture($remoteUser).downloadPath}" border="0" alt="$i18n.getText('page.perms.choose.me')" align="absmiddle"/>
+                        <a href="#">$i18n.getText('page.perms.choose.me')</a>
+                        <span class="remote-user-name hidden">$generalUtil.htmlEncode($remoteUser.name)</span>
+                    </span>
+                #end
+                <span id="page-permissions-choose-user" class="ajs-button">
+                    #bodytag ("Component" "theme='custom'" "template='popup-link.vm'")
+                        #param ("url" "$req.contextPath/spaces/openuserpicker.action?key=$!spaceKey&startIndex=0")
+                        #param ("windowName" "EntitiesPicker")
+                        #param ("imgSrc" "$staticResourceUrlPrefix/images/icons/user_16.gif")
+                        #param ("windowProperties" "status=yes,resizable=yes,top=100,left=200,width=700,height=680,scrollbars=yes")
+                        #param ("imgTitle" "Choose users")
+                        #param ("linkText" "page.perms.choose.users")
+                        #param ("onPopupSubmit" "AJS.PagePermissions.addUserPermissions")
+                        #param ("linkId" "userpicker-popup-link")
+                    #end
+                </span>
+                <span id="page-permissions-choose-group" class="ajs-button">
+                    #bodytag ("Component" "theme='custom'" "template='popup-link.vm'")
+                        #param ("url" "$req.contextPath/spaces/opengrouppicker.action?key=$!spaceKey&startIndex=0&actionName=dosearchgroups.action")
+                        #param ("windowName" "EntitiesPicker")
+                        #param ("imgSrc" "$staticResourceUrlPrefix/images/icons/group_16.gif")
+                        #param ("imgTitle" "Choose groups")
+                        #param ("linkText" "page.perms.choose.groups")
+                        #param ("onPopupSubmit" "AJS.PagePermissions.addGroupPermissions")
+                        #param ("linkId" "grouppicker-popup-link")
+                    #end
+                </span>
+            </div>
+            <div id="page-permissions-input-box">
+                <input type="text" id="page-permissions-names-input" name="permissionNames"
+                    placeholder="$i18n.getText('page.perms.input.field.placeholder')" class="autocomplete-user"
+                    data-max="10" data-none-message="$i18n.getText("macro.browser.smartfields.no.suggestion")"
+                    data-target="#page-permissions-names-hidden" data-template="{username}"
+                    data-dropdown-target="#page-perms-name-dropdown-wrapper" data-resize-to-input="true"
+                    size="30"/>
+                #tag ("Hidden" "id=page-permissions-names-hidden" "theme='simple'")
+                <img height="16px" width="1px" src="$staticResourceUrlPrefix/images/border/spacer.gif"/>
+                <input type="button" id="add-typed-names" value="$i18n.getText('page.perms.form.add.button')">
+                <div id="page-perms-name-dropdown-wrapper" class="aui-dd-parent autocomplete"></div>
+            </div>
+        </div>
+    </div>
+    <div id="page-permissions-tables">
+        <div id="page-permissions-table-div">
+            ## Where the loaded and amended names are displayed
+            <table id="page-permissions-table" class="page-permissions-table">
+                <tr id="page-permissions-no-views" class="marker-row">
+                    <td colspan="3" class="page-permissions-marker-cell"><span>$i18n.getText('page.perms.no.view.restrictions')</span></td>
+                </tr>
+                <tr id="page-permissions-no-edits" class="marker-row">
+                    <td colspan="3" class="page-permissions-marker-cell"><span>$i18n.getText('page.perms.no.edit.restrictions')</span></td>
+                </tr>
+            </table>
+        </div>
+        <div id="page-inherited-permissions-table-div" class="hidden">
+            <span id="page-inherited-permissions-table-desc">
+                <a class="icon twisty-closed">$i18n.getText('page.perms.inherited.twisty')</a>
+                <a id="toggle-inherited-permissions" title="$i18n.getText('page.perms.inherited.toggle.tooltip')">$i18n.getText('page.perms.inherited.toggle')</a>
+            </span>
+            <div id="page-inherited-permissions-tables" class="hidden page-inheritance-togglable"></div>
+        </div>
+    </div>
+</div>
+</script>
+
+<!-- End restrictions section -->

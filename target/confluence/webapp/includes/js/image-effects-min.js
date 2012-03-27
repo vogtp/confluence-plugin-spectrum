@@ -1,0 +1,1 @@
+AJS.toInit(function(b){var a={padding:0,speedIn:500,speedOut:500,overlayShow:true,overlayOpacity:0.5,dataAttr:"image-src"};b("img.confluence-embedded-image").each(function(){var c=b(this);if(!c.parent("a").length){c.fancybox(a)}})});

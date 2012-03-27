@@ -1,0 +1,40 @@
+<p>$action.getText('spaceperms.help.page.description')</p>
+<p>$action.getText('spaceperms.permission.description')</p>
+<p>
+    $action.getText('spaceperms.permission.types.are.available'):
+    <ul>
+    <li><strong>$action.getText('view.word'):</strong> $action.getText('viewperm.description').</li>
+    <li><strong>$action.getText('pages.word'):</strong> $action.getText('pages.perm.description')
+        <ul class="star">
+            <li> $action.getText('createpage.perm.description')</li>
+            <li> $action.getText('exportpage.perm.description')</li>
+            <li> $action.getText('removepage.perm.description')</li>
+        </ul>
+    </li>
+
+    <li><strong>$action.getText('news.name'):</strong>
+        <ul>
+            <li> $action.getText('createnews.perm.description')
+            <li> $action.getText('deletenews.perm.description')
+        </ul>
+    </li>
+    <li><strong>$action.getText('comments.word'):</strong>
+        <ul>
+            <li> $action.getText('createcomment.perm.description')
+            <li> $action.getText('deletecomment.perm.description')
+        </ul>
+    </li>
+    <li><strong>$action.getText('attachments.word'):</strong>
+        <ul>
+            <li> $action.getText('createattachment.perm.description')
+            <li> $action.getText('deleteattachment.perm.description')
+        </ul>
+    </li>
+    <li><strong>$action.getText('mail.word'):</strong>
+        <ul>
+            <li> $action.getText('mail.perm.description')
+        </ul>
+    </li>
+    </ul>
+</p>
+<p>#doc('help.space.permissions.overview' 'More about space permissions')</p>

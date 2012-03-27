@@ -1,0 +1,26 @@
+<p>
+    $action.getText('page.template.help.title')
+</p>
+<p>
+    <strong>$action.getText('templates.word'):</strong><br/>
+    $action.getText('templates.description')
+</p>
+
+<p>
+    <strong>$action.getText('variables.word'):</strong><br/>
+    $action.getText('variables.description')
+</p>
+
+<p>
+    $action.getText('variable.use.instructions')
+</p>
+
+<p>
+    <code>
+        $action.getText('variable.use.example')
+    </code>
+</p>
+
+<p>
+    $action.getText('variable.use.example.description')
+</p>

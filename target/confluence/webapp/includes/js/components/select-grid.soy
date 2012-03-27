@@ -1,0 +1,44 @@
+{namespace Confluence.Templates.SelectGrid}
+
+/**
+* The outline for the Select Grid.
+*/
+{template .gridOutline}
+   <table class="select-grid">
+        <thead>
+            <tr class="data-table-header"></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+{/template}
+
+/**
+ * A cell with a link in the Select Grid table.
+ *
+ * @param outerClass CSS class for the <td> element
+ * @param innerClass CSS class for the <a> element
+ * @param href href for the link
+ * @param title text for the link tooltip
+ * @param text text to be shown in the cell
+ */
+{template .cellWithLink}
+    <td class="{$outerClass}">
+        <a class="{$innerClass}" href="{$href}" title="{$title}">
+            <span>{$text}</span>
+        </a>
+    </td>
+{/template}
+
+/**
+ * A cell without a link in the Select Grid table
+ *
+ * @param outerClass CSS class for the <td> element
+ * @param innerClass CSS class for the <a> element
+ * @param title text for the link tooltip
+ * @param text text to be shown in the cell
+ */
+{template .cellWithoutLink}
+    <td class="{$outerClass}">
+        <span class="{$innerClass}" title="{$title}">{$text}</span>
+    </td>
+{/template}

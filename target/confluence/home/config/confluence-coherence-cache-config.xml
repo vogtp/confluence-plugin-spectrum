@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+<cache-config>
+	<caching-scheme-mapping>
+
+		<cache-mapping>
+			<cache-name>*</cache-name>
+			<scheme-name>default</scheme-name>
+		</cache-mapping>
+
+        <cache-mapping>
+            <cache-name>local.evicted.*</cache-name>
+            <scheme-name>test:local.evicted</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.util.velocity.ConfluenceVelocityResourceCache</cache-name>
+            <scheme-name>cache:com.atlassian.confluence.util.velocity.ConfluenceVelocityResourceCache</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+			<cache-name>com.atlassian.confluence.pages.Attachment</cache-name>
+			<scheme-name>large</scheme-name>
+		</cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.pages.attachments.AttachmentCache</cache-name>
+            <scheme-name>large-no-expiry</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+			<cache-name>com.atlassian.confluence.labels.Label</cache-name>
+			<scheme-name>medium</scheme-name>
+		</cache-mapping>
+
+        <cache-mapping>
+			<cache-name>net.sf.hibernate.cache.StandardQueryCache</cache-name>
+			<scheme-name>medium</scheme-name>
+		</cache-mapping>
+
+        <cache-mapping>
+			<cache-name>com.atlassian.confluence.extra.jira.OldRssMacro</cache-name>
+			<scheme-name>large</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.extra.jira.JiraIssuesMacro</cache-name>
+			<scheme-name>small</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.core.DefaultContentPropertyManager</cache-name>
+			<scheme-name>medium</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.links.DefaultReferralManager.hotReferrers</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.links.DefaultReferralManager.hotReferrers</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.providers.CachingProfileProvider.handles()</cache-name>
+			<scheme-name>large-transient</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.providers.CachingProfileProvider.getPropertySet()</cache-name>
+			<scheme-name>large-transient</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.providers.CachingCredentialsProvider</cache-name>
+			<scheme-name>large-transient</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.providers.CachingAccessProvider.handles()</cache-name>
+			<scheme-name>large-transient</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.providers.CachingAccessProvider.inGroup()</cache-name>
+			<scheme-name>large-transient</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>bucket.user.persistence.dao.hibernate.BucketUserDAO.findUserByUsername()</cache-name>
+			<scheme-name>large</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.security.PermissionCheckDispatcher.isPermitted()</cache-name>
+			<scheme-name>large</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.bandana.BandanaPersister</cache-name>
+			<scheme-name>cache:com.atlassian.bandana.BandanaPersister</scheme-name>
+		</cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.spaces.persistence.dao.SpaceDao.getSpace()</cache-name>
+            <scheme-name>cache:com.atlassian.confluence.spaces.persistence.dao.SpaceDao.getSpace()</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.pages.persistence.dao.PageDao.getPage()</cache-name>
+            <scheme-name>cache:com.atlassian.confluence.pages.persistence.dao.PageDao.getPage()</scheme-name>
+        </cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.core.CachingInheritedContentPermissionManager.getInheritedContentPermissionSets()</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.core.CachingInheritedContentPermissionManager.getInheritedContentPermissionSets()</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.user.DefaultUserAccessor.deactivatedUsers</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.user.DefaultUserAccessor.deactivatedUsers</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.core.ContentEntityObject</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.core.ContentEntityObject</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.core.ContentEntityObject.bodyContents</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.core.ContentEntityObject.bodyContents</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.core.BodyContent</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.core.BodyContent</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.labels.Labelling</cache-name>
+			<scheme-name>medium</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.security.CachingSpacePermissionManager.permissions</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.security.CachingSpacePermissionManager.permissions</scheme-name>
+		</cache-mapping>
+
+		<cache-mapping>
+			<cache-name>com.atlassian.confluence.rpc.auth.TokenAuthenticationManager.tokens</cache-name>
+			<scheme-name>cache:com.atlassian.confluence.rpc.auth.TokenAuthenticationManager.tokens</scheme-name>
+		</cache-mapping>
+
+        <!-- NOTE:
+             If you are changing the names of the LDAP or Hibernate user/group repositories, you need to make the
+             necessary changes to atlassian-user.xml
+
+             See http://confluence.atlassian.com/display/DOC/Customising+atlassian-user.xml
+        -->
+
+        <!-- LDAP repository -->
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.users</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.users_ro</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.repository</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups_hasMembership</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups_getGroupsForUser</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.repositories</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+
+        <!-- END LDAP Repository -->
+
+        <!-- Hibernate user repository -->
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.users</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.users_ro</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.repository</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups_hasMembership</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups_getGroupsForUser</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.repositories</cache-name>
+            <scheme-name>user</scheme-name>
+        </cache-mapping>
+
+        <!-- END Hibernate user repository -->
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.core.DefaultHeartbeatManager.activities</cache-name>
+            <scheme-name>medium</scheme-name>
+        </cache-mapping>
+        
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.core.ContentEntityObject.contentPermissionSets</cache-name>
+            <scheme-name>medium</scheme-name>
+        </cache-mapping>
+
+        <cache-mapping>
+            <cache-name>com.atlassian.confluence.follow.Connection</cache-name>
+            <scheme-name>medium</scheme-name>
+        </cache-mapping>
+        
+    </caching-scheme-mapping>
+	<caching-schemes>
+		<!-- Default scheme -->
+		<local-scheme>
+			<scheme-name>default</scheme-name>
+            <service-name>LocalCache</service-name>
+            <class-name>com.atlassian.confluence.cache.tangosol.ExpiryCountingLocalCache</class-name>
+            <high-units>1000</high-units>
+			<expiry-delay>3600</expiry-delay>
+		</local-scheme>
+		<!-- Common schemes -->
+		<local-scheme>
+			<scheme-name>large</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>10000</high-units>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>medium</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>5000</high-units>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>small</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>100</high-units>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>large-transient</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>10000</high-units>
+			<expiry-delay>300s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>large-no-expiry</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>10000</high-units>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>user</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>5000</high-units>
+			<expiry-delay>300s</expiry-delay>
+		</local-scheme>
+		<!-- Custom schemes -->
+        <local-scheme>
+            <scheme-name>cache:com.atlassian.confluence.util.velocity.ConfluenceVelocityResourceCache</scheme-name>
+            <scheme-ref>default</scheme-ref>
+            <high-units>300</high-units>
+            <expiry-delay>1800s</expiry-delay>
+        </local-scheme>
+        <local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.links.DefaultReferralManager.hotReferrers</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<expiry-delay>600s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.bandana.BandanaPersister</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>200</high-units>
+		</local-scheme>
+        <local-scheme>
+            <scheme-name>cache:com.atlassian.confluence.spaces.persistence.dao.SpaceDao.getSpace()</scheme-name>
+            <scheme-ref>default</scheme-ref>
+            <expiry-delay>0s</expiry-delay>
+        </local-scheme>
+        <local-scheme>
+            <scheme-name>cache:com.atlassian.confluence.pages.persistence.dao.PageDao.getPage()</scheme-name>
+            <scheme-ref>default</scheme-ref>
+            <high-units>10000</high-units>
+            <expiry-delay>0s</expiry-delay>
+        </local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.core.CachingInheritedContentPermissionManager.getInheritedContentPermissionSets()</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>10000</high-units>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.user.DefaultUserAccessor.deactivatedUsers</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>100000</high-units>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.core.ContentEntityObject</scheme-name>
+			<scheme-ref>large</scheme-ref>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.core.ContentEntityObject.bodyContents</scheme-name>
+			<scheme-ref>medium</scheme-ref>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.core.BodyContent</scheme-name>
+			<scheme-ref>medium</scheme-ref>
+			<expiry-delay>0s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.security.CachingSpacePermissionManager.permissions</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>5000</high-units>
+			<expiry-delay>1200s</expiry-delay>
+		</local-scheme>
+		<local-scheme>
+			<scheme-name>cache:com.atlassian.confluence.rpc.auth.TokenAuthenticationManager.tokens</scheme-name>
+			<scheme-ref>default</scheme-ref>
+			<high-units>5000</high-units>
+			<expiry-delay>1800s</expiry-delay>
+		</local-scheme>
+
+        <!-- For testing -->
+        <local-scheme>
+            <scheme-name>test:local.evicted</scheme-name>
+            <eviction-policy>LRU</eviction-policy>
+            <high-units>0</high-units>
+            <expiry-delay>1s</expiry-delay>
+        </local-scheme>
+
+    </caching-schemes>
+</cache-config>
+

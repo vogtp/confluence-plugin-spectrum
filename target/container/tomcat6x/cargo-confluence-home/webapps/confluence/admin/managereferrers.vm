@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+	</head>
+    <content tag="selectedWebItem">managereferers</content>
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        #if ($showActionMsg)
+            #applyDecorator ("warning" "")
+                $action.getText("purge.referrers.feedback", [$deletions])
+            #end
+        #end
+
+        #if ($justAdded)
+            #applyDecorator("warning" "")
+                $action.getText("added.exclusion.feedback", [$justAdded, "$req.contextPath/admin/purgesinglereferrer.action?referrer=$justAdded", "$req.contextPath/admin/purgereferrers.action"])
+            #end
+        #end
+
+        <table class="grid">
+
+        <tr>
+            <th valign="top" width="15%">$action.getText("external.referrers"):</th>
+            <td>
+                #if (!$action.isCollectReferrerData())
+                    <a href="$req.contextPath/admin/enablereferrers.action?#url_xsrfToken()">$action.getText("common.words.on.small")</a> &middot; <span style="color: #990000; font-weight: bold">$action.getText("common.words.off.small")</span>
+                #else
+                    <span style="color: green; font-weight: bold">$action.getText("common.words.on.small")</span> &middot; <a href="$req.contextPath/admin/disablereferrers.action?#url_xsrfToken()">$action.getText("common.words.off.small")</a>
+                #end
+                <div class="description">
+                    $i18n.getText('external.referrers.description')
+                    #doc("help.managing.external.referrers" "$i18n.getText('more.about.external.referrers')")
+                </div>
+            </td>
+        </tr>
+        #if ($action.isCollectReferrerData())
+        <tr>
+            <th valign="top" width="15%">$action.getText("show.external.referrers"):</th>
+            <td>
+                #if ($action.isHideExternalReferrers())
+                    <a href="$req.contextPath/admin/showreferrers.action?#url_xsrfToken()">$action.getText("common.words.on.small")</a> &middot; <span style="color: #990000; font-weight: bold">$action.getText("common.words.off.small")</span>
+                #else
+                    <span style="color: green; font-weight: bold">$action.getText("common.words.on.small")</span> &middot; <a href="$req.contextPath/admin/hidereferrers.action?#url_xsrfToken()">$action.getText("common.words.off.small")</a>
+                #end
+                <div class="description">
+                    $i18n.getText('external.referrers.show.description')
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" width="15%">$action.getText("excluded.external.referrers.prefixes"): </th>
+            <td>
+
+                <form action="ban_referrer_admin.action" method="post">
+                    #form_xsrfToken()
+                    <input type="text" name="referrerToExclude" size="50">&nbsp;<input type="submit" value="$action.getText('add.word')">
+                </form>
+
+                <ul class="static-menu">
+                    <li><a href="$req.contextPath/admin/purgereferrers.action?#url_xsrfToken()">$action.getText("purge.all")</a></li>
+                </ul>
+
+                #pagination($action.paginationSupport "managereferrers.action?")
+
+                #foreach ($referrer in $action.paginationSupport.getPage())
+                    $referrer <span class="smallfont">(<a href="$req.contextPath/admin/remove_referrer_from_excludelist.action?referrerToRemove=$referrer&#url_xsrfToken()">$action.getText("delete.one")</a> &middot; <a href="$req.contextPath/admin/purgesinglereferrer.action?referrer=$referrer&#url_xsrfToken()">$action.getText("purge.one")</a>)</span><br>
+                #end
+                <div class="description">
+                    $i18n.getText('exclude.ext.referrer.prefixes.description')
+                </div>
+            </td>
+        </tr>
+        #end
+        </table>
+
+
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<fieldset>
+    #requireResource("confluence.web.resources:support-utility")
+    #bodytag( "Component" "label='create.support.zip.include.logs'" "name='supportUtility.includeLogs'" "value=supportUtility.includeLogs" "theme='aui'" "template='onofflist.vm'")
+        #param ("cssClassForLabel" "label")
+        #param ("description" "$i18n.getText('create.support.zip.include.logs.desc')")
+    #end
+
+    #if ($supportUtility.tomcatServer)
+        #bodytag( "Component" "label='create.support.zip.include.tomcat'" "name='includeServerLogs'" "value=includeServerLogs" "theme='aui'" "template='onofflist.vm'")
+            #param ("description" "$i18n.getText('create.support.zip.include.tomcat.desc')")
+        #end
+        #bodytag( "Component" "label='create.support.zip.include.tomcat.conf'" "name='supportUtility.includeTomcatConf'" "value=supportUtility.includeTomcatConf" "theme='aui'" "template='onofflist.vm'")
+            #param ("cssClassForLabel" "label")
+            #param ("description" "$i18n.getText('create.support.zip.include.tomcat.conf.desc')")
+        #end    
+    #else
+        #bodytag( "Component" "label='create.support.zip.include.other'" "name='includeServerLogs'" "value=includeServerLogs" "theme='aui'" "template='onofflist.vm'")
+            #param ("description" "$i18n.getText('create.support.zip.include.other.desc')")
+        #end
+        #bodytag( "TextField" "label='create.support.zip.logs.other.directory'" "name='serverLogsDirectory'" "value=serverLogsDirectory" "theme='aui'")
+            #param ("description" "$i18n.getText('create.support.zip.logs.other.directory.desc')")
+        #end
+    #end
+
+    #bodytag( "Component" "label='create.support.zip.include.cfg'" "name='supportUtility.includeCfgFile'" "value=supportUtility.includeCfgFile" "theme='aui'" "template='onofflist.vm'")
+        #param ("cssClassForLabel" "label")
+        #param ("description" "$i18n.getText('create.support.zip.include.cfg.desc')")
+    #end
+    #bodytag( "Component" "label='create.support.zip.include.user.files'" "name='supportUtility.includeUserFiles'" "value=supportUtility.includeUserFiles" "theme='aui'" "template='onofflist.vm'")
+        #param ("cssClassForLabel" "label")
+        #param ("description" "$i18n.getText('create.support.zip.include.user.files.desc')")
+    #end
+</fieldset>

@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>$action.getText("title.delete.my.profile.picture")</title>
+    </head>
+
+    #requireResource("confluence.web.resources:jquery")
+    #requireResource("confluence.web.resources:userprofilepicture")
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  "edit-profile")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("infopanel-width" "200px")
+
+        <body>
+            <form name="deleteprofilepictureform" method="POST" action="dodeletemyprofilepicture.action" enctype="multipart/form-data">
+               #form_xsrfToken()
+               <input type="hidden" name="confirm" value="true">
+               <input type="hidden" name="userProfilePictureName" value="$generalUtil.htmlEncode($action.selectedUserProfilePicture.fileName)">
+               <div class="userpicture-delete-box">
+                    <img src="$req.contextPath$action.selectedUserProfilePicture.downloadPath" class="userphoto" width="48" height="48">
+                    <p class="deleteprofilepicture-confirm-text">$action.getText("user.profile.picture.delete.confirm.blurb")</p>
+                    <p class="deleteprofilepicture-confirm-buttons">
+                    #tag( "Submit" "name='delete'" "value='delete.name'" "theme='notable'")
+                    #tag( "Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+                    </p>
+               </div>
+            </form>
+        </body>
+#end
+</html>

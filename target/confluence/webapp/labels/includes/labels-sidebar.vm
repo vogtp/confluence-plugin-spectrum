@@ -1,0 +1,12 @@
+<div class="admin-sidebar">
+    <div class="admin-sidebar-group" id="recent-labels">
+        <h2>$action.getText("recent.labels")</h2>
+        #set($labels = $action.getRecentLabels())
+        #parse("/labels/labels-list.vm")
+    </div>
+    <div class="admin-sidebar-group " id="popular-labels">
+        <h2>$action.getText("popular.labels")</h2>
+        #set($labels = $action.getPopularLabels())
+        #parse("/labels/labels-list.vm")
+    </div>
+</div><!-- .admin-tab-sidebar -->

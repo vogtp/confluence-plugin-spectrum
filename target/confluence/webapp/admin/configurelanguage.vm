@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>$i18n.getText("title.general.language")</title>
+    <content tag="selectedWebItem">language</content>
+</head>
+
+<body>
+    #parse ( "/template/includes/actionerrors.vm" )
+
+<br/>
+
+<strong>$i18n.getText("languages.config.desc"):</strong>
+
+<br/>
+<br/>
+
+<div align="left">
+    #set ($installedLanguages = $action.getInstalledLanguages())
+    <table class="grid" width="50%">
+        #foreach ($language in $installedLanguages)
+            ## Make the background of the current global locale grey
+            #if ($action.isCurrentGlobalLocale($language.getName()))
+                <tr style="border-width: 1px 0 1px 1px; border-style: solid; border-color: #ccc; background: #f0f0f0;">
+            #elseif (!$language.licensed)
+                <tr class="error">
+            #else
+                <tr>
+            #end
+            #if(!$language.licensed)
+                <td>
+                    $generalUtil.htmlEncode($language.getDisplayName())<br/>
+                    $i18n.getText('language.not.licensed')
+                </td>
+
+            #else
+                <td>
+                    #set ($currentGloabalLanguage = $action.isCurrentGlobalLocale($language.getName()))
+                    #if (!$currentGloabalLanguage)
+                    <a id="configurelanguage-$generalUtil.htmlEncode($language.getName())"
+                       href="$req.contextPath/admin/doconfigurelanguage.action?globalDefaultLocale=$generalUtil.urlEncode($language.getName())&#url_xsrfToken()">
+                    #end
+                    $generalUtil.htmlEncode($language.getDisplayName())
+                    #if (!$currentGloabalLanguage)</a>#end
+                </td>
+            #end
+
+        </tr>
+        #end
+    </table>
+    <div>$i18n.getText("global.default.language.desc")</div>
+</div>
+<br/>
+<div>
+    $i18n.getText("download.more.languages", [$i18n.getText("url.atlassian.translations")])
+</div>
+    #parse("/breadcrumbs.vm")
+</body>
+</html>

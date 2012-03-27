@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+        <content tag="selectedWebItem">mailservers</content>
+	</head>
+
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        <form method=POST action="dosendtestemail.action">
+        #form_xsrfToken()
+        <table border=0>
+            #tag ("TextField" "label='To'" "name='to'" "size=60")
+            #tag ("TextField" "label='Subject'" "name='subject'" "size=60")
+            #tag ("Select" "label='Message Type'" "name='messageType'" "list=mimeTypes" "listKey=key" "listValue=value")
+            #tag ("Textarea" "label='Message'" "name='message'" "cols=70" "rows=8")
+            <tr><td colspan=2 align="center">
+                #tag ("Submit" "name='confirm'" "value='send.name'" "theme='notable'" )
+                #tag ("Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+            </td></tr>
+            <p>
+            #tag ("Textarea" "label='Log'" "name='log'" "cols=70" "rows=15")
+            #tag ("Hidden" "name='id'")
+        </table>
+        </form>
+
+        #parse ("/breadcrumbs.vm")
+	</body>
+</html>

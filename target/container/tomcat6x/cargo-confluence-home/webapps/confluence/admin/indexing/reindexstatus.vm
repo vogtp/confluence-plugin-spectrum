@@ -1,0 +1,7 @@
+<task>
+   <name>$lastReindexTask.name</name>
+   <currentStatus>$generalUtil.htmlEncode($lastReindexTask.currentStatus)</currentStatus>
+   <elapsed>$lastReindexTask.prettyElapsedTime</elapsed>
+   <remaining>$lastReindexTask.prettyTimeRemaining</remaining>
+   <percentComplete>${lastReindexTask.percentageComplete}</percentComplete>
+</task>

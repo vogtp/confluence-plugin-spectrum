@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>$action.getText("daily.backup.action.name")</title>
+	</head>
+    <content tag="selectedWebItem">dailybackup</content>
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+        <p>
+        <form name="dailybackup" action="doeditdailybackupsettings.action" method="POST">
+            #form_xsrfToken()
+            <table class="grid">
+
+                    <tr><td class="label" valign="top">$action.getText("backup.path")</td>
+                        <td>
+                            <input type="radio" name="backupOption" value="default" #if ($backupOption == 'default') checked #end id="default" onChange="this.form.backupPath.disabled=true"> <label for="default">$action.getText("daily.backup.default") <span class="smalltext">($action.getDefaultBackupPath())</span></label><br>
+                            <input #if (!$customLocationAllowed) disabled="disabled" #end type="radio" name="backupOption" value="custom" #if ($backupOption == 'custom') checked #end id="custom" onChange="this.form.backupPath.disabled=false"> <label for="custom">$action.getText("daily.backup.custom")</label>
+                            <input type="text" name="backupPath" value="$!backupPath" size="50" #if (!$customLocationAllowed || $backupOption != 'custom') disabled="disabled" #end > <br>
+                        </td>
+                    </tr>
+
+                #bodytag( "Component" "label='backup.attachments'" "name='backupAttachments'" "value=backupAttachments" "theme='custom'" "template='onofflist.vm'")
+                    #param ("cssClassForLabel" "label")
+                #end
+                #bodytag ("TextField" "label='backup.file.prefix'" "name='dailyBackupFilePrefix'" "size=40")
+                    #param ("labelwidth" "100")
+                    #param ("cssClass" "monospaceInput")
+                #end
+                #bodytag ("TextField" "label='backup.file.date.pattern'" "name='dailyBackupDateFormatPattern'" "size=40")
+                    #param ("labelwidth" "100")
+                    #param ("cssClass" "monospaceInput")
+                #end
+            </table>
+            <input type="submit" value="$action.getText('update.name')">
+        </form>
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

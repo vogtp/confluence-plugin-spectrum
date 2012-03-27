@@ -1,0 +1,10 @@
+<tr valign="middle">
+    <td width="20px">
+        <input type="checkbox" name="$parameters.name" value="$parameters.content.id" #if($parameters.selected) checked #end/>
+    </td>
+    <td>
+        <label class="label">
+          #contentLink($parameters.content)
+        </label>
+    </td>
+</tr>

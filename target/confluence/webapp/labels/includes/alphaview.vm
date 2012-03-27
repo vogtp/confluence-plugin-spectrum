@@ -1,0 +1,9 @@
+<div class="tag-reference">
+    #foreach ($key in $action.alphaSupport.keys)
+        <div class="tag-reference-section">
+            <h2>$key</h2>
+            #set($labels = $action.alphaSupport.getContents($key))
+            #parse("/labels/labels-list.vm")
+        </div>
+    #end
+</div>

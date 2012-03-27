@@ -1,0 +1,84 @@
+#requireResource("confluence.web.resources:ajs")
+#requireResource("confluence.web.resources:aui-forms")
+#requireResource("confluence.admin.user:userpicker")
+
+<div class="hidden parameters">
+        <input type="hidden" id="user-search" value="$userSearch">
+        <input type="hidden" id="disable-simple-mode" value="$action.isSupportsSimpleSearch()">
+</div>
+
+<div id="tab-navigation">
+    <ul class="tab-navigation">
+        <li class="current tab">
+            <a href="#" id="user-tab">$action.getText("user.name")</a>
+        </li>
+        <li class="tab">
+            <a href="#" id="membership-tab">$action.getText("membership.name")</a>
+        </li>
+    </ul>
+</div>
+
+<div class="pageSection" id="user-search-section">
+    <div id="search-simple" #if($advanced)style="display:none"#end>
+        <form method="POST" action="$req.contextPath/users/userpicker.action" name="searchusers" class="aui">
+            <div class="field-group">
+                #if($action.emailVisible)
+                    #set($userSearchDesc = $action.getText('userpicker.user.desc'))
+                #else
+                    #set($userSearchDesc = $action.getText('userpicker.user.desc.no.email'))
+                #end
+            #bodytag( "Component" "label='userpicker.user.details'" "id=searchTerm" "name='searchTerm'" "theme='aui'" "template='text-inline.vm'" )
+                #param("size" "40")
+                #param("tabindex" "1")
+                #param("description" "$userSearchDesc")
+            #end
+            </div>
+            <div class="field-group">
+                <a href="showallusers.action?reset=true" id="switch-advanced">$action.getText('advanced.word')</a>
+            </div>
+            <div class="buttons">
+                <input type="hidden" name="onPopupSubmit" value="$generalUtil.htmlEncode($onPopupSubmit)">
+                <input type="hidden" name="advanced" value="false">
+                <input type="hidden" name="userSearch" value="true">
+                <input value="$action.getText('search.name')" type="submit" class="button submit"/>
+            </div>
+        </form>
+        </div>
+        <div id="search-advanced" #if(!$advanced)style="display:none"#end>
+        <form method="POST" action="$req.contextPath/users/userpicker.action" name="searchusers" class="aui">
+            <fieldset>
+                <legend><span>$action.getText('userpicker.user.details')</span></legend>
+                    <div class="field-group">
+                        #bodytag( "TextField" "label='username.name'" "id=usernameTerm" "name='usernameTerm'" "theme='aui'" "template='text-inline.vm'" )#end
+                    </div>
+                    #tag( "TextField" "label='fullname.name'" "id=fullnameTerm" "name='fullnameTerm'" "theme='aui'")
+                    #if($action.emailVisible)
+                        #tag( "TextField" "label='email.name.withdash'" "id=emailTerm" "name='emailTerm'" "theme='aui'")
+                    #end
+                    <div class="field-group"><a href="showallusers.action?reset=true" id="switch-simple">$action.getText('simple.word')</a></div>
+                    <div class="buttons">
+                        <input type="hidden" name="onPopupSubmit" value="$generalUtil.htmlEncode($onPopupSubmit)">
+                        <input type="hidden" name="advanced" value="true">
+                        <input type="hidden" name="userSearch" value="true">
+                        <input type="submit" value="$action.getText('search.name')" class="button submit" />
+                    </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="pageSection" id="membership-search-section">
+<form method="POST" action="$req.contextPath/users/userpicker.action" name="searchgroup" class="aui">
+    <div class="field-group">
+        #bodytag( "Component" "label='userpicker.group.membership'" "id=groupTerm" "name='groupTerm'" "theme='aui'" "template='text-inline.vm'")
+            #param("description" "$action.getText('userpicker.group.desc')")
+        #end
+        <input type="hidden" name="onPopupSubmit" value="$generalUtil.htmlEncode($onPopupSubmit)">
+    </div>
+    <div class="buttons">
+        <input type="hidden" name="userSearch" value="false">
+        <input value="$action.getText('search.name')" type="submit" class="button submit" />
+    </div>
+</form>
+</div>
+

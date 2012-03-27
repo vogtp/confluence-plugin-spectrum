@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>$generalUtil.htmlEncode($pageTitle)</title>
+</head>
+
+#applyDecorator("root")
+    #decoratorParam("context" "profile")
+    #decoratorParam("mode"  "my-favourites")
+    #decoratorParam("helper" $action.helper)
+    #decoratorParam("infopanel-width" "200px")
+
+   <body>
+
+    <div class="view-my-favourites">
+
+        <div class="all-favourited-content">
+            #bodytag ("Component" "template='general-pagelist.vm'")
+                #param ("pages" "paginationSupport.page")
+                #param ("rightIcon" "true")
+            #end
+            #pagination($action.paginationSupport "${req.contextPath}/users/viewmyfavourites.action?&")
+        </div>
+
+    </div>
+</body>
+#end
+</html>

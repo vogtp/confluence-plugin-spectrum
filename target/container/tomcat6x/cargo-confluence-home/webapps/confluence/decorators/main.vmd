@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #if ($sitemeshPage.getProperty("page.spacename"))
+        <title>$title - $sitemeshPage.getProperty("page.spacename") - #siteTitle()</title>
+    #else
+        <title>$title - #siteTitle()</title>
+    #end
+
+    #requireResource("confluence.web.resources:print-styles")
+
+    #requireResourcesForContext("main")
+    #requireResourcesForContext("atl.general")
+
+    #parse("/decorators/includes/header.vm")
+
+    $!settingsManager.globalSettings.customHtmlSettings.beforeHeadEnd
+
+    $!sitemeshPage.getProperty("page.canonical")
+</head>
+## HTML HEADER ENDS
+    
+## HTML BODY BEGINS
+<body #onLoadAttr() id="com-atlassian-confluence" class="$!theme.moduleKey $!sitemeshPage.getProperty("page.bodyClass")">
+#parse ("/decorators/includes/main-content-includes.vm")
+<ul id="assistive-skip-links" class="assistive">
+    <li><a href="#title-heading">$action.getText("assistive.skiplink.to.content")</a></li>
+    <li><a href="\#breadcrumbs">$action.getText("assistive.skiplink.to.breadcrumbs")</a></li>
+    <li><a href="#header-menu-bar">$action.getText("assistive.skiplink.to.header.menu")</a></li>
+    <li><a href="#navigation">$action.getText("assistive.skiplink.to.action.menu")</a></li>
+    <li><a href="#quick-search-query">$action.getText("assistive.skiplink.to.quick.search")</a></li>
+</ul>
+<div id="page">
+<div id="full-height-container">
+    <div id="header-precursor">
+        <div class="cell">
+            $!settingsManager.globalSettings.customHtmlSettings.afterBodyStart
+            #displayGlobalMessages()
+        </div>
+    </div>
+    <div id="header" class="$!headerClass">
+        <div class="cell">
+            #quickSearch()
+            <ul id="header-menu-bar" class="ajs-menu-bar">
+                #if($sitemeshPage.getProperty("page.browse-menu"))
+                $sitemeshPage.getProperty("page.browse-menu")
+                #else
+                #menuMacros_renderGlobalBrowseMenu()
+                #end
+                #menuMacros_renderUserMenu()
+            </ul>
+            $!sitemeshPage.getProperty("page.breadcrumbs")
+        </div>
+    </div>
+    <!-- \#header -->
+
+    ## CONTENT DIV BEGINS
+    #set ($showPersonalSidebar = ($sitemeshPage.getProperty("page.personal-sidebar") || $sitemeshPage.getProperty("page.show-personal-sidebar")))
+    #if($showPersonalSidebar)
+        #set ($personalClass = "has-personal-sidebar")
+    #elseif($sitemeshPage.getProperty("page.sidebar"))
+        #set ($personalClass = "has-sidebar")
+    #elseif($sitemeshPage.getProperty("page.blog-sidebar"))
+        #set ($personalClass = "has-blog-sidebar")
+    #end
+
+    <div id="main" class="$!personalClass">
+        <div id="main-header">
+            $!sitemeshPage.getProperty("page.content-navigation")
+            $!sitemeshPage.getProperty("global.dashboard-navigation")
+            <h1 id="title-heading" class="pagetitle">
+                #if ($sitemeshPage.getProperty("page.username"))
+                    #set ($tildeUsername = "~$username")
+                    #logoBlock($tildeUsername)
+                #else
+                    #logoBlock($spaceKey)
+                #end
+
+                <span id="title-text">
+                #if ($sitemeshPage.getProperty("page.title-text-span"))
+                    $sitemeshPage.getProperty("page.title-text-span")
+                #else
+                    #pageTitleLink()
+                #end
+                </span>
+            </h1>
+
+        </div><!-- \#main-header -->
+
+        $!sitemeshPage.getProperty("page.tab-navigation")
+
+        <div id="sidebar-container">
+        #if($showPersonalSidebar)
+            #if ($sitemeshPage.getProperty("page.personal-sidebar"))
+                #skiplink("sidebar" $i18n.getText("assistive.skiplink.to.sidebar.start") $i18n.getText("assistive.skiplink.to.sidebar.end"))
+                    $sitemeshPage.getProperty("page.personal-sidebar")
+                #end
+            #end
+        #else
+            #if ($sitemeshPage.getProperty("page.blog-sidebar"))
+                #skiplink("sidebar" $i18n.getText("assistive.skiplink.to.sidebar.start") $i18n.getText("assistive.skiplink.to.sidebar.end"))
+                    <div id="blog-sidebar" class="sidebar" >
+                        $!sitemeshPage.getProperty("page.blog-sidebar")
+                    </div><!-- \#blog-sidebar -->
+                #end
+            #end
+            #if ($sitemeshPage.getProperty("page.sidebar"))
+                #skiplink("sidebar" $i18n.getText("assistive.skiplink.to.sidebar.start") $i18n.getText("assistive.skiplink.to.sidebar.end"))
+                    <div id="sidebar">
+                        $!sitemeshPage.getProperty("page.sidebar")
+                    </div><!-- \#sidebar -->
+                #end
+            #end
+        #end
+        </div><!-- \#sidebar-container -->
+
+        $body
+        <br class="clear">
+    </div><!-- \#main -->
+    ## CONTENT DIV ENDS
+
+## Custom html is rendered in the footer
+#set ($showCustomHtml = true)
+#parse ("/decorators/includes/footer.vm")
+</div><!-- \#full-height-container -->
+</div><!-- \#page -->
+</body>
+</html>

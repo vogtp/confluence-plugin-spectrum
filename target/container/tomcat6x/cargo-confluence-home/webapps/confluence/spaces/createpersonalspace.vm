@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>$action.getText("create.personal.space")</title>
+	</head>
+
+	<body>
+		#parse ("/template/includes/actionerrors.vm")
+
+		#if ($actionErrors.size() == 0)
+                #if( !$remoteUser )
+                    #parse ("/includes/alert-anonymous.vm")
+                #end
+
+                <form method="POST" name="createspaceform" action="docreatepersonalspace.action">
+                #form_xsrfToken()
+                <div align="center"><div style="width: 740px;"><div style="text-align: left;">
+
+                    <div class="form-header">
+                        $action.getText("personal.space.desc")
+                    </div>
+
+                    <div class="form-block">
+                        <div class="form-element-large">$action.getText("personal.space.permissions")</div>
+                        <p>
+                            $action.getText("create.space.permissions.desc")
+                        </p>
+                        #parse ("/spaces/includes/createspace_permissions.vm")
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-block">
+                        <div class="form-element-large">$action.getText("choose.theme")</div>
+                        <div>
+                            <p>
+                                #parse ("/includes/common-choosetheme-createspace.vm")
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-block">
+                        <div class="form-element-large">$action.getText("personal.space.whereis")</div>
+                        <p>
+                            $action.getText("personal.space.whereis.desc")
+                        </p>
+                        <p style="padding-left: 30px;">
+                            <strong>$settingsManager.globalSettings.baseUrl/display/~$generalUtil.urlEncode($action.remoteUser.name)</strong>
+                        </p>
+                    </div>
+                    #tag( "Hidden" "name='name'" "value=$!action.name" )
+
+                    <div class="form-buttons">
+                    #tag ("Hidden" "name='username'")
+                    #tag ("Submit" "name='next'" "value='create.name'" "theme='notable'" )
+                    #tag ("Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+                    </div>
+                </div></div></div>
+                </form>
+		#end
+		#parse ( "/breadcrumbs.vm" )
+		<br>
+	</body>
+</html>

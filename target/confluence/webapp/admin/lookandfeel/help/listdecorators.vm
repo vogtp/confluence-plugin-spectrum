@@ -1,0 +1,6 @@
+$action.getText('layout.description')
+<p>$action.getText('layout.description.2')
+<p>$action.getText('layout.edit.background.knowledge',[$action.getText('url.velocity')])
+</br>
+</br>
+#doc("help.working.with.decorator.macro" "$action.getText('more.about.decorators')")

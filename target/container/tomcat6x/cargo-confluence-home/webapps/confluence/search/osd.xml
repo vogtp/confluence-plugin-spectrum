@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>#if($stringUtils.isNotBlank($settingsManager.globalSettings.siteTitle))$settingsManager.globalSettings.siteTitle#else#**#Confluence#end</ShortName>
+    <Description>Atlassian Confluence Search Provider</Description>
+    <Image height="16" width="16" type="image/x-icon">$!settingsManager.globalSettings.baseUrl/images/logo/confluence_48_white.png</Image>
+    <Image height="64" width="64" type="image/png">$!settingsManager.globalSettings.baseUrl/images/logo/confluence_128_white.png</Image>
+    <Url type="text/html" template="$!settingsManager.globalSettings.baseUrl/dosearchsite.action?queryString={searchTerms}"/>
+    <Query role="example" searchTerms="Confluence"/>
+    <InputEncoding>$!settingsManager.globalSettings.defaultEncoding</InputEncoding>
+    <moz:SearchForm>$!settingsManager.globalSettings.baseUrl/searchsite.action</moz:SearchForm>
+</OpenSearchDescription>

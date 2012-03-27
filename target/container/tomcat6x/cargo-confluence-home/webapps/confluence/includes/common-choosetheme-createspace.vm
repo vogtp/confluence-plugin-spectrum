@@ -1,0 +1,60 @@
+#parse ( "/template/includes/actionerrors.vm" )
+
+<script language="JavaScript">
+    function checkRadioButton(radioId)
+      {
+          radioButton = document.getElementById(radioId);
+          radioButton.checked = true;
+          return false;
+      }
+</script>
+
+<p>$action.getText('theme.select.desc')</p>
+
+<div class="form-block first">
+    <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr bgcolor="ffffff" onMouseOver="style.backgroundColor='f0f0f0'" onMouseOut="style.backgroundColor='ffffff'" onclick="javascript:checkRadioButton('themeKey.default');">
+            <td width="90" rowspan="2" align="center">
+                <img src="$staticResourceUrlPrefix/images/themes/main-theme.gif" alt="" class="greybox">
+            </td>
+            <td valign="top">
+                <input type="radio" id="themeKey.default" name="themeKey" value="" #if ( (! $currentThemeDescriptor) || ($availableThemeDescriptors.size() == 0)) checked="true" #end >
+                <label>$action.getText("theme.notheme.title") </label>
+                <br/>
+                $action.getText("theme.default.desc")
+            </td>
+        </tr>
+    </table>
+
+    #if ($availableThemeDescriptors.size() == 0)
+        $action.getText("theme.choose.nothemes")
+    #else
+        #foreach ($theme in $availableThemeDescriptors)
+            #if (!$currentThemeDescriptor || $theme != $currentThemeDescriptor)
+                <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                    <tr onclick="javascript:checkRadioButton('themeKey.$theme.completeKey');">
+                        <td width="90" align="center">
+                            #if ($action.hasIcon($theme))
+                                <img src="$req.contextPath/download/resources/$theme.completeKey/themeicon.gif" alt="" class="greybox">
+                            #else
+                                <img src="$staticResourceUrlPrefix/images/themes/no-icon.gif" alt="" class="greybox">                                
+                            #end
+                        </td>
+                        <td valign="top">
+                            <input type="radio" id="themeKey.$theme.completeKey" name="themeKey" value="$theme.completeKey" #if (($currentThemeDescriptor && $theme == $currentThemeDescriptor) || $theme.completeKey == $themeKey) checked="true" #end>
+                            <label class="formtitle">
+                                #if ($theme.i18nNameKey) $action.getText($theme.i18nNameKey, $theme.name)
+                                #else $theme.name
+                                #end
+                            </label>
+                            <br>
+                            #if ($theme.descriptionKey) $action.getText($theme.descriptionKey, $!theme.description)
+                            #else $!theme.description
+                            #end
+                        </td>
+                    </tr>
+                </table>
+            #end
+        #end
+    #end
+</div>

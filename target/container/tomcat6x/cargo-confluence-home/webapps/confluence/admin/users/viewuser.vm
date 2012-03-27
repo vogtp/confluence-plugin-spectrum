@@ -1,0 +1,162 @@
+<html>
+    <head>
+        <title>$i18n.getText("title.view.user")#if($user.name): $generalUtil.htmlEncode($user.name) #end</title>
+    </head>
+
+    <body>
+        <content tag="selectedWebItem">users</content>
+        #parse ( "/template/includes/actionerrors.vm" )
+
+        &laquo;
+        <a href="browseusers.action">$i18n.getText("return.to.user.browser")</a>
+
+        #if ($actionErrors.size() == 0)
+            #if ($action.userDeactivated)
+                #applyDecorator("info" "")
+                    #decoratorParam("id" "user-inactive-message")
+                    #decoratorParam("title" $i18n.getText("user.disabled"))
+                    $i18n.getText("user.disabled.description")
+                #end
+            #end
+        #end
+        <div id="user-profile" class="centered">
+            <table class="grid" width="80%">
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("user.name"):</label>
+                    </td>
+                    <td>
+                        $generalUtil.htmlEncode($!user.name)
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("fullname.name"):</label>
+                    </td>
+                    <td>
+                        $generalUtil.htmlEncode($!user.fullName)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("email.name"):</label>
+                    </td>
+                    <td>
+                        <a href="mailto:$generalUtil.urlEncode($!user.email)">$generalUtil.htmlEncode($!user.email)</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("directory.name"):</label>
+                    </td>
+                    <td>
+                        <span id="user-directory-name">${directory.name}</span>
+                    </td>
+                </tr>
+                #if ($crowdUser.createdDate)
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("user.date.created"):</label>
+                    </td>
+                    <td class="user-created-date">
+                        $!dateFormatter.formatDateTime(${crowdUser.createdDate})
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label class="label">$i18n.getText("user.date.updated"):</label>
+                    </td>
+                    <td class="user-updated-date">
+                        $!dateFormatter.formatDateTime(${crowdUser.updatedDate})
+                    </td>
+                </tr>
+                #end
+                <tr>
+                    <td align="right" valign="top">
+                        <label class="label">$i18n.getText("login.section.name"):</label>
+                    </td>
+                    #set ($loginInfo = $action.getLoginInfo())
+                    <td>
+                        #if($loginInfo.requiresElevatedSecurityCheck())
+                            <span class="login-meta-info" id="login-meta-elevatedsecuritycheck">$i18n.getText("login.section.elevatedsecuritycheck.required")</span>
+                        #end
+
+                        #if($loginInfo.lastSuccessfulLoginDate)
+                            <span class="login-meta-info" id="login-meta-lastsuccessfulogindate">$i18n.getText("login.section.elevatedsecuritycheck.lastsuccessfulogindate"): <span class="value">$action.dateFormatter.formatDateTime($loginInfo.lastSuccessfulLoginDate)</span></span>
+                        #end
+
+                        #if($loginInfo.lastFailedLoginDate)
+                            <span class="login-meta-info" id="login-meta-lastfailedlogindate">$i18n.getText("login.section.elevatedsecuritycheck.lastfailedlogindate"): <span class="value">$action.dateFormatter.formatDateTime($loginInfo.lastFailedLoginDate)</span></span>
+                        #end
+
+                        #if($loginInfo.totalFailedLoginCount > 0)
+                            <span class="login-meta-info" id="login-meta-totalfailedlogincount">$i18n.getText("login.section.elevatedsecuritycheck.totalfailedlogincount"): <span class="value">$loginInfo.totalFailedLoginCount</span></span>
+                        #end
+                        <span class="login-meta-info" id="login-meta-currentfailedlogincount">$i18n.getText("login.section.elevatedsecuritycheck.currentfailedlogincount"): <span class="value">$loginInfo.currentFailedLoginCount</span></span>
+
+                        #if ($action.canEdit() && $loginInfo.currentFailedLoginCount > 0)
+                        (<a href="resetfailedlogincount.action?username=$generalUtil.doubleUrlEncode($user.name)&#url_xsrfToken()">$i18n.getText("link.resetfailedlogincount.name")</a>)
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">
+                        <label class="label">$i18n.getText("groups.name"):</label>
+                    </td>
+                    #set ($groups = $userAccessor.getGroups($user))
+                    <td>
+                        #if ($groups.isEmpty())
+                            $i18n.getText("user.has.no.groups")
+                        #else
+                            #foreach ($group in $groups.iterator())
+                        <img src="${req.contextPath}/images/icons/bullet_blue.gif" width="8" height="8" align="absmiddle">
+                                <a href="domembersofgroupsearch.action?membersOfGroupTerm=$generalUtil.urlEncode($group.name)">$webwork.htmlEncode($group.name)</a>
+                        <br>
+                            #end
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        #if( $permissionHelper.canView($remoteUser, $user) )
+                        <a href="$req.contextPath/users/viewuserprofile.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("viewuserprofile.name")</a>
+                        #end
+
+                        #if (!$settingsManager.getGlobalSettings().isExternalUserManagement())
+                        &middot; <a href="editusergroups-start.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("editgroups.name")</a>
+                        #end
+
+                        #if ($action.canEdit())
+                        &middot; <a href="edituser.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("editdetails.name")</a>
+                        #end
+
+                        #if (!$userAccessor.isReadOnly($user) && $action.canEdit())
+                        &middot; <a href="setuserpassword.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("setpassword.name")</a>
+                        #end
+
+                        #if ($userAccessor.isReadOnly($user))
+                            &middot; ($i18n.getText("user.is.readonly"))
+                        #elseif ($action.canRemove())
+                            &middot; <a href="removeuser.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("remove.name")</a>
+                        #else
+                            ## do nothing
+                        #end
+
+                        #if ($user.name != $action.getRemoteUsername())
+                            &middot;
+                            #if ($action.userDeactivated)
+                                <a href="reactivateuser.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("enable.name")</a>
+                            #else
+                                <a href="deactivateuser.action?username=$generalUtil.doubleUrlEncode($user.name)">$i18n.getText("disable.name")</a>
+                            #end
+                        #end
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        #parse ( "/breadcrumbs.vm" )
+    </body>
+</html>

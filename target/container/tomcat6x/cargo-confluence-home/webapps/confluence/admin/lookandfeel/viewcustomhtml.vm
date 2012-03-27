@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>$action.getText("custom.html")</title>
+    <meta name="help-path" content="/admin/lookandfeel/help/customhtml.vm"/>
+</head>
+
+<body>
+<content tag="selectedWebItem">customhtml</content>
+<form action="$req.contextPath/admin/editcustomhtml.action" method="post">
+    <table class="grid">
+        <tr>
+            <th colspan="2">$action.getText("customhtml.title")</th>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.head.end")</td>
+
+            <td class="value">
+                #if ($textUtil.stringSet($beforeHeadEnd))
+                    <pre>$generalUtil.escapeXml($beforeHeadEnd)</pre>
+                #else
+                    $action.getText("customhtml.not.configured")
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.body.start")</td>
+
+            <td class="value">
+                #if ($textUtil.stringSet($afterBodyStart))
+                    <pre>$generalUtil.escapeXml($afterBodyStart)</pre>
+                #else
+                    $action.getText("customhtml.not.configured")
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.body.end")</td>
+
+            <td class="value">
+                #if ($textUtil.stringSet($beforeBodyEnd))
+                    <pre>$generalUtil.escapeXml($beforeBodyEnd)</pre>
+                #else
+                    $action.getText("customhtml.not.configured")
+                #end
+            </td>
+        </tr>
+    </table>
+
+    #tag ("Submit" "value='edit.name'" "theme='notable'")
+</form>
+#parse ( "/breadcrumbs.vm" )
+</body>
+</html>

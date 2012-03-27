@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+        <meta name="help-path" content="/admin/lookandfeel/help/stylesheet.vm"/>
+	</head>
+
+	<body>
+        <content tag="selectedWebItem">stylesheet</content>
+        <p>$action.getText("stylesheet.global.description")</p>
+        #parse ("/includes/common-editstylesheet.vm")
+        #parse ( "/breadcrumbs.vm" )
+    </body>
+</html>

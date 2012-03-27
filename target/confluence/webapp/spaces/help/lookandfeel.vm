@@ -1,0 +1,4 @@
+$action.getText('spaces.lookandfeel.help')
+<p>$action.getText('spaces.lookandfeel.note')</i>
+<p>$action.getText('spaces.lookandfeel.colourscheme')
+<p>$action.getText('spaces.lookandfeel.advanced')

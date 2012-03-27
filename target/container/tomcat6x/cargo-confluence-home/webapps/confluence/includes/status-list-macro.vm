@@ -1,0 +1,15 @@
+#set ($statusId = $req.getParameter("statusId"))
+#set ($deleteName = $action.getText("delete.name"))
+#requireResource("confluence.userstatus:userstatus-resources")
+
+#if( !$statusList || $statusList.size()==0 )
+    $action.getText("statuslist.empty")
+#else
+<div class="statuslist">
+<ul>
+    #foreach ($status in $statusList)
+        #parse("/template/xhtml/single-status-in-list.vm")
+    #end    
+</ul>
+</div>
+#end

@@ -1,0 +1,10 @@
+<div style="padding-top: 5px">
+<ul class="tabnav">
+    <li class="tabs">
+        <a href="$req.contextPath/admin/search-indexes.action" #if ($selectedTab == 'summary') class="current"#end>$action.getText("index.tab.search.indexes")</a>
+        <a href="$req.contextPath/admin/viewindexqueue.action" #if ($selectedTab == 'queue') class="current"#end>$action.getText("index.tab.queue")</a>
+	</li>
+</ul>
+<!-- clears the floated elements above -->
+<br class="after-tabnav">
+</div>

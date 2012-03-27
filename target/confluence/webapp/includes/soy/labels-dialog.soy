@@ -1,0 +1,10 @@
+{namespace Confluence.Templates.Labels}
+
+/**
+ * A template for a dialog help link
+ */
+{template .helpLink}
+    {call Confluence.Templates.Dialog.helpLink}
+        {param href: docLink('help.edit.labels') /}
+    {/call}
+{/template}

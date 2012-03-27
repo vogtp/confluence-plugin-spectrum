@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+		<meta name="help-path" content="/admin/help/configurelogo.vm"/>
+	</head>
+
+    <content tag="selectedWebItem">globallogo</content>
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    #parse ("/spaces/common-configurelogo.vm")
+
+    #parse ( "/breadcrumbs.vm" )
+
+</html>

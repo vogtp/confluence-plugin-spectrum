@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>$action.getText("setupsteperror.title")</title>
+	</head>
+
+	<body>
+		<p/>
+		$action.getText("setupsteperror.description")
+		<p/>
+        $action.getText("setupsteperror.continue"):
+        <form  method="POST" action="${setupPersister.currentStep}.action">
+            <input type="submit" value="$action.getText("setupsteperror.continue.button") >>"/>
+        </form>
+        <p/>
+       #parse ( "/template/includes/actionerrors.vm" )
+        <p>
+
+

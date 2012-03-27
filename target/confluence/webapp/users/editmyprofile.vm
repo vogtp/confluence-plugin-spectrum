@@ -1,0 +1,147 @@
+#macro (renderIfEdit $markup)
+#trim()
+    #if ($editMode == true)
+        $!generalUtil.htmlEncode($markup)
+    #else
+        $!statusTextRenderer.render($markup)
+    #end
+#end
+#end
+
+#set($viewingMyProfile = $personalInformationEntity.belongsTo($remoteUser))
+<html>
+	<head>
+        <title>$generalUtil.htmlEncode($pageTitle)</title>
+        #requireResource("confluence.web.resources:aui-forms")
+        #requireResource("confluence.userstatus:userstatus-resources")
+	</head>
+
+    #if ($editMode)
+        #set($mode = "edit-profile-single")
+    #else
+        #set($mode = "edit-profile-three")
+    #end
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  $mode)
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("infopanel-width" "200px")
+
+    <body>
+        #if($confirmPassOnEmailChange)
+            #requireResource("confluence.web.resources:edit-user-profile")
+            #parse("/users/password-dialog-templates.vm")
+        #end
+
+        #if(!$editMode)
+        <div class="page-item profile-main">
+            #if($action.userStatusPluginEnabled && $action.currentStatus && !$editMode)
+            <div>
+                <div class="status-block #if($viewingMyProfile) current-user-latest-status#end">
+                    <span class="status-text">$statusTextRenderer.render($action.currentStatus.status)</span>
+                    <div class="status-actions">
+                    <ul>
+                        <li><a id="view-$action.currentStatus.id" href="$req.contextPath$action.currentStatus.urlPath" title="$action.dateFormatter.formatDateTime($action.currentStatus.lastModificationDate)">$action.formatFriendlyDate($action.currentStatus.lastModificationDate)</a></li>
+                        #if ($viewingMyProfile == true)<li><a id="clear-$action.currentStatus.id" href="$req.contextPath$action.currentStatus.clearPath&#url_xsrfToken()">$action.getText("clear.name")</a></li>#end
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            #end
+
+            #applyDecorator("form-aui")
+                #decoratorParam("formName" "editmyprofileform")
+                #decoratorParam("submitAction"  "$req.contextPath/users/doeditmyprofile.action")
+                #decoratorParam("editAction" "$req.contextPath/users/editmyprofile.action")
+                #decoratorParam("editMode" "$editMode")
+
+
+                #if($hasAboutMe)
+                    <div class="profile-section" id="profile-about-me">
+                        #if(!$editMode && $viewingMyProfile)<a href="$req.contextPath/users/editmyprofile.action" class="edit-link">$action.getText("edit.name")</a>#end
+                        <h2>$action.getText("personal.info")</h2>
+                        <div id="profile-about-me-content">$renderedAboutMe</div>
+                    </div>
+                #end
+                <h2>$action.getText("activity.name")</h2>
+            #end
+            <div class="profile-section" id="profile-status-list">
+                $helper.renderConfluenceMacro("{recently-updated:author=$action.user.name|max=10|theme=sidebar|spaces=*}")
+            </div>
+            #webPanelForLocation("atl.confluence.userprofile" $action.context)
+        </div>
+        #end
+
+        <div class="page-item profile-info #if(!$editMode)section-3#end">
+        #applyDecorator("form-aui")
+            #decoratorParam("formName" "editmyprofileform")
+            #decoratorParam("formId" "editmyprofileform")
+            #decoratorParam("submitAction"  "$req.contextPath/users/doeditmyprofile.action")
+            #decoratorParam("editAction" "$req.contextPath/users/editmyprofile.action")
+            #decoratorParam("editMode" "$editMode")
+            #if(!$editMode && $viewingMyProfile)<a href="$req.contextPath/users/editmyprofile.action" class="edit-link">$action.getText("edit.name")</a>#end
+            <h2 class="first">$action.getText("profile.group.personal")</h2>
+            #form_xsrfToken()
+            <fieldset>
+                <input type="hidden" id="originalemail" value="$storedEmail"/>
+                <input type="hidden" id="passwordconfirmation" value="" name="passwordconfirmation"/>
+                #assistiveLegend("accessibility.profile.edit.personal")
+                #if (!$settingsManager.getGlobalSettings().isExternalUserManagement() && !$userAccessor.isReadOnly($user))
+                    #bodytag( "TextField" "label='fullname.name'" "name='fullName'" "size='50'" "theme='aui'" )
+                        #if($editMode) #param("required" "$action.getText('required.field')") #end
+                    #end
+                    #tag( "TextField" "label='email.name'" "name='email'" "size='50'" "theme='aui'" )
+                #else
+                    #if($editMode)
+                    <strong class="extra-info">$action.getText('user.fields.readonly')</strong>
+                    #end   
+                    #tag( "TextField" "label='fullname.name'" "name='fullName'" "size='50'" "theme='aui'" "readonly=true" )
+                    #tag( "TextField" "label='email.name'" "name='email'" "size='50'" "theme='aui'" "readonly=true" )
+                #end
+                #foreach ($key in $action.getUserDetailsKeys("personal"))
+                    #bodytag( "TextField" "label='confluence.user.profile.$key'" "name='userparam-$key'" "value=getUserProperty('$key')" "size='50'" "theme='aui'" )
+                        #param ("renderWiki" $statusTextRenderer)
+                    #end
+                #end
+                #if($editMode)
+                    #bodytag ("Component" "name='personalInformation'" "template='textarea.vm'" "theme='aui'")
+                        #param ("label" "$action.getText('personal.info')")
+                        #param ("rows" 8)
+                        #param ("cols" 70)
+                        #param ("renderWiki" $blockWikiStyleRenderer)
+                    #end
+                    <div class="field-group description">
+                        #hint('input.accepts.wiki.markup')
+                    </div>
+                #end
+            </fieldset>
+
+            <h2>$action.getText("profile.group.business")</h2>
+            <fieldset>
+                #assistiveLegend("accessibility.profile.edit.company")
+                #foreach ($key in $action.getUserDetailsKeys("business"))
+                    #bodytag( "TextField" "label='confluence.user.profile.$key'" "name='userparam-$key'" "value=getUserProperty('$key')" "size='50'" "theme='aui'" )
+                        #param ("renderWiki" $statusTextRenderer)
+                    #end
+                #end
+
+                #if($editMode == true)
+                    <div class="field-group">
+                        #parse ("/pages/includes/captcha-form-elements.vm")
+                    </div>
+                #end
+
+                #if($viewingMyProfile == true && $editMode==true)
+                    <br/>
+                    #bodytag( "Submit" "theme='aui'" )
+                        #param ("submitValue" "$action.getText('save.name')")
+                    #end
+                #end
+            </fieldset>
+        #end
+        </div>
+
+		</body>
+    #end
+</html>

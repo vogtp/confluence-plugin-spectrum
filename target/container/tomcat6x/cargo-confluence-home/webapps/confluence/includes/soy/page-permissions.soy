@@ -1,0 +1,48 @@
+{namespace Confluence.Templates.PagePermissions}
+
+/**
+ * A template for a dialog help link
+ */
+{template .helpLink}
+    {call Confluence.Templates.Dialog.helpLink}
+        {param href: docLink('help.page.restrictions') /}
+    {/call}
+{/template}
+
+
+/**
+ * Skeleton of the inherited permissions table.
+ */
+{template .inheritedPermissionsTable}
+    <div class="page-inherited-permissions-owner-div">
+        <div class="page-inherited-permissions-table-desc">{getText('page.perms.inherited.desc')|noAutoescape}</div>
+        <table class="page-permissions-table"></table>
+    </div>
+{/template}
+
+
+/**
+ * For dyanmically building table rows in the permissions table.
+ */
+{template .permissionRow}
+    <tr class="permission-row">
+
+        // Viewing/Editing marker row
+        <td class="page-permissions-marker-cell" width="20%">
+            <span>{getText('page.perms.viewing.restricted.to')}</span>
+        </td>
+        // Entity details
+        <td class="permission-entity" nowrap="true" width="40%">
+            <span class="entity-container">
+                <img class="permission-entity-picture"/>
+                <span class="permission-entity-display-name"></span>
+                <span class="permission-entity-name-wrap">&nbsp;(<span class="permission-entity-name"></span>)</span>
+            </span>
+        </td>
+        <td class="permission-detail-column">
+            <div class="permission-remove-div">
+                <a href="#" class="remove-permission-link">{getText('page.perms.remove.restriction')}</a>
+            </div>
+        </td>
+    </tr>
+{/template}

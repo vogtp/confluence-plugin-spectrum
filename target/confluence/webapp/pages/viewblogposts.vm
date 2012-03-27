@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>$action.getText('blog.with.spacename', [$generalUtil.htmlEncode($action.getSpace().getName())])</title>
+
+        #rssautodiscovery($action.rssDescriptor)
+    </head>
+    <content tag="bodyClass">view-blog-posts</content>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "space-blogposts")
+        #decoratorParam("mode" "view-blogposts")
+
+    #end
+</html>

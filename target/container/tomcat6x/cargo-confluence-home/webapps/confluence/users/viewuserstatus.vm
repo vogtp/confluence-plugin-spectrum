@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>$action.getText("title.statuslist")</title>
+    </head>
+
+    #set($mode = "view-status")
+    #set( $contextPathHtml = "$req.contextPath/display/status/${username}/list" )
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  $mode)
+        #decoratorParam("helper" $action.helper)
+        <div id="single-status-view" class="status-block">
+            <span   class="status-text">
+                $statusTextRenderer.render($status.status)
+            </span>
+            <br/>
+            <div class="status-actions">
+                <ul>
+                    <li class="first-status-action">by #usernameLink($status.creatorName)
+                        <a id="view-$status.id" href="$req.contextPath$status.urlPath" title="$action.dateFormatter.formatDateTime($status.lastModificationDate)">$action.formatFriendlyDate($status.lastModificationDate)</a></li>
+                    #if($permissionHelper.canRemove($remoteUser, $status))
+                    <li><a id="delete-$status.id" href="$req.contextPath$status.deletePath&#url_xsrfToken()">$action.getText("delete.name")</a></li>
+                    #end
+                    #if($remoteUser.name && $status.current && $remoteUser.name == $user.name)
+                    <li><a id="clear-$status.id" href="$req.contextPath$status.clearPath&#url_xsrfToken()">$action.getText("clear.name")</a></li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="status-global-actions"><a href="$req.contextPath/display/status/$status.creatorName/list">View All Updates</a></div>
+    #end
+</html>

@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.cluster")</title>
+    </head>
+	<body>
+
+        <p>$action.getText("setup.step.description.cluster")</p>
+
+	    #parse ( "/template/includes/actionerrors.vm" )
+
+        #set ($clusterableInterfaces = $action.clusterableInterfaces)
+
+        <form method="POST" name="clusterform" action="setupcluster.action">
+
+        #if ($clusterableInterfaces.size() == 1)
+
+        #applyDecorator("warning")
+            $action.getText("cluster.only.one.network.interface.warning")
+        #end
+
+        #end
+
+        <div class="steptitle">$action.getText("cluster.setup.choose.network.interface.title")</div>
+
+        <div class="stepdesc">$action.getText("cluster.setup.choose.network.interface.description")</div>
+
+        <div style="margin-bottom: 1em">
+            <label for="selNetworkInterface">$action.getText("cluster.interface.label")</label>
+            <select id="selNetworkInterface" name="networkInterface">
+
+            #foreach ($iface in $clusterableInterfaces)
+                #set ($address = $iface.inetAddresses.nextElement())
+                <option value="$iface.name">$iface.name [$address.hostAddress]</option>
+            #end
+
+            </select>
+        </div>
+
+        <div class="steptitle">$action.getText('configure.cluster')</div>
+
+            <div class="stepdesc">$action.getText('cluster.name.description')</div>
+            <div style="margin-bottom: 1em">
+                <label for="clusterName">$action.getText('cluster.setup.name.label')</label>
+                <input name="clusterName" id="clusterName" size="20" type="text"/>
+            </div>
+
+            <div class="stepfield" align="right">
+                <input type="submit" name="joinCluster" value="$action.getText("clustered.submit") &gt;&gt;"/>
+                <input type="submit" name="newCluster" value="$action.getText("new.cluster") &gt;&gt;"/>
+            </div>
+       </form>
+    </body>
+</html>

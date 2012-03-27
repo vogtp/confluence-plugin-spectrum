@@ -1,0 +1,3 @@
+<p>
+
+$action.getText('loglevel.helpmessage', ["$docBean.getLink('help.working.with.confluence.logs')"])</p>

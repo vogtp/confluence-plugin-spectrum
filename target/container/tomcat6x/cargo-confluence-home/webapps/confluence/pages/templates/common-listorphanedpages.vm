@@ -1,0 +1,61 @@
+            #parse ( "/template/includes/actionerrors.vm" )
+            <table border=0 width="100%">
+            <tr>
+                <td width="100%">
+                <p>
+                <p>
+                $action.getText("text.orphaned.pages.description")
+                <p>
+
+                    #if( $key )
+                        #set( $contextPath = "listorphanedpages.action?key=${key}&" )
+                    #else
+                        #set( $contextPath = "listorphanedpages.action?" )
+                    #end
+                    
+                    #pagination($action.paginationSupport $contextPath)
+                    <table width="100%" cellspacing="1" class="tableview">
+                        <tr>
+                            <th width="30%">$action.getText("heading.title") <span class="smalltext">($action.getText("heading.page.space"))</span></th>
+                            <th width="15%">$action.getText("heading.creator")</th>
+                            <th width="12%">$action.getText("heading.creation.date")</th>
+                            <th width="15%">$action.getText("heading.modifier")</th>
+                            <th width="12%">$action.getText("heading.mod.date")</th>
+                            <th width="16%">$action.getText("heading.operations")</th>
+                        </tr>
+                        #set ($orphanedPages = $action.paginationSupport.page)
+
+                        #if( !$$orphanedPages) || $$orphanedPages.size()==0 )
+                            <td colspan="6">
+                                $action.getText("there.are.no.pages")
+                            </td>
+                        #else
+                            #foreach( $page in $orphanedPages)
+                            <tr>
+                                <td>
+                                    #contentLink($page)
+                                </td>
+                                <td>
+                                    #usernameLink ($page.creatorName)
+                                </td>
+                                <td align="center">
+                                    $dateFormatter.format( $page.creationDate )
+                                </td>
+                                <td>
+                                    #usernameLink ($page.lastModifierName)
+                                </td>
+                                <td align="center">
+                                    $dateFormatter.format( $page.lastModificationDate )
+                                </td>
+                                <td align="center">
+                                    <a href="$req.contextPath/pages/editpage.action?pageId=$page.id"><img src="$staticResourceUrlPrefix/images/icons/edit_16.gif" height="16" width="16" border="0" align="absmiddle" title="$i18n.getText("edit.name")"></a> &middot;
+                                    <a href="$req.contextPath/pages/removepage.action?pageId=$page.id"><img src="$staticResourceUrlPrefix/images/icons/trash_16.gif" height="16" width="16" border="0" align="absmiddle" title="$i18n.getText("remove.name")"></a>
+                                </td>
+                            </tr>
+                            #end
+                        #end
+                    </table>
+                    #pagination($action.paginationSupport $contextPath)
+                </td>
+            </tr>
+            </table>

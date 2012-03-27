@@ -1,0 +1,8 @@
+<span class="container"><!-- removed when all labels are used -->
+#if ($suggestedLabels.size() > 0)
+    $action.getText("suggested.labels"):
+    #foreach ($label in $generalUtil.safeSubList($suggestedLabels, 20))
+        <a href="#" class="suggested-label">$label.realTitle</a>
+    #end
+#end
+</span>

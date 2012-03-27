@@ -1,0 +1,11 @@
+#if( !$action.remoteUser )
+<div id="anonymous-warning" class="aui-message warning closeable">
+    <span class="svg-icon warning size-18"></span>
+    $action.getText("not.logged.in")
+
+    #if ($action.isExternalUserManagementEnabled() == false)
+        $action.getText("may.want.to.log.in", ["$seraph.getLinkLoginURL($req)"])
+        $action.getText("can.sign.up.for.account", ["$req.contextPath/signup.action"])
+    #end
+</div>
+#end

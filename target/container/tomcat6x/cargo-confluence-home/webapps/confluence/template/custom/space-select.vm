@@ -1,0 +1,59 @@
+#*
+
+-- Required Parameters:
+--   * name   - determines the form in which the textfield is has to be set
+
+-- Optional Parameters:
+--   * onchange - determines the action on a selection change
+
+-- Required Variables in the Action context:
+--   * $aggregateOptions - Option to search in aggregated spaces like personal or global
+--   * $favouriteSpaces - get the favourite spaces of the current user
+--   * $availableGlobalSpaces - show all available spaces - favourite spaces
+
+NOTE:   You might want to consider to use the SpacePickerHelper in conjuction with this vm template.
+        It provides you with all the necessary function retrieve the spaces.
+
+        If you do not provide a spaceKey, the form will default to global spaces.
+*#
+
+#set ($id           = $parameters.id)
+#set ($name         = $parameters.name)
+#set ($value        = $parameters.value)
+#set ($multiple     = $parameters.multiple)
+#set ($onchange     = $parameters.onchange)
+#set ($cssClass        = $parameters.cssClass)
+
+#if ($parameters.tabindex)
+    #set ($tabindex = "$!webwork.htmlEncode($parameters.tabindex)")
+#end
+
+#if (!$name)
+    #set ($name = "spaceKeys")
+#end
+
+#if (!$multiple)
+    #set ($multiple = false)
+#end
+
+<select #if($multiple) multiple #end #if($id)id="$id"#end name="$name" #if ($tabindex) tabindex="$tabindex" #end #if($onchange)onChange="$onchange"#end #if($cssClass) class="$cssClass" #end>
+    <optgroup label="">
+        #foreach ($option in $aggregateOptions)
+            <option value="$option.key" #if( $value == $option.key || (!$value && $option.key == "conf_all")) selected#end>$webwork.htmlEncode($option.value)</option>
+        #end
+    </optgroup>
+    #if ($favouriteSpaces.size() > 0)
+    <optgroup label="$action.getText('favourite.spaces')">
+        #foreach ($option in $favouriteSpaces)
+            <option value="$option.key" #if( $value == $option.key ) selected#end>$webwork.htmlEncode($option.value)</option>
+        #end
+    </optgroup>
+    #end
+    #if ($availableGlobalSpaces.size() > 0)
+    <optgroup label="$action.getText('global.spaces')">
+        #foreach ($option in $availableGlobalSpaces)
+            <option value="$option.key" #if( $value == $option.key ) selected#end>$webwork.htmlEncode($option.value)</option>
+        #end
+    </optgroup>
+    #end
+</select>

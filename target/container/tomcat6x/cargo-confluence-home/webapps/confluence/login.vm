@@ -1,0 +1,114 @@
+#macro (errorBlock $msg)
+<div class="error" tabindex="0"><p>$msg</p></div>
+#end
+
+<html>
+	<head>
+        #requireResource("confluence.web.resources:master-styles")
+        #requireResource("confluence.web.resources:login")
+        #requireResource("confluence.web.resources:aui-forms")
+	    #if( $fromNotPermitted )
+		    <title>$i18n.getText("title.not.permitted")</title>
+	    #else
+		    <title>$action.getActionName($action.getClass().getName()) </title>
+		    <content tag="pageTitle"><a href="${req.contextPath}/homepage.action">$action.globalSettings.siteTitle</a></content>
+		#end
+	</head>
+	<body>
+        <content tag="bodyClass">login</content>
+
+        <div id="login-container">
+        #parse ('/template/includes/actionerrors.vm')
+        #if ($remoteUser)
+            <p>$i18n.getText('login.logged.in', $remoteUser.name)</p>
+            <p class="last">$i18n.getText('login.logged.in.description')</p>
+        #else
+            #if ($logout)
+                <p class="success-message">$i18n.getText("successful.logout.message")</p>
+            #end
+
+            #applyDecorator("form-aui")
+                #decoratorParam("formName" "loginform")
+                #decoratorParam("submitAction"  "$req.contextPath/dologin.action")
+                #decoratorParam("editAction" "$req.contextPath/login.action")
+                #decoratorParam("editMode" "true")
+                #decoratorParam("formStyle" "login-form-container")
+
+                <fieldset class="compact-form-fields">
+                    #assistiveLegend("accessibility.form.login")
+                    #if($action.isElevatedSecurityCheckRequired())
+                        #bodytag( "TextField" "label='username.accesskey'" "name='os_username'" "theme='aui'" "tabindex='1'")
+                            #param("focus" "0")
+                        #end
+                        #tag( "Password" "label='password.accesskey'" "name='os_password'" "theme='aui'" "tabindex='2'")
+                        ## Add tabindex to change the tab flow if the captcha image is visible
+                        ## user->pass->captcha->remember me->admin link->refresh->submit->cancel
+                        <div id="captcha-container" class="field-group">
+                            <div>
+                                <label id="captcha-reponse-label" for="captcha-response">
+                                    ## link in login.elevatedsecuritycheck.assistive has 'tabindex="5"'
+                                    <span class="assistive">$i18n.getText("login.elevatedsecuritycheck.assistive")</span>
+                                    #captchaImage()
+                                    <a tabindex="6" class="reload" href="${req.contextPath}/dologin.action?os_username=${action.os_username}" tabindex="0" title="$generalUtil.escapeXml($i18n.getText('login.elevatedsecuritycheck.captcha.reload.title'))">
+                                        <img src="${req.contextPath}/images/icons/refresh_grey_16.png" alt="$generalUtil.escapeXml($i18n.getText('login.elevatedsecuritycheck.captcha.reload.alt'))" />
+                                    </a>
+                                </label>
+                            </div>
+                            <div>
+                                <input id="captcha-response" type="text" name="captchaResponse" value="" tabindex="3">
+                            </div>
+                            #fielderror('captcha')
+                        </div>
+                        #bodytag( "Component" "label='remember.accesskey'" "name='os_cookie'" "value='false'" "theme='aui'" "template='onofflist.vm'" "tabindex='4'") #end
+
+                        <div class="field-group form-buttons compact-form-buttons">
+                            <input id="loginButton" name="login" type="submit" value="$i18n.getText('login.button')"  tabindex="7" />
+                            #if ($action.isShowForgottenPasswordHelp())
+                                <a id="forgot-password" href="${req.contextPath}/forgotuserpassword.action" tabindex="8">$i18n.getText("forgot.password")</a>
+                            #end
+                        </div>
+                    #else
+                        ## No Captcha - no tabindex
+                        #bodytag( "TextField" "label='username.accesskey'" "name='os_username'" "theme='aui'")
+                            #param("focus" "0")
+                        #end
+                        #tag( "Password" "label='password.accesskey'" "name='os_password'" "theme='aui'")
+                        #bodytag( "Component" "label='remember.accesskey'" "name='os_cookie'" "value='false'" "theme='aui'" "template='onofflist.vm'") #end
+
+                        <div class="field-group form-buttons compact-form-buttons">
+                            <input id="loginButton" name="login" type="submit" value="$i18n.getText('login.button')" />
+                            #if ($action.isShowForgottenPasswordHelp())
+                                <a id="forgot-password" href="${req.contextPath}/forgotuserpassword.action">$i18n.getText("forgot.password")</a>
+                            #end
+                        </div>
+                    #end
+
+
+                    #if ($action.isRedirectAfterPost())
+                        <input type="hidden" name="os_destination" value="$!generalUtil.escapeXml($!os_destination)"/>
+                    #end
+                </fieldset>
+            #end
+            #if ($action.isShowSignUp())
+            <p class="last">
+                $i18n.getText("signup.for.an.account")
+            </p>
+            #end
+        #end
+        </div>
+        #if ($action.clusterManager.isClustered())
+            <content tag="coherence-copyright">
+                <div class="smalltext" id="coherence-copyright">
+                    $i18n.getText("coherence.copyright.notice", [$action.currentYearAsString])
+                </div>
+            </content>
+        #end
+        #if ($action.isBrowserLanguageEnabled())
+        <div id="login-language" >
+        #foreach ($lang in $action.getLanguages())
+            <a href="login.action?language=$lang.name">$lang.capitalDisplayName</a>
+        #end
+        </div>
+        #end
+	</body>
+</html>

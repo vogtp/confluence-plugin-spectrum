@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>$action.getActionName($action.getClass().getName())</title>
+    <meta name="help-path" content="/admin/permissions/help/viewglobalperms.vm"/>
+</head>
+
+<body>
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    <form name="buildAncestorTableForm" action="rebuild_ancestor_table.action" method="POST">
+    <input type="submit" value="$action.getText('rebuild.ancestor.table')">
+    </form>
+
+#parse("/breadcrumbs.vm")
+
+</body>
+</html>

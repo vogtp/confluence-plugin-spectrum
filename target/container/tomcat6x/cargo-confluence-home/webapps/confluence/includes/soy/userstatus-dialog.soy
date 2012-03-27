@@ -1,0 +1,22 @@
+{namespace Confluence.Templates.UserStatus}
+
+/**
+ * The dialog content for the user status dialog
+ * @param maxChars the maximum length of characters the status message can be
+ */
+{template .dialogContent}
+    <div>
+        <span class='error-message'></span>
+    </div>
+    <form class="aui update-status">
+        <fieldset>
+            <label for="status-text" class="assistive">{getText('status.accessibility.label', $maxChars)}</label>
+            <textarea name="status-text" id="status-text"></textarea>
+            <span class="chars-left">{$maxChars}</span>
+        </fieldset>
+        <p id="dialog-current-status" class="current-user-latest-status">
+            <strong>{getText('status.dialog.latest')}</strong>{sp}
+            <span class="status-text"></span>
+        </p>
+    </form>
+{/template}

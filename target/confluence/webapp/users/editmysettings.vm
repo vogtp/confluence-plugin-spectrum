@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>$generalUtil.htmlEncode($pageTitle)</title>
+		#requireResource("confluence.web.resources:aui-forms")
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  "settings")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("infopanel-width" "200px")        
+
+        <body>
+            #applyDecorator("form-aui")
+                #decoratorParam("formName" "editsettingsform")
+                #decoratorParam("submitAction"  "doeditmysettings.action")
+                #decoratorParam("editAction" "editmysettings.action")
+                #decoratorParam("editMode" "$editMode")
+                #form_xsrfToken()
+                <h2>$action.getText("title.edit.general.preferences")</h2>
+
+                <fieldset>
+                    #tag( "Select" "label='site.homepage'" "name='siteHomePage'" "list=siteHomePages" "listKey=key" "listValue=value" "theme='aui'" )
+                    #bodytag( "Select" "label='language.select'" "name='preferredUserLocale'" "list=installedLocalePairs" "listKey=key" "listValue=value" "theme='aui'")
+                        #param ("descriptionHtml" "$i18n.getText('language.setting.desc', [$i18n.getText('url.atlassian.translations')])")
+                    #end
+                    #tag( "Select" "label='time.zone.select'" "name='userTimeZone'" "list=availableTimeZones" "listKey=key" "listValue=value" "theme='aui'" )
+                    #bodytag( "Component" "label='keyboard.shortcuts.enabled'" "name='keyboardShortcutsEnabled'" "value=$keyboardShortcutsEnabled" "theme='aui'" "template='onofflist.vm'")
+                        #param ("description" "$i18n.getText('keyboard.shortcuts.enabled.desc')")
+                    #end
+                    #tag( "Submit" "theme='aui'" )
+                </fieldset>
+            #end
+        </body>
+    #end
+</html>

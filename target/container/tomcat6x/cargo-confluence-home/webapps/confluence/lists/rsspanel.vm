@@ -1,0 +1,115 @@
+#*
+ * Usage:
+ * Parameters -
+ * $formAction - String -  indicate action of the search form surrounding this include. If search is space scoped, then the form action should
+ *                         specify the key (e.g. dosearchsite.action?key=TEST)
+ * $spaceScopeSearch - boolean - indicate whether the search panel is for a space scoped search
+ * $hideGroupBy - boolean - indicate whether the group by panel should be visible. defaults to false
+ * $hideType - boolean indicate whether the type panel should be visible. defaults to false
+ * $hideModified - boolean indicate whether the modified panel should be visible. defaults to false
+ *#
+
+ #* take $formAction and append ? or & as needed at the end *#
+#set ($formAction = "dosearchsite.action")
+#set ($formActionPostfixed = $generalUtil.appendAmpsandOrQuestionMark($formAction))
+
+<script language="JavaScript">
+<!--
+window.onload = function() {
+    initializeMenu("menu-space", "actuator-space");
+}
+
+function showSelectHelp()
+{
+    document.getElementById('spaceHelp').style.display = 'block';
+}
+
+function hideSelectHelp()
+{
+    document.getElementById('spaceHelp').style.display = 'none';
+}
+//-->
+</script>
+
+<form name="createlist" method="get" action="dolistrssfeeds.action" style="margin: 0px">
+    <input type="hidden" name="key" value="$space.getKey()">
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+                TITLE:
+            </div>
+            <div class="searchItem" style="padding: 4px; margin-left:4px; text-align: left">
+                <input type="text" name="title" size="20" value="$!title">
+            </div>
+        </div>
+        <div class="searchGroup" onmouseover="showSelectHelp()" onmouseout="hideSelectHelp()">
+            <div class="searchGroupHeading">
+            IN SPACE:
+            </div>
+            <div class="searchItem" style="padding: 4px; text-align: left">
+                #bodytag ("Select" "label='dest.space'" "size='5'" "multiple='true'" "name='spaces'" "list=availableSpaces" "listKey=key" "listValue=value" "theme='notable'" "value=spaces") #end
+            </div>
+            <div id="spaceHelp" class="smalltext" style="position:relative; margin-left:5px; display:none">
+            Press Ctrl + left mouse button to select multiple spaces.
+            </div>
+        </div>
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+                CONTENT:
+            </div>
+            <div class="searchItem">
+            #bodytag ("CheckboxList" "name='types'" "list=contentEntityTypes" "theme='notable'") #end
+            </div>
+        </div>
+
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+                TYPE:
+            </div>
+            <div class="searchItem">
+            #bodytag ("CheckboxList" "name='statuses'" "list=contentStatusList" "theme='notable'") #end
+            </div>
+        </div>
+
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+                RSS TYPE:
+            </div>
+            <div class="searchItem">
+                #tag( "Radio" "name='rssType'" "value=rssType" "list=rssTypes" "listKey=value" "listValue=key" "theme='notable'" "template='radiolist.vm'")
+            </div>
+        </div>
+
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+                RSS ACCESS:
+            </div>
+            <div class="searchItem">
+                #tag( "Radio" "name='publicFeed'" "value=selectedPublicFeed" "list=accessTypes" "listKey=value" "listValue=key" "theme='notable'" "template='radiolist.vm'")
+            </div>
+        </div>
+
+        <div class="searchGroup">
+            <div class="searchGroupHeading">
+            RESULTS:
+            </div>
+            <div class="searchItem" style="padding-top:5px">
+            #bodytag ( "TextField" "name='maxResults'" "value='$maxResults'" "size=2" "theme='notable'")
+                #param ("cssClass" "searchItem")
+                #param ("tabindex" "1")
+            #end
+              <span class="label">Max Results</span>
+            </div>
+            <div class="searchItem" style="padding-top:5px">
+            #bodytag ( "TextField" "name='timeSpan'" "value='$timeSpan'" "size=2" "theme='notable'")
+                #param ("cssClass" "searchItem")
+                #param ("tabindex" "1")
+            #end
+              <span class="label">Time Span</span>
+            </div>
+            <div class="searchItem" style="padding-top: 20px; text-align: left">
+                #tag( "Submit" "value='Create List'" "theme='notable'")
+                <br>
+            </div>
+
+        </div>
+</form>

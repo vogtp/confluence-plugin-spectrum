@@ -1,0 +1,12 @@
+<html>
+    <head>
+		<title>$action.getText("edit.decorator.action.name") &raquo; $action.getText($defaultDecorator.NameKey)</title>
+	</head>
+
+	<body>
+        <content tag="selectedWebItem">layouts</content>
+        #parse ("/includes/common-editdecorator.vm")
+
+        #parse ( "/breadcrumbs.vm" )
+    </body>
+</html>

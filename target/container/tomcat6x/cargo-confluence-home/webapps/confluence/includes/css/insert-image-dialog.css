@@ -1,0 +1,187 @@
+#insert-image-dialog .dialog-page-body {
+    font-size: 12px;
+    color: #333;
+}
+#attached-images,
+#searched-images {
+    background: #fff;
+    height: 405px; /* initial height; adjusted by JavaScript at display time */
+    padding: 0;
+    padding-top: 2px;
+    overflow: auto;
+    position: relative; /* used to calculate position of images in dialog */
+}
+.insert-web-image {
+    border: none;
+    height: 461px;
+    overflow: hidden;
+}
+.insert-web-image p,
+.insert-web-image form {
+    padding: 10px;
+}
+.insert-web-image .web-image-input {
+    display: inline;
+    padding: 0px;
+}
+.insert-web-image .image-preview-area {
+    overflow: auto;
+    padding: 0;
+    height: 414px;
+    width: 100%;
+    text-align: center;
+}
+.insert-web-image p.image-preview-error {
+    background: url(../../../images/icons/emoticons/warning.png) no-repeat 10px 50%;
+    padding-left: 30px;
+    margin-left: 50px;
+}
+.insert-web-image .image-preview-throbber {
+    padding: 50px 150px;
+    width: 300px;
+    text-align: center;
+}
+.insert-web-image .faraway {
+    position: absolute;
+    left: -9999em;
+    top: -9999em;
+}
+input.image-url {
+    margin-right: 10px;
+    width: 400px;
+}
+.insert-web-image label {
+    margin-right: 1em;
+    font-weight: 400;
+    color: #333;
+}
+ul.image-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul.image-list li {
+    cursor: default;
+    display: inline;
+    float: left;
+    margin: 0 0 10px;
+    padding: 10px 0 3px;
+    text-align: center;
+    max-width: 144px;
+}
+ul.image-list li.hover {
+    background-color: #f0f0f0;
+    border: none;
+}
+ul.image-list li.selected {
+    background-color: #69c;
+    border: none;
+}
+ul.image-list li.selected .image-container {
+    border-color: #fff;
+}
+ul.image-list li.selected .caption {
+    color: #fff;
+    font-weight: bold;
+}
+ul.image-list li .caption {
+    color: #333;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 140px;
+}
+ul.image-list li .owner-title {
+    font-size: 10px;
+}
+ul.image-list li .image-container {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    height: 100px;
+    line-height: 100px;
+    margin: 0 21px 5px;
+    padding: 0;
+    position: relative;
+    vertical-align: top; /* fixes vertical positioning of image in IE7 */
+    width: 100px;
+}
+ul.image-list li .loading {
+    background: #fff url(../../../images/icons/wait.gif) no-repeat 50% 50%; /* show wait image while loading */
+}
+ul.image-list li .zoom {
+    bottom: 1px;
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    position: absolute;
+    right: 1px;
+    text-indent: -9999px;
+    width: 24px;
+    outline: none; /* prevent stupid outline when clicking the link */
+}
+ul.image-list li:hover .zoom {
+    background-image: url(../../../images/icons/magnify.png);
+}
+* html ul.image-list li .zoom {
+    display: none;
+}
+* html ul.image-list li.hover .zoom {
+    display: block;
+    background-image: none;
+    filter: expression(runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
+            document.getElementById('confluence-context-path').content +
+            "/images/icons/magnify.png', sizingMethod='crop')");
+}
+#com-atlassian-confluence #fancybox-overlay,
+#com-atlassian-confluence #fancybox-wrap,
+#com-atlassian-confluence #fancybox-outer,
+#com-atlassian-confluence #fancybox-loading {
+    z-index: 10000; /* pull it above the dialog */
+}
+
+#upload-attachment,
+#search-image {
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    line-height: 40px;
+    overflow: hidden;
+}
+#upload-attachment {
+    padding: 6px 5px 5px 20px; /* 6px will align with dialog menu on left */
+}
+#upload-attachment label {
+    color: #333;
+    margin-right: 10px;
+    font-weight: normal;
+}
+#upload-attachment .warning ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#insert-image-dialog .image-uploading,
+#insert-image-dialog .loading-message,
+#searched-images .loading-message {
+    background: url(../../../images/icons/wait.gif) no-repeat left 50%;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 24px;
+}
+#insert-image-dialog .loading-message {
+    margin: 20px;
+}
+
+/* Don't add 'white-space: nowrap' as it clips long messages. */
+#upload-attachment .warning,
+#attached-images .warning {
+    background: url(../../../images/icons/emoticons/warning.png) no-repeat left 50%;
+    line-height: 20px;
+    padding-left: 24px;
+}
+#insert-image-dialog .dialog-button-panel .dialog-tip {
+    font-size: 10pt;
+}
+#searched-images .no-images {
+    padding-left: 10px;
+}

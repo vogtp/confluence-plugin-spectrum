@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>$action.getActionName($action.getClass().getName())</title>
+    </head>
+
+    <content tag="bodyClass">contenteditor copy-page</content>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "page")
+        #decoratorParam("mode" "edit")
+        #decoratorParam("infopanel-width" "25%")
+
+        <body>
+        #set ($formaction = "docopypage.action?idOfPageToCopy=${idOfPageToCopy}")
+        #parse ("/pages/includes/createpage-form.vm")
+        </body>
+    #end
+
+</html>

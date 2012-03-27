@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>$action.getText("title")</title>
+	</head>
+
+	<body>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("mode" "edit")
+        #decoratorParam("context" "page")
+
+	    #if (!$pagesWithNameConflicts.isEmpty())
+
+            #applyDecorator ("message") $action.getText("name.conflicts.warning") #end
+                #decoratorParam("type" "warning")
+
+            <div style="padding: 10px">
+                <form name="handlenameconflictsform" action="dohandlenameconflicts.action?pageId=$page.id" method="POST">
+
+                    <table width="600px" class="grid">
+                        <tr><th align="left" width="100%">$action.getText("current.name")</th><th width="1%">$action.getText("alternative.name")</a></tr>
+
+
+                    #foreach ($pair in $pagesWithNameConflicts)
+                        #set ($page = $pair.value)
+
+                        <tr #if ($velocityCount > 1) style="border-top: 1px solid #ccc;" #end>
+                            <td valign="top" #if ($velocityCount > 1) style="border-top: 1px solid #ccc;" #end>
+                                $page.title
+                            </td>
+                            <td>
+                                <input name="$action.getTextBoxName($page)" type="text" value="$page.title" class="monospaceInput" size="35"><br>
+                            </td>
+                        </tr>
+
+                    #end
+
+                    </table>
+
+                    <p><p>
+                    <input type="submit" value="Rename Page(s)">
+                    #tag ("Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+                </form>
+            </div>
+
+	    #else
+
+	        $action.getText("no.conflicts")
+
+	    #end
+
+    	#parse ( "/pages/page-breadcrumbs.vm" )
+
+    #end
+
+	</body>
+</html>

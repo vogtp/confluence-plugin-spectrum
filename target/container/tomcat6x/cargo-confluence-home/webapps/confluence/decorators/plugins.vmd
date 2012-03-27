@@ -1,0 +1,66 @@
+<table width=100% cellpadding=0 cellspacing=0 border=0>
+    <tr>
+        <td valign=top width=25%>
+            <table width=100% cellpadding=4 cellspacing=0 border=0 style="border-collapse: collapse;">
+                <tr><th colspan=2>$action.getText("installed.plugins")</th></tr>
+
+                #foreach ($plugin in $action.plugins)
+                    #set ($pluginEnabled = false)
+                    #if ($action.isPluginEnabled($plugin.key))
+                        #set ($pluginEnabled = true)
+                    #end
+
+                    ## separate the confluence user macro plugin into it's own section
+                    <tr>
+                    #if ($plugin.key == $selectedPlugin.key)
+                        <td style="border-width: 1px 0 1px 1px; border-style: solid; border-color: #ccc; background: #f0f0f0;" colspan=2>
+                    #else
+                        <td width=1><img src="$staticResourceUrlPrefix/images/border/spacer.gif" height=1 width=1></td>
+                        <td style="border-width: 1px 0 1px 1px; border-style: solid; border-color: #ccc; background: #fff;">
+                    #end
+
+                    #if (!$pluginEnabled) <div style="color: #666;"> #end
+                    #if ($selectedPlugin.key == $plugin.key)<strong>#end
+
+                    #if ($plugin.name)
+                        #set($pluginName = $plugin.name)
+                    #else
+                        #set($pluginName = $action.getText("plugin.unknown.name"))
+                    #end
+                    #if($plugin.i18nNameKey) #set($pluginName = $action.getText($plugin.i18nNameKey)) #end
+                    <a href="viewplugins.action?pluginKey=$generalUtil.urlEncode($plugin.key)" #if (!$pluginEnabled) style="color: #666666;" #end>$pluginName</a><br>
+
+                    ## When we have an unloadable plugin, show that there were errors
+                    #if ($action.isUnloadablePlugin($plugin))
+                        <span class="smalltext errorMessage">$action.getText("plugin.error")</span>
+                    #elseif ($pluginEnabled)
+                        <span class="smallfont">
+                            #set ($numEnabled = $action.numEnabled($plugin))
+                            #if ($numEnabled == 0)
+                                $action.getText("no.modules.enabled")
+                            #elseif ($numEnabled == $plugin.moduleDescriptors.size())
+                                $action.getText("all.modules.enabled")
+                            #else
+                                $numEnabled of $plugin.moduleDescriptors.size() $action.getText("modules.enabled")
+                            #end
+                        </span>
+                    #else
+                        <span class="smalltext">$action.getText("plugin.disabled")</span>
+                    #end
+                    #if ($selectedPlugin == $plugin)</strong>#end
+                    <br />
+                    #if (!$pluginEnabled)</div>#end
+                    </td>
+                </tr>
+                #end
+                <tr>
+                    <td colspan=2>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    <td width=75% style="border: 1px solid #ccc;" valign=top>
+        $body
+    </td>
+    </tr>
+
+</table>

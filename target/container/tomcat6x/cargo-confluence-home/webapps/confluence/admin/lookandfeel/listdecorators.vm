@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+		<meta name="help-path" content="/admin/lookandfeel/help/listdecorators.vm"/>
+	</head>
+
+	<body>
+        <content tag="selectedWebItem">layouts</content>
+        #parse ("/includes/common-listdecorators.vm")
+
+        #parse ( "/breadcrumbs.vm" )
+    </body>
+</html>

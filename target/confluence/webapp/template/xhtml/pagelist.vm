@@ -1,0 +1,146 @@
+#* Don't include this directly! Use ie. general-pagelist.vm instead. *#
+
+#set ($pageList = $stack.findValue($parameters.pages))
+#set ($rawTitle = $!parameters.get('mytitle'))
+#if ($rawTitle)
+    #set ($labelValue = $i18n.getText($rawTitle) )
+#end
+#if (!$labelValue)
+    #set ($labelValue = $!rawTitle)
+#end
+
+#if ("$!labelValue" != "")
+<div class="tabletitle" style="width: $tableWidth">
+    #if ($showmore || $showless || $showrss)
+        <div style="float:right;" valign="bottom" class="tabletitleops">
+            &nbsp;
+            #if ($showrss)
+                <a href="$req.contextPath/spaces/rss.action?key=$generalUtil.urlEncode($space.key)"><img src="$staticResourceUrlPrefix/images/icons/rss.gif" title="RSS"></a>
+                &nbsp;
+            #end
+            #if ($showless)
+                <a href="$showless"><img src="$staticResourceUrlPrefix/images/icons/subtract_12.gif" title="$textShowLess"></a>
+            #end
+            #if ($showmore)
+                <a href="$showmore"><img src="$staticResourceUrlPrefix/images/icons/add_12.gif" title="$textShowMore"></a>
+            #end
+        </div>
+    #end
+    #if ("$!labelValue" != "")
+        <h2>$labelValue</h2>
+    #else
+        &nbsp;
+    #end
+</div>
+#end
+
+<table class="tableview" style="width: $tableWidth">
+    #if( !$pageList || $pageList.size()==0 )
+    <tr>
+        <td colspan="3">
+            $thereAreNoPages
+        </td>
+    </tr>
+    #else
+        #if ($textUtils.stringSet($statusMessage))
+        <tr>
+            <td>$statusMessage</td>
+        </tr>
+        #end
+        #if ($textUtils.stringSet($pageListDescription))
+        <tr>
+            <td>$pageListDescription</td>
+        </tr>
+        #end
+        #foreach ($page in $pageList)
+            #if ($previousLoginDate && $page.lastModificationDate.after($previousLoginDate))
+                #if( $page.isNew() )
+                    #set ($colorHtml = 'style="color: #008800"')
+                #elseif( $page.lastModificationDate )
+                    #set ($colorHtml = 'style="color: #008800"')
+                #end
+            #else
+                #set ($colorHtml = "")
+            #end
+            <tr>
+                <td>
+
+
+                    #set ($linkHref = "$req.contextPath$page.urlPath")
+                    #contentIcon2($page $colorHtml $linkHref $webwork.htmlEncode($page.displayTitle))
+
+                    #if ($parentWindow)
+                        <a $colorHtml href="$req.contextPath$page.urlPath" onClick="javascript:window.opener.location=this.href; window.close();">$webwork.htmlEncode($page.displayTitle)</a>
+                    #else
+                        #if ($insertLink)
+                            #if ($page.type == 'blogpost')
+                                <a $colorHtml href="#" onClick="populateDestinationLinkField('$generalUtil.htmlEscapeQuotes($page.space.key):/$page.getDatePath()/$generalUtil.htmlEscapeQuotes($page.title)')">$webwork.htmlEncode($page.displayTitle)</a>
+                            #elseif ($page.type == 'mail')
+                                <a $colorHtml href="#" onClick="populateDestinationLinkField('$$page.id')">$webwork.htmlEncode($page.displayTitle)</a>
+                            #elseif ($page.type == 'attachment')
+                                <a $colorHtml href="#" onClick="populateDestinationLinkField('$generalUtil.htmlEscapeQuotes($page.content.space.key):${page.content.title}^$page.displayTitle')">$webwork.htmlEncode($page.displayTitle)</a>
+                            #else
+                                <a $colorHtml href="#" onClick="populateDestinationLinkField('$generalUtil.htmlEscapeQuotes($page.space.key):$generalUtil.htmlEscapeQuotes(${page.title})')">$webwork.htmlEncode($page.displayTitle)</a>
+                            #end
+                        #else
+                            #if($page.type == "status")
+                                <a $colorHtml href="$req.contextPath$page.urlPath" title="$webwork.htmlEncode($page.displayTitle)">$webwork.htmlEncode($page.displayTitle)</a>
+                            #else
+                                <a $colorHtml href="$req.contextPath$page.urlPath" title="$webwork.htmlEncode($page.displayTitle)">$webwork.htmlEncode($generalUtil.trimDownStringToWord($page.displayTitle))</a>
+                            #end
+                        #end
+                    #end
+
+                    #if ($contentOther)
+                        <span class="smalltext">#contentOther($page)</span>
+                    #end
+                    #if ($displayChangeComments && $displayChangeComments == true)
+                        #if ($page.isVersionCommentAvailable() == true)
+                            <div class="smalltext" style="padding: 3px 0 0 22px;">$page.renderedVersionComment</div>
+                        #end
+                        #if ($page.getComment())
+                            <div class="smalltext" style="padding: 3px 0 0 22px;">$page.getComment()</div>
+                        #end
+                    #end
+
+                    #if ($showModifier == true)
+                        #if ($rightIcon)
+                            <span class="smalltext">
+                        #else
+                             <div style="float:right;" class="smalltext">
+                        #end
+                        $i18n.getText('recently.updated.by')
+                        #if ($parentWindow)
+                            #usernameLinkParentWindow ($page.lastModifierName)
+                        #else
+                            #usernameLink ($page.lastModifierName)
+                        #end
+
+                        (#if ($generalUtil.isInLastDays($page.lastModificationDate, 1))$generalUtil.getRelativeTime($page.lastModificationDate)#else$generalUtil.getFormatDateSimple($page.lastModificationDate)#end)
+                        #if ($rightIcon)
+                            </span>
+                        #else
+                            </div>
+                        #end
+                    #end
+
+                    #if ($rightIcon)
+                        #if ($page.type == "spacedesc")
+                            <div style="float:right;" class="entity-favourites" data-entity-id="$page.space.key" data-entity-type="space">
+                            <a class="icon icon-remove-fav" title="$i18n.getText('favourite.remove.space.short', [$webwork.htmlEncode($page.displayTitle)])" href="#">$i18n.getText('favourite.remove.space.short', [$webwork.htmlEncode($page.displayTitle)])</a>
+                            <a class="icon icon-add-fav hidden" title="$i18n.getText('favourite.add.space.short', [$webwork.htmlEncode($page.displayTitle)])" href="#">$i18n.getText('favourite.add.space.short', [$webwork.htmlEncode($page.displayTitle)])</a>
+                            <span class="icon icon-wait hidden">$i18n.getText('loading.name')</span>
+                        </div>
+                        #else
+                        <div style="float:right;" class="entity-favourites" data-entity-id="$page.id" data-entity-type="$page.type">
+                            <a class="icon icon-remove-fav" title="$i18n.getText('favourite.remove.space.short', [$webwork.htmlEncode($page.displayTitle)])" href="#">$i18n.getText('favourite.remove.space.short', [$webwork.htmlEncode($page.displayTitle)])</a>
+                            <a class="icon icon-add-fav hidden" title="$i18n.getText('favourite.add.space.short', [$webwork.htmlEncode($page.displayTitle)])" href="#">$i18n.getText('favourite.add.space.short', [$webwork.htmlEncode($page.displayTitle)])</a>
+                            <span class="icon icon-wait hidden">$i18n.getText('loading.name')</span>
+                        </div>
+                        #end
+                    #end
+                </td>
+            </tr>
+        #end
+    #end
+</table>

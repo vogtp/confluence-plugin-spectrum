@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>$action.getText("connect.to.jira.sync.directory")</title>
+    </head>
+
+    <body>
+        <br/>
+        #set ($package = 'setup/')
+        #set ($nextButton = 'nextButton')
+        #set ($longrunningtasktemplate = "/setup/templateconnecttojirasyncdirectory.vm")
+        #parse ("/admin/longrunningtask-common.vm")
+
+        <h3>$action.getText("admin.account.created.message")</h3>
+        <p class="description">${action.getText("connect.to.jira.sync.description")}</p>
+        <form name="connecttojirasyncdirectory" action="connecttojirasyncdirectory.action" method="post">
+            <input id="longrunningtaskid" type="hidden" value="$action.taskId"/>
+            <input id="nextButton" type="submit" value="$action.getText('next.name')"
+                #if ($action.task && !$action.task.complete) disabled="disabled" #end >
+        </form>
+    </body>
+</html>

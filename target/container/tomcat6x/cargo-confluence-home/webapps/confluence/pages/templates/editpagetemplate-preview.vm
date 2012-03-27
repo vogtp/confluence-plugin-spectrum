@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title>$action.getText("preview.and.edit.template")</title>
+
+        #if (!$textUtil.stringSet($key))
+            <meta name="decorator" content="admin"/>
+            <title>$action.getText("create.global.template")</title>
+        #end
+
+        <content tag="selectedWebItem">globaltemplates</content>
+    </head>
+
+    #if ($textUtil.stringSet($key))
+
+        #applyDecorator("root")
+            #decoratorParam("helper" $action.helper)
+            #decoratorParam("context" "space-operations")
+            #decoratorParam("mode" "view-space-operations")
+
+            #applyDecorator ("root")
+                #decoratorParam ("context" "spacecontentpanel")
+                #decoratorParam ("title" $action.getText("title.edit.page.template"))
+                #decoratorParam ("selection" "space-templates")
+                #decoratorParam ("selectedTab" "content")
+                #decoratorParam("helper" $action.helper)
+
+            <body>
+
+                <div style="padding: 10px">
+
+                    <form name="previewpagetemplateform" method="POST" action="doeditpagetemplate.action?pageTemplateId=${pageTemplate.id}&key=$!key">
+                        #parse ("/pages/includes/alert-preview-start.vm")
+                        <div class="wiki-content wiki-content-preview" id="previewpane">
+                            $xHtmlContent
+                        </div>
+                        #parse ("/pages/includes/alert-preview-end.vm")
+
+                        #tag ("Hidden" "name='name'" "value=name")
+                        #tag ("Hidden" "name='description'" "value=description")
+                        #tag ("Hidden" "name='content'" "value=content")
+                    </form>
+
+                    <script language="javascript">
+                        for (var i=0; i < document.previewpagetemplateform.elements.length; i++)
+                        {
+                            var elementName = document.previewpagetemplateform.elements[i].name;
+                            if (elementName.indexOf("variableValues") != -1)
+                            {
+                                document.previewpagetemplateform.elements[i].disabled = true;
+                            }
+                        }
+                    </script>
+
+                    #parse ("/pages/includes/editpagetemplate-form.vm")
+                </div>
+            </body>
+            
+            #end
+        #end
+
+     #else
+
+       <body>
+            #parse ( "/template/includes/actionerrors.vm" )
+
+            <div style="width: 100%">
+
+                <form name="previewpagetemplateform" method="POST" action="doeditpagetemplate.action?pageTemplateId=${pageTemplate.id}&key=$!key">
+                    #parse ("/pages/includes/alert-preview-start.vm")
+                    <div class="wiki-content">
+                        $xHtmlContent
+                    </div>
+                    #tag ("Hidden" "name='name'" "value=name")
+                    #tag ("Hidden" "name='description'" "value=description")
+                    #tag ("Hidden" "name='content'" "value=content")
+
+                    #parse ("/pages/includes/alert-preview-end.vm")
+                </form>
+
+
+                <center>#parse ("/pages/includes/editpagetemplate-form.vm")</center>
+
+            </div>
+
+	    	#parse ( "/breadcrumbs.vm" )
+        </body>
+    #end
+</html>

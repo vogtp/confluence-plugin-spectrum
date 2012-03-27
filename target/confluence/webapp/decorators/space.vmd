@@ -1,0 +1,123 @@
+#* DECORATOR FOR SPACE LEVEL INFORMATION
+This decorator handles many contexts - pages, mail, blogposts, templates, space-operations, and space-administration.
+*#
+
+#set ($helper   = $params.get("helper"))
+#set ($mode     = $params.get("mode"))
+#set ($context  = $params.get("context"))
+#set ($view-blogposts-date-mode = $params.get("view-blogposts-date-mode"))
+#set ($confPage = $helper.page)
+
+#infoPanelInitFromParams()
+## GENERAL PAGE DECORATING BEGINS
+
+#requireResourcesForContext("space")
+
+#parse ("/decorators/includes/space-navigation.vm")
+
+#if ($infoPanelRequired)
+<content tag="sidebar">
+    #infoPanel(true true true true)
+</content>
+#end
+
+<div id="content" class="space $!context $!mode">
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    ## CONTEXT SPECIFIC DECORATING BEGINS
+    ## CONTEXT: "space-pages". MODES: "list-alphabetically", "list-recently-added", "list-content-tree"
+    #if ($context == "space-pages")
+        #if ($mode != "create-page")
+           #permitSearchEngines()
+            ## Show current mode
+            <div class="space-view-controls">
+                $action.getText('view.name'):
+                #foreach ($item in $webInterfaceManager.getDisplayableItems("system.space.pages", $action.webInterfaceContext))
+                    #if ($velocityCount != 1) | #end
+                    #if ($mode == $item.key)
+                        <span style="padding: 5px; background-color: #f0f0f0;"><strong>$item.label.getDisplayableLabel($req, $action.webInterfaceContext)</strong></span>
+                    #else
+                        <a href="$item.link.getDisplayableUrl($req, $action.webInterfaceContext)">$item.label.getDisplayableLabel($req, $action.webInterfaceContext)</a>
+                    #end
+                #end
+            </div>
+
+            $body
+
+        #else
+            $body
+        #end
+
+    ## CONTEXT: "mail". MODES: "view-mail-archive"
+    #elseif ($context == "space-mails")
+        #permitSearchEngines()
+        #if ($mode == "view-mail-archive")
+                $body
+        #end
+
+    ## CONTEXT: "blogposts". MODES: "view-blogposts", "create-blogpost"
+    #elseif ($context == "space-blogposts")
+        #if ($mode == "view-blogposts")
+         #permitSearchEngines()
+            #if ($blogPosts.size() == 0)
+                #if ($view-blogposts-date-mode == "true")
+                    <p>$action.getText("no.posts.found.for.date")</p>
+                #else
+                    <p>$action.getText("no.posts.found")</p>
+                #end
+            #else
+                #foreach ($blog in $blogPosts)
+
+                    #set ($blogBody = $action.renderBlogPost($blog))
+                    #set ($showIconBlock = !$action.isPersonalSpace())
+                    #parse("/pages/blogpost-listing.vm")
+
+                #end
+            #end
+            <content tag="blog-sidebar">
+                #set($whereKey = $helper.spaceKey)
+                #customQuickSearch("space-blog" false false [{"name":"type","value":"blogpost"}, {"name":"where", "value":"$whereKey"}])
+                <ul class="blog-sidebar-items">
+                    #foreach ($item in $webInterfaceManager.getDisplayableItems("system.space.blog.sidebar", $action.webInterfaceContext))
+                        <li class="ajs-menu-item normal">#renderItemLink($item false)</li>
+                    #end
+                </ul>
+                #if ($calendarForThisMonth)
+                   #blogPostsByMonth($action)
+                #end
+            </content>
+            #if ($action.isRecentBlogPosts())
+                #showOlderNewerBlogNavigation($action)
+            #end
+        #elseif ($mode == "create-blogpost")
+            $body
+        #end
+
+    ## CONTEXT: "templates". MODES: "view-templates"
+    #elseif ($context == "space-templates")
+        #if ($mode == "view-templates")
+
+             <div style="padding: 0px 10px 10px 10px">
+                $body
+            </div>
+        #end
+
+    ## DEFAULT: no additional markup
+    #else
+        $body
+    #end
+    ## CONTEXT * MODE SPECIFIC DECORATING ENDS
+
+</div>
+
+## GENERAL PAGE DECORATING ENDS
+
+#parse ( "/breadcrumbs.vm" )
+
+#if ($helper.spaceKey)
+    <content tag="spacename">$webwork.htmlEncode($helper.spaceName)</content>
+    <content tag="spacekey">#unencoded($helper.spaceKey)</content>
+    <content tag="spaceaction">true</content>
+#end
+
+#menuMacros_renderBrowseMenu()

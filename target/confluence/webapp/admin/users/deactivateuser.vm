@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>$action.getText("title.deactivate.user")</title>
+	</head>
+
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        #if ($actionErrors.size() == 0)
+   		    #if ($user)
+                    &laquo; <a href="viewuser.action?username=$generalUtil.doubleUrlEncode($user.name)">$action.getText("view.user") $user.name</a><br/>
+            #end
+
+            <div class="centered">
+                <form method="POST" name="deactivateUser" action="deactivateuser-confirm.action">
+				    <table class="grid">
+					    #form_xsrfToken()
+						<tr>
+							<th colspan="2">$action.getText("user.deactivate.message")</th>
+						</tr>
+                        #tag( "Label" "label='user.name'" "value=username" )
+						<tr>
+							<td colspan="2" align="center">
+                                #tag( "Hidden" "name='username'" "value=username" )
+				                #tag( "Submit" "name='confirm'" "value='confirm.name'" "theme='notable'" )
+				                #tag( "Submit" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+							</td>
+						</tr>
+				    </table>
+                </form>
+			</div>
+    	#end
+
+		#parse ( "/breadcrumbs.vm" )
+	</body>
+</html>

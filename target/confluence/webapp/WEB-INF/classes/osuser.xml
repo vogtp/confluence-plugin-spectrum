@@ -1,0 +1,45 @@
+<opensymphony-user>
+    <!--
+		Authenticators can take properties just like providers.
+
+		This smart authenticator should work for 'most' cases - it dynamically looks up
+		the most appropriate authenticator for the current server.
+	-->
+    <authenticator class="com.opensymphony.user.authenticator.SmartAuthenticator"/>
+
+    <!-- JIRA User management (with caching) -->
+    <!-- Note: Do not add any line breaks or spaces when specifying the chain.classname, otherwise a ClassNotFoundException will be thrown -->
+    <!--
+    <provider class="bucket.user.providers.CachingCredentialsProvider">
+        <property name="chain.classname">com.atlassian.confluence.user.providers.jira.JiraJdbcCredentialsProvider</property>
+        <property name="chain.datasource">java:comp/env/jdbc/JiraDS</property>
+    </provider>
+    <provider class="bucket.user.providers.CachingAccessProvider">
+        <property name="chain.classname">com.atlassian.confluence.user.providers.jira.JiraJdbcAccessProvider</property>
+        <property name="chain.datasource">java:comp/env/jdbc/JiraDS</property>
+    </provider>
+    <provider class="bucket.user.providers.CachingProfileProvider">
+        <property name="chain.classname">com.atlassian.confluence.user.providers.jira.JiraJdbcProfileProvider</property>
+        <property name="chain.datasource">java:comp/env/jdbc/JiraDS</property>
+        <property name="chain.configuration.provider.class">bucket.user.BucketHibernateConfigProvider</property>
+    </provider>
+    -->
+
+    <provider class="bucket.user.providers.CachingCredentialsProvider">
+        <property name="chain.classname">com.opensymphony.user.provider.hibernate.HibernateCredentialsProvider</property>
+        <property name="chain.configuration.provider.class">bucket.user.BucketHibernateConfigProvider</property>
+    </provider>
+    <provider class="bucket.user.providers.CachingAccessProvider">
+        <property name="chain.classname">com.opensymphony.user.provider.hibernate.HibernateAccessProvider</property>
+        <property name="chain.configuration.provider.class">bucket.user.BucketHibernateConfigProvider</property>
+    </provider>
+
+    <provider class="bucket.user.providers.CachingProfileProvider">
+        <property name="chain.classname">com.opensymphony.user.provider.hibernate.HibernateProfileProvider</property>
+        <property name="chain.configuration.provider.class">bucket.user.BucketHibernateConfigProvider</property>
+    </provider>
+
+    <!--<provider class="com.opensymphony.user.provider.memory.MemoryCredentialsProvider" />
+    <provider class="com.opensymphony.user.provider.memory.MemoryAccessProvider" />
+    <provider class="com.opensymphony.user.provider.memory.MemoryProfileProvider" />-->
+</opensymphony-user>

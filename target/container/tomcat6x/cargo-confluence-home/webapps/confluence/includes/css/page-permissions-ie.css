@@ -1,0 +1,49 @@
+/* Page Permissions Editor */
+#page-permissions-tables {
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    *position: static; /* Needed to get the search dropdown to appear over the table. */
+    _width: 825px; /* IE6 won't show scrollbar without this */
+}
+
+#page-permissions-input {
+    overflow: visible; /* IE8 needs this to show the dropdown */
+}
+
+#page-permissions-input-box {
+    position: relative;     /* Needed for the dropdown-wrapper's top/left styles */
+}
+.page-perms-name-dropdown-wrapper {
+    left: 2px;
+    top: 2.1em;             /* Position the username dropdown under the input field */
+}
+
+* html #page-permissions-no-views span,
+* html #page-permissions-no-edits span,
+* html .view-permission-row .page-permissions-marker-cell span,
+* html .edit-permission-row .page-permissions-marker-cell span {
+    background-image: none;
+    zoom: 1;
+}
+
+* html #page-permissions-no-views span {
+    filter: expression(runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
+        document.getElementById('confluence-context-path').content +
+        "/images/icons/view_16.png', sizingMethod='crop')");
+}
+* html #page-permissions-no-edits span {
+    filter: expression(runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
+        document.getElementById('confluence-context-path').content +
+        "/images/icons/edit_16.png', sizingMethod='crop')");
+}
+* html .view-permission-row .page-permissions-marker-cell span {
+    filter: expression(runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
+        document.getElementById('confluence-context-path').content +
+        "/images/icons/restrictions_view_16.png', sizingMethod='crop')");
+}
+* html .edit-permission-row .page-permissions-marker-cell span {
+    filter: expression(runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
+        document.getElementById('confluence-context-path').content +
+        "/images/icons/restrictions_edit_16.png', sizingMethod='crop')");
+}

@@ -1,0 +1,149 @@
+#personal-info-sidebar {
+    background: #eee;
+    display: inline;
+    float: right;
+    margin-right: -17px;  /* border on body this is 1px out in webkit*/
+    padding-right: 12px; /* to make room for the expand/collapse button */
+    position: relative;
+}
+
+#personal-info-sidebar.collapsed {
+    overflow: hidden;
+    width: 0;
+}
+
+.has-personal-sidebar #content {
+    margin-right: 360px;
+}
+
+.has-personal-sidebar #content .pageSection {
+    margin-right: -360px;
+}
+
+.has-personal-sidebar #content.sidebar-collapsed .pageSection {
+    margin-right: -10px;
+}
+
+.has-personal-sidebar #content.sidebar-collapsed {
+    margin: 0 10px 0 0;
+}
+
+#personal-info-sidebar .sidebar-content {
+    margin: 0;
+    padding: 10px;
+    width: 320px;
+}
+
+#personal-info-sidebar.collapsed .sidebar-content {
+    visibility: hidden;
+}
+
+.sidebar-collapse {
+    background: #ddd url(../../../images/icons/sidebar/collapse.gif) no-repeat 4px 50%;
+    display: block;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    text-indent: 999em;
+    top: 0;
+    width: 12px;
+}
+
+a.sidebar-collapse:hover {
+    background-color: #bbb;
+    background-image: url(../../../images/icons/sidebar/collapse-hover.gif);
+}
+
+.collapsed .sidebar-collapse {
+    background-image: url(../../../images/icons/sidebar/expand.gif);
+    background-position: 3px 50%;
+    left: 0;
+}
+
+.collapsed a.sidebar-collapse:hover {
+    background-image: url(../../../images/icons/sidebar/expand-hover.gif);
+}
+
+.sidebar-collapse:focus {
+    outline: none;
+}
+
+.collapsed .sidebar-collapse,
+#personal-info-sidebar {
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+#personal-info-sidebar .vcard {
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+ol.recentlyupdated li {
+    padding-bottom: 2px;
+}
+
+ol.recentlyupdated {
+    line-height: 1.36;
+    list-style: none;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+}
+
+ol.recentlyupdated a {
+    display: block;
+    margin-top: 5px;
+}
+
+ol.recentlyupdated span.metadata {
+    color: #666;
+    font-size: 12px;
+}
+
+#personal-info-sidebar a.more-edit:link,
+#personal-info-sidebar a.more-edit:visited,
+#personal-info-sidebar a.more-edit:hover {
+    float: right;
+    font-size: 12px;
+}
+
+#personal-info-sidebar .recently-updated-sidebar {
+    padding: 5px 0; 
+}
+
+#personal-info-sidebar h2.subheading {
+    border-bottom: 0;
+    color: #666;
+    font-size: 9pt;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+#personal-info-sidebar h2.subheading .subtitle,
+#personal-info-sidebar .network-macro .network-macro a.show-all  {
+    color: #666; 
+}
+
+#personal-info-sidebar .sidebar-section {
+    margin-bottom: 15px;
+}
+
+#personal-info-sidebar .network-macro h2.subheading {
+    padding: 5px 0 2px;
+}
+
+#personal-info-sidebar .network-macro .avatars {
+    margin: 0;
+    padding: 0; 
+    width: 300px;
+}
+
+#personal-info-sidebar .network-macro .description {
+    color: #666;
+    margin: 5px 0;
+}

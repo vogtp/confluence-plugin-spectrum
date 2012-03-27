@@ -1,0 +1,8 @@
+<p>$action.getText('plugins.page.description')</p>
+<p>
+$action.getText('plugins.page.instruction')
+#doc("help.installing.plugins.and.macros" "$action.getText('more.about.plugins')")
+</p>
+<br/>
+<h3 class="underlined">$action.getText('plugins.pac.heading')</h3>
+<p>$action.getText('plugins.page.pac',[$action.getText('url.atlassian.plugins.confluence')])</p>

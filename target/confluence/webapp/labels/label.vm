@@ -1,0 +1,5 @@
+#* @vtlvariable name="label" type="com.atlassian.confluence.labels.Label" *#
+<a class="label confluence-label" data-label-id="$label.id" href="#labelLinkUrl($label)" rel="tag">
+    <span>$generalUtil.htmlEncode($label.realTitle)</span>
+    <span class="remove-label" title="$action.getText('delete.name')"></span>
+</a>

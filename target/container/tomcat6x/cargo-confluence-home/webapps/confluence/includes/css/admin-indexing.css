@@ -1,0 +1,44 @@
+.faded {
+    opacity: 0.1;
+    filter: alpha( opacity = 10 );
+    zoom: 1
+}
+
+#dym-index-panel,
+#search-index-panel {
+    width: 700px;
+    height: 210px; 
+}
+
+#dym-index-disabling-overlay,
+#search-index-disabling-overlay {
+    position: absolute;
+    width: 700px;
+    height: 210px;
+    z-index: 2;
+    background: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+#search-index-task-progress-container,
+#dym-index-task-progress-container {
+    float: left;
+    width: 78%;
+}
+#search-index-panel-contents h2 {
+    margin-top: 0;
+}
+
+div.elapsedTime {
+    float:left;
+    width: 22%;
+}
+
+div.index-status {
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 120px;
+}

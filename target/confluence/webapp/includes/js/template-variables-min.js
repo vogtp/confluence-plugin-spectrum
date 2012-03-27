@@ -1,0 +1,1 @@
+function updateOthers(b){var a=AJS.$("input[name='"+b.name+"']");AJS.$.each(a,function(c,d){d.value=b.value})};

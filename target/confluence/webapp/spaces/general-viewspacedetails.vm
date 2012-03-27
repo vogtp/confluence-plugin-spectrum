@@ -1,0 +1,11 @@
+#set ($spaceName        = $action.getText("space-name"))
+#set ($spaceKeyText     = $action.getText("space-key"))
+#set ($spaceHomePage    = $action.getText("space-homepage"))
+#set ($spaceCreator     = $action.getText("space-creator"))
+#set ($spaceLabelsText = $action.getText("space-labels"))
+#set ($spaceTeamLabelsText = $action.getText("addlabels.teamlabels"))
+#set ($spaceDescription = $action.getText("space-desc"))
+#set ($editSpaceName    = $action.getText("edit.space.name"))
+#set ($spaceTabAdmin    = $action.getText("space.tab.admin"))
+
+#parse("spaces/viewspacedetails.vm")

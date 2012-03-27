@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+		<meta name="help-path" content="/admin/lookandfeel/help/lookandfeel.vm"/>
+	</head>
+
+	<body>
+        <content tag="selectedWebItem">colourscheme</content>
+		#parse ("/includes/common-lookandfeel.vm")
+        #parse ( "/breadcrumbs.vm" )
+	</body>
+</html>

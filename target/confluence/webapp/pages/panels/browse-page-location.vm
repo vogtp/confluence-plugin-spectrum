@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head></head>
+<body>
+<div>
+    <div class="browse-controls">
+        <fieldset>
+            #assistiveLegend("accessibility.page.location.dialog.browse.legend")
+            <label for="chosenSpaceKey">$i18n.getText('space-title'):</label>
+
+            <div class="value">
+                <select id="chosenSpaceKey" name="chosenSpaceKey" tabindex="3"
+                #if ($action.page && $action.page.id > 0 && !$permissionHelper.canRemove($remoteUser, $action.page))
+                    disabled="disabled"
+                #end
+                    >
+                    #foreach ($space in $availableSpaces)
+                    <option value="$space.getKey()" #if( $newSpaceKey == $space.getKey() ) selected="selected"#end
+                        >$webwork.htmlEncode($space.name)</option>
+                    #end
+                </select>
+                #if ($action.page && $action.page.id > 0 && !$permissionHelper.canRemove($remoteUser, $action.page))
+                    <span class="description warning">$i18n.getText("tip.cannot.move.page.between.spaces")</span>
+                #end
+            </div>
+        </fieldset>
+    </div>
+
+    <div id="tree-root-div" class="ui-tree"></div>
+    <div id="parent-selection-tree"></div>
+</div>
+</body>
+</html>

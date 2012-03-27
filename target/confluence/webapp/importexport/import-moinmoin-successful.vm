@@ -1,0 +1,9 @@
+<html>
+    <head>
+        <title>Import Successful</title>
+    </head>
+
+    <body>
+        Data successfully imported - <a href="$req.contextPath/display/$action.space.key">view $webwork.htmlEncode($action.space.name)</a>.
+    </body>
+</html>

@@ -1,0 +1,13 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.admin.actions.PurgeReferrersAction" *#
+<html>
+<head>
+    <title>$action.getText("title.purge.referrers")</title>
+</head>
+<body>
+    #parse ("/template/includes/actionerrors.vm")
+    
+    $action.getText("page.description", [$deletions])
+
+	#parse("/breadcrumbs.vm")
+</body>
+</html>

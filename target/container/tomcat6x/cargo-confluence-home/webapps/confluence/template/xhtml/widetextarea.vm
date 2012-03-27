@@ -1,0 +1,6 @@
+#parse( "/template/xhtml/controlheader-errors.vm" )
+
+<tr>
+  <td#if($error) class="error"#end colspan=2>
+    <textarea name="$webwork.htmlEncode(${parameters.name})" #if( ${parameters.rows} )rows="${parameters.rows}"#end #if( ${parameters.cols} )cols="${parameters.cols}"#end style="font:12px monospace;">$!webwork.htmlEncode($!{parameters.nameValue})</textarea>
+#parse( "/template/xhtml/controlfooter.vm" )

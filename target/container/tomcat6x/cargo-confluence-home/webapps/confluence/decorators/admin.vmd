@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>$title - #siteTitle()</title>
+    #requireResource("confluence.web.resources:print-styles")
+
+    #requireResourcesForContext("admin")
+    #requireResourcesForContext("atl.admin")
+
+    #set($stylesheetAction = "admin")
+    #parse("/decorators/includes/header.vm")
+
+    #infoPanelInit()
+</head>
+<body id="com-atlassian-confluence" class="admin-body">
+<div id="full-height-container">
+    #displayGlobalMessages()
+
+    <div id="header">
+        #quickSearch()
+        <ul id="header-menu-bar" class="ajs-menu-bar">
+            #menuMacros_renderGlobalBrowseMenu()
+            #menuMacros_renderUserMenu()
+        </ul>
+        $!sitemeshPage.getProperty("page.breadcrumbs")
+        #if(!$sitemeshPage.getProperty("page.breadcrumbs"))
+            <ol id="breadcrumbs">
+                <li class="first"><span><a href="$req.contextPath/dashboard.action">$i18n.getText("dashboard.name")</a></span></li>
+                <li><span><a href="$req.contextPath/admin/console.action">$i18n.getText("administration.name")</a></span></li>
+                <li><span>$sitemeshPage.getProperty("title")</span></li>
+            </ol>
+        #end
+
+    </div>
+    <div id="main">
+        <h1 class="pagetitle">
+            #if ($sitemeshPage.getProperty("page.username"))
+                #set ($tildeUsername = "~$username")
+                #logoBlock($tildeUsername)
+            #else
+                #logoBlock($spaceKey)
+            #end
+            #pageTitleLink()
+        </h1>
+
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td valign="top" width="20%">
+            #menuMacros_renderLeftNavMenu("admin-menu" "system.admin" $sitemeshPage.getProperty("page.selectedWebItem") false)
+        </td>
+        <td valign="top" class="pagebody" style="padding: 10px">
+            $body
+        </td>
+            #if ($helpAvailable)
+            <td width="20%" valign="top" id="helptd">
+                #infoPanel(true true true true)
+            </td>
+            #end
+        </tr>
+    </table>
+    <br class="clear">
+</div>
+    #set ($showHSQLWarning = true)
+    #parse ("/decorators/includes/footer.vm")
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>$action.getText("title.view.group") #if ($group): $stack.findValue('group.name') #end</title>
+	</head>
+
+	<body>
+        #parse ( "/template/includes/actionerrors.vm" )
+
+        #if ($actionErrors.size() == 0)
+			<table class="grid">
+				#tag( "Label" "label=group.name" "name=group.name" )
+			</table>
+    	#end
+
+		#parse("/breadcrumbs.vm")
+		#parse ( "/admin/users/group-operations.vm" )
+	</body>
+</html>

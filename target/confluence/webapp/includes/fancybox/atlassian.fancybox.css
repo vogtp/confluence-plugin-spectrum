@@ -1,0 +1,25 @@
+
+/* Override properties of fancy.css to make it work better with Confluence */
+
+div#fancybox-overlay {
+    background-color: #000;
+    display: none; /* so it can fade in */
+    /*
+     * position defaults to absolute, which is relative to positioned parents; fixed is relative to viewport
+     * however it does not work in MSIE 6, so this is overridden again in gallery-ie.css
+     */
+    position: fixed;
+}
+
+a#fancybox_left, a#fancybox-right {
+    width: 50%; /* we're offsetting the left and right margins, so make them extend to almost half way */
+    bottom: 0; /* for some reason the default stylesheet pushes it up from the bottom */
+}
+
+a#fancybox-left {
+	left: -35px;
+}
+a#fancybox-right {
+	right: -35px;
+}
+

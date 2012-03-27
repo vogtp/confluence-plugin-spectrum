@@ -1,0 +1,52 @@
+<div class="field-group">
+    <div style="float: left; width: 30%;">
+        #bodytag( "TextField" "label='page.template.name'" "name='name'" "theme='notable'")
+            #param ("cssClass" "monospaceInput")
+        #end
+        #fielderror ('name')
+    </div>
+    <div style="float: left; width: 40%;">
+        #bodytag( "TextField" "label='page-template-description'" "name='description'" "size=50" "theme='notable'")
+            #param ("cssClass" "monospaceInput")
+        #end
+    </div>
+</div>
+
+<div class="field-group">
+    #bodytag( "Textarea" "label=''" "name='content'" "rows=30" "cols=100" "theme='simple'")
+        #param ("cssClass" "monospaceInput")
+    #end
+    <div class="description">
+        #hint("input.accepts.wiki.markup")
+    </div>
+</div>
+
+<div class="field-group">
+    ## set page empty because only space relevant labels can be considered
+    #set ($page = "")
+    #requireResource("confluence.web.resources:labels-editor")
+    #putMetadata('page-id', $pageId)
+
+    <div id="labels_tab">
+        <label class="formtitle" for="labelsString">$action.getText("labels.name"): </label>
+        <a href="#" class="inline-control-link" id="labels_edit_link">$action.getText("edit.name")</a>
+    </div>
+    <div id="labels_info">
+       $generalUtil.htmlEncode($!labelsString)
+    </div>
+
+    <div id="labels_div" class="editor-panel hidden">
+        <span class="error">
+            <span class="errorMessage" id="errorSpan"></span>
+        </span>
+        <input type="text" id="labelsString" name="labelsString" autocomplete="off"
+        value="$generalUtil.htmlEncode($!labelsString)" class="monospaceInput" />
+        #fielderror ('labelsString')
+        <div id="labelsAutocompleteList" class="aui-dd-parent"></div>
+        <div class="labels-tip">
+            $action.getText("tip.start.typing")
+        </div>
+    </div>
+</div>
+
+<br />

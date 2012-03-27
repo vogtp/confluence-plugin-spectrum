@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>$action.getActionName($action.getClass().getName())</title>
+
+</head>
+<body>
+    <script type="text/javascript" language="JavaScript">
+        var contextPath = '$req.contextPath';
+    </script>
+    #includeJavascript('/includes/js/ajax.js')
+    <div class="pagecontent">
+        #applyDecorator("root")
+            #decoratorParam("context" "global")
+            #decoratorParam("mode"  "userdir")
+            #decoratorParam("helper" $action.helper)
+
+            <div class="greybox">
+
+                <div class="greyboxfilled" style="float: right">
+                #parse ("/users/peopledirectory-searchform.vm")
+                </div>
+
+                <p>
+                    $action.getText("show.word"):
+                    #if ($showOnlyPersonal)
+                    <a href="$req.contextPath/dopeopledirectorysearch.action?queryString=$generalUtil.htmlEncode($queryString)&showOnlyPersonal=false">$action.getText("people.show.all")</a>
+                    &middot;
+                    <span style="padding: 5px; background-color:#f0f0f0;"><strong>$action.getText("people.show.personal")</strong></span>
+
+                    #else
+                    <span style="padding: 5px; background-color:#f0f0f0;"><strong>$action.getText("people.show.all")</strong></span>
+                    &middot;
+                    <a href="$req.contextPath/dopeopledirectorysearch.action?queryString=$generalUtil.htmlEncode($queryString)&showOnlyPersonal=true">$action.getText("people.show.personal")</a>
+                    #end
+                    #if (!$queryString.equals(""))
+                    <p>$action.getText("people.search.results.found", [$action.paginationSupport.total, $!webwork.htmlEncode($queryString)]).
+                    #end
+                        <br clear="all"/>
+                </p>
+
+
+
+                <div id="peoplelist">
+                    #if ($searchResults.size() > 0)
+                        #foreach ($person in $searchResults)
+                            $helper.renderConfluenceMacro("{profile:user=%s|mode=people-directory}", $person)
+                        #end
+                        <br style="clear: left;">
+                        <br>
+                        #set ($formAction = "dopeopledirectorysearch.action?queryString=$queryString&ShowOnlyPersonal=$showOnlyPersonal&")
+                        #pagination ($action.paginationSupport $formAction)
+                    #end
+                </div>
+            </div>
+        #end
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+#set($incomplete = $action.getIncompleteAdminTasks())
+#set($completed = $action.getCompletedAdminTasks())
+
+<h2>Tasklist</h2>
+<p>$i18n.getText("admintask.description")</p>
+
+<div class="tasklist">
+    #if ($incomplete.size() > 0)
+    <ul class="tasks incomplete">
+        #foreach( $entry in $incomplete )
+            #adminTask($entry)
+        #end
+    </ul>
+    #else
+        <div class="aui-message success">
+            <span class="svg-icon success size-18"></span>
+            <p>$i18n.getText("admintask.no.tasks")</p>
+        </div>
+    #end
+
+    #if ($completed.size() > 0)
+    <a href="#" class="view-completed-tasks">$i18n.getText("admintask.view.completed.tasks", '<span class="count">', $completed.size(), '</span>')</a>
+    <ul class="tasks completed">
+        #foreach( $entry in $completed )
+            #adminTask($entry)
+        #end
+    </ul>
+    #end
+</div>
+
+#macro(adminTask $task)
+    #set($taskTitle = $i18n.getText("${task.key}.title"))
+    
+    
+    #set($taskDescKey = "${task.key}.description")
+    #set($taskDesc  = $i18n.getText($taskDescKey, $action.getAllConfigurationUrisInContext($task)))
+    #if ($taskDesc == $taskDescKey) #set($taskDesc = false) #end
+	
+	#set($taskActionTextKey = "${task.key}.actiontext")
+	#set($taskActionText = $i18n.getText($taskActionTextKey))
+	#if($taskActionText == $taskActionTextKey) 
+		#set($taskActionText = $i18n.getText("admintask.configuration.configure")) 
+	#end  
+
+<li class="task #if ($task.isCompleted) complete #else incomplete #end">
+    <h3>
+        <span>$taskTitle</span>
+    </h3>
+    #if ($taskDesc)
+        <p class="description">$taskDesc</p>
+    #end
+
+    #if ($task.hasSuccessCriteria)
+        #set($configValue = $task.configuredValue)
+        #if (!$configValue) #set($configValue = $i18n.getText("admintask.configuration.no.value")) #end
+        <dl class="configuration">
+            <dt>#adminTaskStatus($task)</dt>
+            <dd>
+                $configValue
+                #if ($task.allConfigurationUris.size() == 1)
+                    <a href="$req.contextPath$task.firstConfigurationUri" class="goto">
+                        <span class="icon icon-edit"></span> $taskActionText
+                    </a>
+                #end
+            </dd>
+        </dl>
+        #set($configValue = false)
+    #end
+
+    #if ($task.isIgnorable() && !$task.isCompleted)
+    <div class="signoff">
+        #if ($task.isIgnored())
+            <span><a class="reinstate" href="$req.contextPath/admin/unignoretask.action?key=$task.key&amp;#url_xsrfToken()">$i18n.getText("admintask.task.dont.ignore.this")</a></span>
+        #else
+            <span><a class="dismiss" href="$req.contextPath/admin/ignoretask.action?key=$task.key&amp;#url_xsrfToken()">$i18n.getText("admintask.task.ignore.this")</a></span>
+        #end
+    </div>
+    #end
+</li>
+#end
+
+#macro (adminTaskStatus $task)
+    #set($valueTitleKey = "${task.key}.configuration.current.value")
+    #set($valueTitle = $i18n.getText($valueTitleKey))
+    #if ($valueTitle == $valueTitleKey) #set($valueTitle = $i18n.getText("admintask.configuration.current.value")) #end
+    <b>$valueTitle</b>## Don't worry semantic fans, I know what I'm doing. (CD)
+#end
+
+## TODO: A thousand internets to whoever finds a better place to put this.
+<script type="text/javascript">
+    AJS.$(".tasklist a.view-completed-tasks").click(function(e) {
+        AJS.$(this).siblings(".tasks.completed").toggle();
+        e.preventDefault();
+    });
+    AJS.$(".tasklist ul.tasks.completed").hide();
+</script>

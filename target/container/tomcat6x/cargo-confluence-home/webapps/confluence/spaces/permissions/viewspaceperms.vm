@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "space-administration")
+        #decoratorParam("mode"  "view-space-administration")
+
+        #applyDecorator ("root")
+            #decoratorParam ("context" "spaceadminpanel")
+            #decoratorParam ("selection" "spacepermissions")
+            #decoratorParam ("title" $action.getActionName($action.getClass().getName()))
+            #decoratorParam ("selectedTab" "admin")
+            #decoratorParam("helper" $action.helper)
+
+            <div style="padding: 10px; text-align: left;">
+                    <div class="steptitle">$action.getText('perms.groups')</div>
+                    <div class="stepdesc">
+                        $action.getText("space.group.perms")
+                    </div>
+
+                    #showPermissions( ["g"] $action "false")
+
+                    <br/>
+                    <table width="100%" border=0>
+                        <tr>
+                            <td width ="100%" align="right">
+                                <form name="editspacepermissions" action="editspacepermissions.action">
+                                    <input type="hidden" name="key" value="$key">
+                                    <input type="submit" value="$action.getText('globalperms.editpermissions')">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+
+                    <div class="steptitle">$action.getText('perms.individuals')</div>
+                    <div class="stepdesc">
+                        $action.getText("space.user.perms")
+                    </div>
+
+                    #showPermissions( ["u"] $action "false")
+                
+                    <br/>
+
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td align="right">
+                                <form name="editspacepermissions" action="editspacepermissions.action">
+                                    <input type="hidden" name="key" value="$key">
+                                    <input type="submit" value="$action.getText('globalperms.editpermissions')">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="steptitle">$action.getText('perms.anonymous')</div>
+                    #if ($action.anonymousSpacePermissionWithoutGlobalPermission)
+                        #parse ("/spaces/includes/anonymous_access_warning.vm")
+                    #end
+
+                    <div class="stepdesc">
+                        $action.getText("space.anonymous.perms")
+                    </div>
+
+
+                    #showPermissions( ["a"] $action "false")
+
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td align="right">
+                                <form name="editspacepermissions" action="editspacepermissions.action">
+                                    <input type="hidden" name="key" value="$key">
+                                    <input type="submit" value="$action.getText('globalperms.editpermissions')">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+
+            </div>
+
+        #end
+	#end
+</html>

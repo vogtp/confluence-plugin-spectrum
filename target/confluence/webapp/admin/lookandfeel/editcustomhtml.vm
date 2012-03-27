@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>$action.getText("custom.html")</title>
+    <meta name="help-path" content="/admin/lookandfeel/help/customhtml.vm"/>
+</head>
+
+<body>
+<content tag="selectedWebItem">customhtml</content>
+#parse ("/template/includes/actionerrors.vm")
+<form action="$req.contextPath/admin/doeditcustomhtml.action" method="post">
+    #form_xsrfToken()
+    <table class="grid">
+        <tr>
+            <th colspan="2">$action.getText("customhtml.title")</th>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.head.end")</td>
+
+            <td class="value">
+                <textarea rows="4" cols="70" name="beforeHeadEnd">$generalUtil.htmlEncode($!beforeHeadEnd)</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.body.start")</td>
+
+            <td class="value">
+                <textarea rows="4" cols="70" name="afterBodyStart">$generalUtil.htmlEncode($!afterBodyStart)</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">$action.getText("customhtml.body.end")</td>
+
+            <td class="value">
+                <textarea rows="4" cols="70" name="beforeBodyEnd">$generalUtil.htmlEncode($!beforeBodyEnd)</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center" style="border: none">
+                #tag( "Submit" "id=confirm" "name='confirm'" "value='update.name'" "theme='notable'" )
+                #tag( "Submit" "id=cancel" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+            </td>
+        </tr>
+    </table>
+</form>
+#parse ( "/breadcrumbs.vm" )
+</body>
+</html>

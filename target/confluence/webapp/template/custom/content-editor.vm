@@ -1,0 +1,138 @@
+#*
+This is the main content editor template for creating and editing.
+
+-- Required Parameters:
+--   * $formName       - determines the name of the form
+--   * $formAction     - determines the action of the form
+--   * $contentType    - type of content (currently 'page' or 'blogpost' supported)
+--   * $mode           - determines the mode of the editor (currently 'edit' or 'create' supported)
+
+-- Optional Parameters:
+--   * $useVersionComment     - show the version comment form
+--   * $useMinorEdit          - show the minor edit checkbox
+--   * $useContentPermissions - show the content permissions form
+--   * $useDatePicker         - show the date picker for publish date
+--   * $useLocationEditor     - show the content location form
+--   * $defaultContentTitle   - the default content title if new content doesn't have a supplied title
+--   * $postingDate            - the date to put in the date picker
+*#
+
+#set ($formName              = $parameters.formName)
+#set ($formAction            = $parameters.formAction)
+#set ($contentType           = $parameters.contentType)
+#set ($mode                  = $parameters.mode)
+#set ($useVersionComment     = $parameters.useVersionComment)
+#set ($useMinorEdit          = $parameters.useMinorEdit)
+#set ($useContentPermissions = $parameters.useContentPermissions)
+#set ($useLocationEditor     = $parameters.useLocationEditor)
+#set ($useDatePicker         = $parameters.useDatePicker)
+#set ($postingDate           = $parameters.postingDate)
+#set ($defaultContentTitle   = $parameters.defaultContentTitle)
+#set ($labelsString          = "")
+#set ($labelsString          = $parameters.labelsString)
+
+##TODO fix this - a lot of templates rely on $formname
+#set ($formname              = $formName)
+
+#putMetadata('page-id', $pageId)
+#putMetadata('form-name', $formName)
+#putMetadata('space-key', $space.key)
+#putMetadata('space-name', $space.name)
+#putMetadata('original-parent-page', $parentPageString)
+#putMetadata('parent-page-id', $!parentPage.id)
+#putMetadata('browse-page-tree-mode', $mode)
+#putMetadata('original-content-title', $title)
+
+#requireResourcesForContext("editor")
+
+#if ($mode == "edit")
+    #set($formAction = "$formAction?pageId=$pageId")
+#end
+
+<form id="$formName" name="$formName" method="post" action="$formAction" class="editor">
+    #parse ("/pages/includes/version-mismatch.vm")
+
+    #form_xsrfToken()
+
+    ## TODO - Move hidden tags out if possible.
+    #if ($mode == "create")
+    #tag ("Hidden" "name='fromPageId'" "value='$fromPageId'")
+    #tag ("Hidden" "name='spaceKey'" "value=spaceKey")
+    #tag ("Hidden" "id=createPageLabelsString" "name='labelsString'" "value='$labelsString'")
+
+    #set($titleWritten = "$textUtil.stringSet($action.title)")
+    #tag ("Hidden" "id=titleWritten" "name='titleWritten'" "value='$titleWritten'")
+
+    #set ($isLinkCreation = $linkCreation.equalsIgnoreCase( "true" ) || $linkCreation.equalsIgnoreCase( "yes" ))
+    #tag("Hidden" "name='linkCreation'" "value='$isLinkCreation'")
+    #if ($isLinkCreation)
+        #tag ("Hidden" "id=hidden-content-title" "name='title'" "value=title") ## this is required due to the disabled title field on link creation
+        #else
+        #set($titlePlaceholder = "$!defaultContentTitle")
+    #end
+#else
+    #tag ("Hidden" "id=originalVersion" "name='originalVersion'" "value=originalVersion")
+    #tag ("Hidden" "id=orginalContent" "name='originalContent'" "value=content")
+    #tag ("Hidden" "id=conflictingVersion" "name='conflictingVersion'" "value='$action.page.version'")
+#end
+
+        <div id="editor-precursor">
+            <div class="cell">
+        ## Title text field
+
+            <div id="content-title-div">
+                #bodytag ("TextField" "name='title'" "theme='aui'")
+                    #param ("id" "content-title")
+                    #param ("value" "$!generalUtil.htmlEncode($title)")
+                    #param ("cssClass" "pagetitle")
+                    #param ("disabled" "$isLinkCreation")
+                    #param ("tabindex" "1")
+                    #param ("autocomplete" "off")
+                    #param ("placeholder" "$!titlePlaceholder")
+                #end
+            </div>
+
+            <div id="editor-messages">
+                #parse ("/includes/alert-anonymous.vm")
+
+                ## Drafts and heartbeat messages
+                #parse ("/pages/includes/editpage-notifications.vm")
+
+            </div>
+            <div id="all-messages">
+                #parse ("/template/includes/actionerrors.vm")
+            </div>
+                </div>
+        </div>
+    ##End pre editor content
+
+    ## Content editor
+            #if($mode=="edit")
+        #set ($editMode = "true")
+    #end
+        #bodytag ("Component" "name='Content'" "template='editor.vm'" "theme='aui'")
+        #param ("formname" "$formName")
+        #param ("spaceKey" "$generalUtil.urlEncode($spaceKey)")
+        #param ("heartbeat" "true")
+        #param ("draftType" "$contentType")
+        #param ("contentType" "$contentType")
+        #param ("saveDrafts" "true")
+        #param ("useHints"  "true")
+        #param ("fullscreen" "true")
+        #param ("shouldResize" "false")
+        #param ("useDatePicker" $useDatePicker)
+        #param ("postingDate" $postingDate)
+        #param ("useRestrictions" $useContentPermissions)
+        #param ("useMinorEdit" $useMinorEdit)
+        #param ("useVersionComment" $useVersionComment)
+    #end
+
+        <input id="parentPageString" type="hidden" name="parentPageString" value="$generalUtil.htmlEncode($!parentPageString)">
+        <input id="hierarchy_checkbox" type="hidden" name="moveHierarchy" value="true">
+        <input id="position" type="hidden" name="position" value="">
+        <input id="targetId" type="hidden" name="targetId" value="">
+        <input id="draftId" type="hidden" name="draftId" value="$action.draftId">
+        <input id="entityId" type="hidden" name="entityId" value="$action.entityId">
+    ## initialise newSpaceKey to current space which signifies no space move
+            <input id="newSpaceKey" type="hidden" name="newSpaceKey" value="$!spaceKey">
+</form>

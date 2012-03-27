@@ -1,0 +1,86 @@
+## These macros have been 'deprecated' since the 2.9-ish redesign.
+
+#macro (permissionedLink $url $targetMode $text)
+   $deprecated.since("2.9");
+   #if ( $permissionCheckDispatcher.isPermitted($url) )
+       <a href="$req.contextPath$url"#if ($mode == $targetMode) class="current"#end>$text</a>
+   #end
+#end
+
+## SPACE NAV LINKS
+
+#macro (browsePagesLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/pages/listpages.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/pages/listpages.action?key=$helper.spaceKey" #if ($context == 'space-pages') class="current" #end>$action.getText('pages.name')</a>
+    #end
+#end
+
+#macro (browseMailLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/mail/archive/viewmailarchive.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/mail/archive/viewmailarchive.action?key=$helper.spaceKey" #if ($context == 'space-mails') class="current" #end>$action.getText('mail.name')</a>
+    #end
+#end
+
+#macro (browseNewsLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/pages/viewrecentblogposts.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/pages/viewrecentblogposts.action?key=$helper.spaceKey" #if ($context == 'space-blogposts') class="current" #end>$action.getText('news.name')</a>
+    #end
+#end
+
+#macro (browseTemplatesLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/pages/templates/listpagetemplates.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/pages/templates/listpagetemplates.action?key=$helper.spaceKey" #if ($context == 'space-templates') class="current" #end>$action.getText('templates.name')</a>
+    #end
+#end
+
+#macro (advancedLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/spaces/viewspacesummary.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/spaces/viewspacesummary.action?key=$helper.spaceKey" #if ($context == 'space-operations') class="current" #end>$action.getText('advanced.name')</a>
+    #end
+#end
+
+#macro (spaceAdminLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/spaces/spaceadmin.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/spaces/spaceadmin.action?key=$helper.spaceKey" #if ($context == 'space-administration') class="current" #end>$action.getText('space.admin')</a>
+    #end
+#end
+
+#macro (viewMailLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/spaces/viewmail.action?key=$helper.spaceKey&id=$helper.action.mail.id"))
+        <a href="$req.contextPath/spaces/viewmail.action?key=$helper.spaceKey&amp;id=$helper.action.mail.id" #if ($mode == 'view') class="current" #end>$action.getText('view.name')</a>
+    #end
+#end
+
+#macro (viewAttachmentsLink)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/spaces/listattachmentsforspace.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/spaces/listattachmentsforspace.action?key=$helper.spaceKey" #if ($context == 'space-attachments') class="current" #end>$action.getText('attachments.name')</a>
+    #end
+#end
+
+#macro (viewLabelsLink)
+    $deprecated.since("2.9");
+    #set ($spaceKey = $helper.spacekey)
+    #if (!$spaceKey && $space)
+        #set ($spaceKey = $space.key)
+    #end
+    #if ($permissionCheckDispatcher.isPermitted("/labels/listlabels-heatmap.action?key=$helper.spaceKey"))
+        <a href="$req.contextPath/labels/listlabels-heatmap.action?key=$generalUtil.urlEncode($spaceKey)" #if ($context == 'space-labels') class="current" #end>$action.getText('labels.name')</a>
+    #end
+#end
+
+# User profile link
+
+#macro (userProfileLink $username)
+    $deprecated.since("2.9");
+    #if ($permissionCheckDispatcher.isPermitted("/users/viewuserprofile.action?username=$username"))
+        <a href="$req.contextPath/display/~${generalUtil.doubleUrlEncode($username)}" #if ($mode == 'view-profile') class="current" #end>$action.getText('viewuserprofile.name')</a>
+    #end
+#end

@@ -1,0 +1,35 @@
+#*
+ * Specify a name for the button
+ * $submitButtonName
+ *#
+
+
+<table border="0" width="80%" class="grid">
+    <tr>
+        <th width="30%">&nbsp;</th>
+        <th width="70%">&nbsp;</th>
+    </tr>
+
+    #bodytag ("Radio" "label='daily.backups'" "list=backupTypes" "value=backupType" "name='backupType'" "listKey=key" "listValue=value" "theme='custom'" "template='radiolist-finaltextfield.vm'")
+        #param ("textfieldName" "specificBackupDir")
+        #param ("textfieldLabel" "$action.getText('path')")
+        #param ("textfieldSize" "60")
+    #end
+    #tag( "TextField" "label='domain.name'" "name='domainName'" "size=40" )
+    #bodytag ("Radio" "label='attachments.storage'" "list=attachmentStorageTypes" "value=attachmentStorageType" "name='attachmentStorageType'" "listKey=key" "listValue=value" "theme='custom'" "template='radiolist-finaltextfield.vm'")
+        #param ("textfieldName" "webdavServerUrl")
+        #param ("textfieldLabel" "$action.getText('webdav.server.url')")
+        #param ("textfieldSize" "40")
+        #param ("textfieldName1" "webdavUsername")
+        #param ("textfieldLabel1" "$action.getText('webdav.username')")
+        #param ("textfieldSize1" "20")
+        #param ("passwordFieldName" "webdavPassword")
+        #param ("passwordFieldLabel" "$action.getText('webdav.password')")
+        #param ("passwordFieldSize" "20")
+    #end
+    <tr>
+        <td colspan="2" align="center">
+            <input type="submit" value="$submitButtonName">
+        </td>
+    </tr>
+</table>

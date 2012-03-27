@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>$title - #siteTitle()</title>
+
+    #requireResource("confluence.web.resources:print-styles")
+
+    #standardHeader()
+    $!settingsManager.globalSettings.customHtmlSettings.beforeHeadEnd
+
+    $!sitemeshPage.getProperty("page.canonical")
+</head>
+<body id="com-atlassian-confluence" class="$!sitemeshPage.getProperty("page.bodyClass")">
+<div id="page">
+    <div id="full-height-container">
+        <div id="main">
+            <h1 id="title-heading" class="pagetitle">
+                #logoBlock($spaceKey)
+
+                <span id="title-text">
+                #if ($sitemeshPage.getProperty("page.title-text-span"))
+                    $sitemeshPage.getProperty("page.title-text-span")
+                #else
+                    #pageTitleLink()
+                #end
+                </span>
+            </h1>
+
+            $body
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

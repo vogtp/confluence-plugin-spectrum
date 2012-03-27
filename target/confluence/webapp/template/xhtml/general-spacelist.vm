@@ -1,0 +1,42 @@
+#set ($spaceList = $stack.findValue($parameters.spaces))
+#set ($showPageCount = $stack.findValue($parameters.showPageCount))
+#set ($showLastModificationDate = $stack.findValue($parameters.showLastModificationDate))
+#set ($showOperations = $stack.findValue($parameters.showOperations))
+#set ($rawTitle = $!parameters.get('mytitle'))
+#set ($addSpaceButton = $!parameters.get('addSpaceButton'))
+#if ($rawTitle)
+    #set ($labelValue = $i18n.getText($rawTitle) )
+#end
+#if (!$labelValue)
+    #set ($labelValue = $!rawTitle)
+#end
+#if ($textUtil.stringSet($labelValue))
+    <div class="tabletitle"><h2>$labelValue</h2></div>
+#end
+
+#set ($textAddPage                  = $action.getText("action.add.page"))
+#set ($textHeadingSpaceKey          = $action.getText("heading.space.key"))
+#set ($textHeadingSpaceName         = $action.getText("heading.space.name"))
+#set ($showPageCount                = $action.showPageCount)
+#set ($headingOperations            = $action.getText("heading.operations"))
+#set ($textSpaceNoMail              = $action.getText("space.no.mail"))
+#set ($textMailRecent               = $action.getText("action.mail.recent"))
+#set ($textSpaceHasNoBlogEntries    = $action.getText("space.no.blogentries"))
+#set ($textBlogsRecent              = $action.getText("action.blogs.recent"))
+#set ($textActionBrowsePages        = $action.getText("action.browse.pages"))
+#set ($textBrowseSpace              = $action.getText("browse.space"))
+#set ($textSpaceHasNoHomePage       = $action.getText("space.no.home.page"))
+#set ($textSpaceHome                = $action.getText("action.space.home"))
+#set ($textSpaceNoAddPermissions    = $action.getText("space.no.add.permission"))
+#set ($textRecentBlogs              = $action.getText("action.blogs.recent"))
+#set ($textRecentMail               = $action.getText("action.mail.recent"))
+#set ($previousLoginDate            = $action.previousLoginDate)
+#set ($spaceHasBlogPosts            = $action.spaceHasBlogPosts($space.key))
+#set ($spaceHasMail                 = $action.spaceHasMail($space.key))
+#set ($helper                       = $action)
+#set ($headingPagesCount            = $action.getText("heading.pages.count"))
+#set ($headingModDate               = $action.getText("heading.mod.date"))
+#set ($textThereAreNoSpaces             = $action.getText("there.are.no.spaces"))
+
+#parse("template/xhtml/spacelist.vm")
+

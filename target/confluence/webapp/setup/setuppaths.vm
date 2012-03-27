@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.paths")</title>
+	</head>
+
+	<body>
+		<p>$action.getText("setup.step.description")</p>
+
+		#parse ( "/template/includes/actionerrors.vm" )
+
+        <form method="POST" action="setuppaths.action">
+            #set ($submitButtonName = 'Next >>')
+            #parse ("/setup/setuppaths-include.vm")
+        </form>
+
+		#parse ( "/breadcrumbs.vm" )
+	</body>
+</html>

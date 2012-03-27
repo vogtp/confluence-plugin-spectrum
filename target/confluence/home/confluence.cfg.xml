@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<confluence-configuration>
+  <setupStep>complete</setupStep>
+  <setupType>install</setupType>
+  <buildNumber>3144</buildNumber>
+  <properties>
+    <property name="attachments.dir">${confluenceHome}/attachments</property>
+    <property name="confluence.license.hash">orPQqfalnpqQtPWODBejXrPsdOrMNlNtRNIthJeosGvkTJRmj2L007PV8CUiDkx1dQ0&gt;rA6N2K&lt;1jK7EGjeNf3R1sQ9irC</property>
+    <property name="confluence.license.message">RmPrqwhSXuVLqrxJDESisEalSombAAuNpJtPxtIlewGDgNKJSpbqhVEPiLghKQbMsDcuAdOlLvhlhEvqBITbObmEtwKuoQcdlUhfnfQmxIbnsqujRWEwMlqgSDaRXQWOvdUMbduKdBQeAnwuNimeIXMoEDOQPxbFPonKoATbIfnaTqgcGSFGMnXejDMFnXAbqqKlCCqFkCUsQdgeWMRsOSKqJWqwDlegAQmaXdcfLIMHBibFlGFUQqIkikfhDkRCQnLEbatMiUhgLMPBVoshoCFGObOgxSoNLsxWvJmknUMQOpXBBrdeOjpoMjijiCMcVQfBVvMvlLGJkNhIJwAFPJnhJjhqjmiPNCfDwmpFOeAcPpcPiTsfDakaWcUDDUWpujdRJtijpQXmicLdnJMmEhTGqrahcHDlvaVAcwAADXXcGrUQViHAjXiixMTnftTaENRshSNbcGaxmWwIjOcjoIRqVaxejfGkOeikiLcSWRUJPXhnibRuSpEtbnxkPdwqtExGkTgleWBiKFlBPOoWsDECAFuQrJTlYmGyFl8qFK42kQfFGO32I8X3LIbCIw9imE7qNVQAkXwFUlEECQ&gt;2Cq7UrZZRT7sdn&lt;NEM1UftVqTDtIUDv3X0ivAbm9RG&gt;cFN4xmr6duM4d4CX9HpiVrRo8a2en8c0Doh2QLkMl0z3I1gpdnfEtKby7p5CqP6iDgmfAcd2MxNowQDNbnOsPHftZ&lt;r6SIEdgjs&gt;wwgJl0BvZRSy&lt;8QRbgRQy&gt;FQ3snMUvI6udnVN981Jag6hdg6JI8oGiRwhbhAK9cAzepzJy5oeW&gt;DjhycFCp6tHpHMNOWoeld8Qgz9DXist4bIesmLAker&gt;V6KfE5Vnr4h9UK&lt;PEjYk8BGpTJJeNZ&lt;925qHZ5p4BE&gt;X8oDeF6XBj1&gt;G&lt;DJ&gt;hYUP4KvoN&gt;90niD2knn&lt;wJPguUw3zvVDdsO7K5R1UpCZ1kyEGdIpp23f57vtGTuPSAYzjIrgJj8NBX5yCo4pue&lt;vQ7&lt;9I3caMi4Awjxy4Nt&gt;zurC65GdLs1eKFkPh79wIblSexhKgIVz&gt;hJLX&gt;sJYj</property>
+    <property name="confluence.setup.server.id">ADT4-8JFB-O2XI-L5FP</property>
+    <property name="confluence.webapp.context.path">/confluence</property>
+    <property name="daily.backup.dir">${confluenceHome}/backups</property>
+    <property name="hibernate.c3p0.acquire_increment">1</property>
+    <property name="hibernate.c3p0.idle_test_period">100</property>
+    <property name="hibernate.c3p0.max_size">30</property>
+    <property name="hibernate.c3p0.max_statements">0</property>
+    <property name="hibernate.c3p0.min_size">0</property>
+    <property name="hibernate.c3p0.timeout">30</property>
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:/home/vogtp/confluence/workspace/confluence-plugin-spectrum/target/confluence/home/database/confluencedb</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.dialect">net.sf.hibernate.dialect.HSQLDialect</property>
+    <property name="hibernate.setup">true</property>
+    <property name="lucene.index.dir">${confluenceHome}/index</property>
+    <property name="webwork.multipart.saveDir">${confluenceHome}/temp</property>
+  </properties>
+</confluence-configuration>

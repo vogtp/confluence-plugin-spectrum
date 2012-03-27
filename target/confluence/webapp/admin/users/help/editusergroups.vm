@@ -1,0 +1,2 @@
+$action.getText('editusergroups.help.description')</br>
+<strong>$action.getText('note.word'):</strong> $action.getText('usergroup.description')

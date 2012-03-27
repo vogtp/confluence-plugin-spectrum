@@ -1,0 +1,25 @@
+{namespace Confluence.Templates.Dialog}
+
+/**
+ * A template for a dialog help link
+ * @param href key of the doc link url
+ */
+{template .helpLink}
+    {call Confluence.Templates.Dialog.customHelpLink}
+        {param href: $href/}
+        {param text}
+            {getText('help.name')}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * A template for a dialog help link with custom text
+ * @param href key of the doc link url
+ * @param text the text of the help link
+ */
+{template .customHelpLink}
+    <div class="dialog-help-link">
+        <a href="{$href}" target="_blank">{$text}</a>
+    </div>
+{/template}

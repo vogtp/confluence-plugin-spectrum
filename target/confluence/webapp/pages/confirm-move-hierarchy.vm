@@ -1,0 +1,127 @@
+<html>
+    <!-- This appears to be dead -->
+    <head>
+		<title>$action.getText("confirm.move.page.hierarchy")</title>
+
+
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("mode" "edit")
+        #decoratorParam("context" "page")
+
+        <body>
+            <style>
+                #menuList {
+                  margin: 0px;
+                  padding: 10px 0px 10px 15px;
+                }
+
+                li.menubar {
+                  background: url($staticResourceUrlPrefix/images/icons/tree_square.gif) no-repeat 0.6em 0.3em;
+                  list-style: none outside;
+                }
+
+                .menu, .submenu {
+                  display: none;
+                  margin-left: 15px;
+                  padding: 0px;
+                }
+
+                .menu li, .submenu li {
+                  background: url($staticResourceUrlPrefix/images/icons/tree_square.gif) no-repeat 0.6em 0.3em;
+                  list-style: none outside;
+                }
+
+                a.actuator {
+                  background-color: transparent;
+                  padding-left: 15px;
+                  text-decoration: none;
+                }
+
+                .menu li a, .submenu li a {
+                  background-color: transparent;
+                }
+
+                .openPageHighlight {
+                  background-color: #ffffcc;
+                  padding: 2px;
+                  border: 1px solid #ddd;
+                }
+            </style>
+            #includeJavascript('/includes/js/menuExpandable3.js')
+
+                #macro(children $parent)
+                  #if ($parent.hasChildren())
+                  <ul id="menu-${parent.id}" class="submenu">
+                  #foreach ($child in $parent.sortedChildren)
+                    <li>
+                        <a href="#" id="actuator-${child.id}" class="actuator">&nbsp;</a>#contentIcon ($child)
+                        <a href="$req.contextPath$child.urlPath">$webwork.htmlEncode($child.displayTitle)</a>
+                        #children ($child)
+                    </li>
+                  #end
+                  </ul>
+                  #end
+                #end
+
+            #macro(initializeChildren $parent)
+                initializeMenu("menu-${parent.id}", "actuator-${parent.id}");
+              #foreach ($child in $parent.sortedChildren)
+                #initializeChildren ($child)
+              #end
+            #end
+
+            <script type="text/javascript">
+            <!--
+                window.onload = function() {
+                    initializeMenu("menu-space", "actuator-space");
+                    #initializeChildren ($page)
+                    openAll();
+                }
+
+            //-->
+            </script>
+
+            #applyDecorator ("confirm")
+                #decoratorParam ("formName" "confirmmovehierarchy")
+                #decoratorParam ("formAction" "domovepage.action?pageId=$page.id")
+
+                Are you sure you want to move the following hierarchy to the space <strong>$webwork.htmlEncode($newSpace.name)</strong>?
+
+                <p>
+
+                <!-- Actual Hierarchy -->
+
+                <center>
+                <div id="mainMenu" align="left">
+                <ul id="menuList">
+                <li class="menubar">
+                    <a href="#" id="actuator-space" class="actuator">&nbsp;</a><img src="$staticResourceUrlPrefix/images/icons/contenttypes/space_16.png" align="absmiddle" height="16" width="16" border=0>
+                    <a href="$req.contextPath/display/$newSpaceKey">$webwork.htmlEncode($webwork.htmlEncode($newSpace.name))</a>
+
+                    <ul id="menu-space" class="menu">
+                        <li>
+                            <a href="#" id="actuator-${page.id}" class="actuator">&nbsp;</a>#contentIcon ($page)
+                            <a href="$req.contextPath$page.urlPath">$webwork.htmlEncode($page.displayTitle)</a>
+                            #children ($page)
+                        </li>
+                    </ul>
+                </li>
+                </ul>
+                </div>
+                </center>
+
+                <!-- Actual Hierarchy -->
+
+                <input type="hidden" name="newSpaceKey" value="$newSpaceKey">
+                <input type="hidden" name="newPageTitle" value="$newPageTitle">
+                <input type="hidden" name="moveHierarchy" value="$moveHierarchy">
+                <input type="hidden" name="updateLinks" value="$updateLinks">
+            #end
+    
+        </body>
+
+        #end
+</html>

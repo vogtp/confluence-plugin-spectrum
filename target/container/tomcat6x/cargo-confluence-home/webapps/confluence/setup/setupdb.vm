@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>$action.getActionName($action.getClass().getName())</title>
+	</head>
+
+	<body>
+		#parse ("/template/includes/actionerrors.vm" )
+        <p>$action.getText("choose.connection.description")</p>
+        <ul class="step-choice-list">
+            <li>
+                <div class="steptitle">$action.getText("database-type-standard.title")</div>
+                <div class="stepdesc">$action.getText("database-type-standard")</div>
+                <form method="POST" action="setupdb.action" id="directJDBCForm">
+                    <div class="stepfield" align="right">
+                        <input type="submit"  value="$action.getText("database-type-standard.label") >>" />
+                    </div>
+
+                    #tag( "Hidden" "name='selectedDatabaseType'" "value='database-type-standard'")
+                    #tag( "Hidden" "name='database'" "value='$database'")
+                </form>
+            </li>
+            <li>
+                <div class="steptitle">$action.getText("database-type-datasource.title")</div>
+                <div class="stepdesc">$action.getText("database-type-datasource")</div>
+                <form method="POST" action="setupdb.action" id="datasourceForm">
+                    <div class="stepfield" align="right">
+                        <input type="submit" value="$action.getText("database-type-datasource.label") >>" />
+                    </div>
+
+                    #tag( "Hidden" "name='selectedDatabaseType'" "value='database-type-datasource'")
+                    #tag( "Hidden" "name='database'" "value='$database'")
+                </form>
+                <table border="0" class="stepfield" width="100%">
+                </table>
+            </li>
+        </ul>
+	</body>
+</html>

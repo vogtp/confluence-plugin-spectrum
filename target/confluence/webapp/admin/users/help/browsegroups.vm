@@ -1,0 +1,4 @@
+<p>$action.getText('group.browser.description') </p>
+
+</br>
+#doc("help.global.groups.overview" "$action.getText('more.about.groups')")

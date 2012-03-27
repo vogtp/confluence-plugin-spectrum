@@ -1,0 +1,22 @@
+#requireResource("confluence.web.resources:ajs")
+#requireResource("confluence.web.resources:syntaxhighlighter-core")
+#requireResource("confluence.web.resources:syntaxhighlighter-css")
+
+#parse ("/template/includes/actionerrors.vm")
+#if ($actionErrors.size() == 0)
+<div>
+    <form method="POST" action="editstylesheet.action">
+        #tag ("Submit" "value='edit.name'" "theme='notable'")
+        #if(!$stringUtils.isEmpty($style))
+    <pre name="ajs-syntax-highlight" class="css">
+$style
+    </pre>
+            #else
+            <div class="centered infoMessage">$action.getText("stylesheet.not.defined")</div>
+            #end
+
+        #tag("Hidden" "name='key'")
+    </form>
+</div>
+
+#end

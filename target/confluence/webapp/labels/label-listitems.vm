@@ -1,0 +1,1 @@
+#foreach($label in $labels)<li>#parse("/labels/label.vm")</li>#end

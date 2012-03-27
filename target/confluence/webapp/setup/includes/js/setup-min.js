@@ -1,0 +1,1 @@
+AJS.$(function(a){a(document).bind("long-running-task-complete",function(){a("#wait-spinner").hide()});a(document).bind("long-running-task-failed",function(){a("#wait-spinner").hide();a("#task-elapsed-time-label").hide();a("#taskElapsedTime").hide()})});

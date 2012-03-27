@@ -1,0 +1,59 @@
+<div class="search-filters-panel">
+    <div class="search-filter-container first">
+        <label class="search-filter-heading" for="search-filter-by-space">
+        $action.getText('search.site.filters.title.where')
+        </label>
+
+        #bodytag ("Component" "id=search-filter-by-space" "theme='custom'" "name='where'" "template='space-select.vm'")
+            #param ("value" $where)
+            #param ("multiple" false)
+            #param ("tabindex" 222)
+        #end
+    </div>
+
+    <div class="search-filter-container">
+        <label class="search-filter-heading" for="search-filter-by-type">
+            $action.getText('search.site.filters.title.what')
+        </label>
+
+        #tag ("Select" "id=search-filter-by-type" "name='type'" "list=typeOptions" "listKey=key" "listValue=value" "theme='simple'" "tabindex=223")
+    </div>
+
+    <div class="search-filter-container">
+        <label class="search-filter-heading" for="search-filter-by-lastmodified">
+        $action.getText('search.site.filters.title.when')
+        </label>
+
+        #tag ("Select" "id=search-filter-by-lastmodified" "name='lastModified'" "list=dateRanges" "listKey=key" "listValue=value" "theme='simple'" "tabindex=224")
+    </div>
+
+    <div class="search-filter-container">
+        <label class="search-filter-heading" for="search-filter-by-contributor-autocomplete">
+        $action.getText('search.site.filters.title.who')
+        </label>
+        #fielderror("contributor")
+        <input id="search-filter-by-contributor-autocomplete" type="text" class="autocomplete-user" value="$!contributor"
+            tabindex="225" name="contributor" data-template="{title} ({username})" data-alignment="right"
+            data-target="#search-filter-by-contributor-hidden" data-none-message="$action.getText('usersearch.no.results')"
+            data-resize-to-input="true">
+         <div class="search-filter-comment">
+            $action.getText('search.site.filters.comment.who')
+         </div>
+
+        #tag ("Hidden" "id=search-filter-by-contributor-hidden" "name='contributorUsername'" "theme='simple'")
+    </div>
+
+    <span id="search-filter-reset-span" class="search-filter-reset"><a href="${formAction}${queryStringProperty}=$generalUtil.urlEncode($!queryString)">$action.getText('search.site.filters.reset')</a></span>
+    #tag( "Submit" "name='search-filter-button'" "value='filter.name'" "theme='notable'")
+</div>
+
+#if ($action.relatedLabels.size() > 0)
+<div class="search-filters-panel">
+	<label class="search-filter-heading" for="search-related-labels">$action.getText("search.browse.related.labels")</label>
+	<ul id="search-related-labels">
+		#foreach($label in $action.relatedLabels)
+		<li>#labelLink($label)</li>
+		#end
+	</ul>
+</div>
+#end	

@@ -1,0 +1,33 @@
+<html>
+    <head>
+		<title>$action.getText("title.orphaned.pages")</title>
+
+
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "space-operations")
+        #decoratorParam("mode"  "view-space-operations")
+
+
+        #if ($key)
+            #applyDecorator ("root")
+                #decoratorParam ("context" "spacecontentpanel")
+                #decoratorParam ("title" $action.getText("text.orphaned.pages.report"))
+                #decoratorParam ("selection" "orphan")
+                #decoratorParam ("selectedTab" "content")
+                #decoratorParam("helper" $action.helper)
+
+                #parse ("/pages/templates/common-listorphanedpages.vm")
+             #end
+
+        #else
+            #parse ("/pages/templates/common-listorphanedpages.vm")
+            #parse ("/breadcrumbs.vm")
+            #parse ("/general-operations.vm")
+        #end   
+
+    #end
+
+</html>

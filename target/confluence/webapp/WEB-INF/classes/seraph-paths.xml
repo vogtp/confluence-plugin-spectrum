@@ -1,0 +1,10 @@
+<security-paths>
+    <path name="adminJspPath">
+        <url-pattern>/admin/*.jsp</url-pattern>
+        <role-name>admin_jsp_role</role-name>
+    </path>
+    <path name="admin">
+        <url-pattern>/admin/*</url-pattern>
+        <role-name>confluenceadmin_seraph_role</role-name>
+    </path>
+</security-paths>

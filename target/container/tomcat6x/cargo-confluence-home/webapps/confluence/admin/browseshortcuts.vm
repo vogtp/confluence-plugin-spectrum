@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<title>$action.getText("title.manage.shortcuts")</title>
+        <content tag="selectedWebItem">shortcuts</content>
+	</head>
+	<body>
+	    #parse ( "/template/includes/actionerrors.vm" )
+
+        <div style="padding: 5px">
+        $action.getText("shortcut.description")<br>
+        $action.getText("shortcut.example.intro")<br>
+
+        <p>
+        <blockquote>$action.getText("shortcut.example.line1")</blockquote>
+        </p>
+
+        $action.getText("shortcut.example.line2")
+
+        <p>
+        <blockquote>$action.getText("shortcut.example.line3")</blockquote>
+        </p>
+
+        $action.getText("shortcut.example.line4")
+
+        <p>
+        <blockquote>$action.getText("shortcut.example.line5")</blockquote>
+        </p>
+
+        $action.getText("shortcut.replacement.description")<br>
+        $action.getText("shortcut.replacement.example.intro")<br>
+
+        <p>
+        <blockquote>$action.getText("shortcut.replacement.example.line1")</blockquote>
+        </p>
+
+        $action.getText("shortcut.alias.description")<br>
+        $action.getText("shortcut.alias.example.intro")<br>
+
+        <p>
+        <blockquote>$action.getText("shortcut.alias.example.line1")</blockquote>
+        </p>
+
+        </div>
+
+        <table cellpadding="0" border="0" cellspacing="5">
+            <tr>
+                <td width="30%" valign="top">
+					<table class="grid">
+						<form id="addShortcut" method="POST" action="createshortcut.action">
+						    #form_xsrfToken()
+							<th colspan="2"><strong>$action.getText("heading.create.shortcut")</strong></th>
+							#tag( "TextField" "label='shortcut.key.name'" "name='key'" )
+							#tag( "TextField" "label='shortcut.expanded.value.name'" "name='shortcutLinkConfig.expandedValue'" )
+							#tag( "TextField" "label='shortcut.default.alias.name'" "name='shortcutLinkConfig.defaultAlias'" )
+			                #tag( "Submit" "value=getText('add.name')" "align='center'" )
+						</form>
+					</table>
+				</td>
+            </tr>
+			<tr>
+				<td width="70%" valign="top">
+					<table cellspacing="0" class="grid" width="98%">
+						<tr>
+							<th width="15%">$action.getText("shortcut.key.name")</th>
+							<th width="60%">$action.getText("shortcut.expanded.value.name")</th>
+                            <th width="15%">$action.getText("shortcut.default.alias.name")</th>
+							<th width="10%">$action.getText("heading.operations")</th>
+						</tr>
+						#if( !$shortcuts || $shortcuts.size()==0 )
+							<td colspan="3">
+								$action.getText("there.are.no.shortcuts")
+							</td>
+						#else
+							#foreach( $shortcut in $shortcuts.entrySet() )
+							<tr>
+								<td valign="top">$!webwork.htmlEncode($shortcut.key)</td>
+								<td valign="top">$!webwork.htmlEncode($shortcut.value.expandedValue)</td>
+                                <td valign="top">$!webwork.htmlEncode($shortcut.value.defaultAlias)</td>
+								<td align="center" nowrap>
+		                            <a href="removeshortcut.action?key=$!generalUtil.urlEncode($shortcut.key)&#url_xsrfToken">$action.getText("remove.name")</a>
+								</td>
+							</tr>
+							#end
+						#end
+					</table>
+				</td>
+			</tr>
+		</table>
+
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

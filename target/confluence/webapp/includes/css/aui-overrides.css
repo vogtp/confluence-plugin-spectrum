@@ -1,0 +1,53 @@
+/**
+ * AUI Overrides
+ *
+ * As new versions of AUI are implemented, these styles
+ * should be reviewed and adjusted as appropriate.
+ */
+
+
+/**
+ * @aui-override The items and groups inside a toolbar should affect the height of their toolbar
+ *
+ * @date 2011-02-24
+ * @author cdarroch
+ * @package aui-3.3
+ * @since xhtml-4.0-m17
+ * @see https://studio.atlassian.com/browse/AJS-581
+ */
+.aui-toolbar .toolbar-split {
+    float: none;
+}
+
+/**
+ * @aui-override dialog-panel-body content should be positioned and scrolled relative to its parent
+ *
+ * @affected ie7 win
+ * @date 2011-03-15
+ * @author cdarroch
+ * @package aui-3.3
+ * @since xhtml-4.0-m19
+ * @see https://studio.atlassian.com/browse/AJS-591
+ */
+.aui-dialog .dialog-panel-body {
+    position: relative;
+}
+
+/**
+* @aui-override this affects the icons the page layout dropdown from the main editor menu
+*
+* @affected ff7
+* @date 2011-11-16
+* @see CONFDEV-6330 for one of the issues this addresses
+*/
+.aui-toolbar .toolbar-dropdown a:focus span.icon-check {
+    background-position: -20px top;
+    margin: 4px 0;
+    padding: 0;
+}
+.aui-toolbar .toolbar-group .toolbar-item label {
+    margin-right: 4px;
+}
+.aui-toolbar .aui-dropdown .dropdown-item .icon {
+    margin:  3px 0;
+}

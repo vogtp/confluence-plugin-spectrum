@@ -1,0 +1,6 @@
+<p>$action.getText('usermacro.description')</p>
+<p>$action.getText('usermacro.description.2')
+<br>
+<br>
+#doc("help.adding.editing.removing.user.macros" "$action.getText('more.about.user.macros')")
+</p>

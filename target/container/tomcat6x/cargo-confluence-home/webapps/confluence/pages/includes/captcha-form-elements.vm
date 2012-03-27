@@ -1,0 +1,11 @@
+<!-- captcha form elements -->
+#if($captchaManager.showCaptchaForCurrentUser())
+<div class="captcha">
+	#captchaImage()
+	<div class="captcha-response">
+		<label for="captchaResponse" class="smalltext">$i18n.getText("captcha.challenge")</label>
+		<input type="text" id="captchaResponse" name="captchaResponse" value="">
+	</div>
+    #fielderror('captcha')
+</div>
+#end

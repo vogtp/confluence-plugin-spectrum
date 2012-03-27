@@ -1,0 +1,33 @@
+#if ($actionErrors.size() == 0)
+    <form name="displaypagetemplateform">
+	#set ($labelable = $page)
+	<div>
+		<div class="smalltext">$action.getText('labels.name'):&nbsp;
+    		<span id="labelsList">
+    			#set ($labelsToDisplay = $action.pageTemplate.getLabels())
+    			#if (!$labelsToDisplay || ($labelsToDisplay.trim().length() == 0))
+		            ($action.getText('none.word'))
+		        #else
+		        	$labelsToDisplay
+    			#end
+	        </span>
+    	</div>
+	</div>
+    <div id="template-content" class="wiki-content">
+    $action.pageXHtmlContent
+    </div>
+    </form>
+
+    <script language="javascript">
+        for (var i=0; i < document.displaypagetemplateform.elements.length; i++)
+        {
+            var elementName = document.displaypagetemplateform.elements[i].name;
+            if (elementName.indexOf("variableValues") != -1)
+            {
+                document.displaypagetemplateform.elements[i].disabled = true;
+            }
+        }
+    </script>
+    <br/>
+    <br/>
+#end

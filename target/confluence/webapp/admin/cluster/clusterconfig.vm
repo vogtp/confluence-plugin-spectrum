@@ -1,0 +1,154 @@
+<html>
+	<head>
+		<title>$action.getText("cluster.configuration")</title>
+		<meta name="help-path" content="/admin/cluster/help/clusterconfig.vm"/>
+    </head>
+	<body>
+        <content tag="selectedWebItem">clusterconfig</content>
+		#parse ( "/template/includes/actionerrors.vm" )
+		<table class="admin">
+
+		<tr>
+		    <th>$action.getText("cluster.status")</th>
+		    <td #if ($action.isClusterRunning()) class="status-green"
+		        #else class="status-red" #end >
+		        $action.clusterStatus
+            </td>
+        </tr>
+
+		#if ($action.isClusterRunning())
+		<tr>
+		    <th>$action.getText("cluster.config.name.label")</th>
+		    <td>
+		        $action.clusterName
+		    </td>
+        </tr>
+		<tr>
+		    #if ($action.isClusterAddressCorrect())
+		    <th>$action.getText("cluster.multicast.listen.label")</th>
+		    <td>
+		        $action.clusterAddress
+		    </td>
+		    #else
+		    <th style="background-color: #fdd;">$action.getText("cluster.multicast.listen.label")</th>
+		    <td style="background-color: #fdd;">
+		        $action.clusterAddress<br>
+		        <img src="$staticResourceUrlPrefix/images/icons/emoticons/forbidden.png" alt="Error" style="vertical-align: middle">&nbsp;
+		        <strong>$action.getText('cluster.address.mismatch')</strong>
+		    </td>
+		    #end
+        </tr>
+		<tr>
+		    <th>$action.getText("cluster.members.label")</th>
+		    <td>
+		        $action.clusterMembers.size()
+		    </td>
+        </tr>
+		#end
+
+        <tr>
+            <th>$action.getText("cluster.permitted.member.count")</th>
+            <td>$action.permittedMemberCount
+
+            #if ($action.clusterLicenseInNonClusteredConfluence)
+                <div class="errorBox">$action.getText("license.cluster.not.supported")</div>
+            #end
+            </td>
+        </tr>
+		</table>
+
+        #set ($clusterableInterfaces = $action.clusterableInterfaces)
+
+		#if (!$action.isClusterRunning() && $action.permittedMemberCount > 0 && !$action.clusterLicenseInNonClusteredConfluence)
+		<p>
+		#if ($clusterableInterfaces.size() > 1)
+		$action.getText("cluster.not.started.can.start.multiple.interfaces")
+		#else
+		$action.getText("cluster.not.started.can.start")
+		#end
+		</p>
+
+        #if ($clusterableInterfaces.size() == 1)
+
+        #applyDecorator("warning")
+            $action.getText("cluster.only.one.network.interface.warning")
+        #end
+
+        #end
+
+		<form name="startcluster" action="startcluster.action">
+
+		<table class="admin">
+
+		#if ($clusterableInterfaces.size() > 1)
+		<tr>
+		    <th>$action.getText("interface.name")</th>
+		    <td>
+		         <select id="selNetworkInterface" name="networkInterface">
+
+                #foreach ($iface in $clusterableInterfaces)
+                    #set ($address = $iface.inetAddresses.nextElement())
+                    <option value="$iface.name">$iface.name [$address.hostAddress]</option>
+                #end
+
+                </select>
+		    </td>
+		</tr>
+		#end
+		<tr>
+            <th>$action.getText("cluster.config.name.label")</th>
+            <td><input type="text" name="clusterName"></td>
+		</tr>
+		<tr>
+		    <td colspan="2" class="controls">
+		        #tag( "Submit" "id=start" "name='start'" "value='cluster.start.label'" "theme='notable'" )
+		    </td>
+        </tr>
+        </table>
+		</form>
+		#end
+
+        #set ($thisNodeId = $action.getThisNodeId())
+
+        #if ($action.isClusterRunning())
+        <h4>$action.getText("cluster.active.nodes")</h4>
+
+            #set ($nodeInfo = $action.detailedNodeInfo)
+            #foreach ($node in $nodeInfo.keySet())
+            <table width="100%" class="admin">
+                <tr>
+                    <th>$action.getText('cluster.node.id.label')</th>
+                    <td>$node.id #if ($thisNodeId == $node.id) $action.getText('cluster.current.node.label') #end</td>
+                </tr>
+                <tr>
+                    <th>$action.getText('cluster.coherence.listen.label')</th>
+                    <td>$node.address.hostAddress:$node.port</td>
+                </tr>
+                <tr>
+                    <th>$action.getText('system.uptime')</th>
+                    <td>$nodeInfo.get($node).getBuildStats().get('upTime')</td>
+                </tr>
+                <tr>
+                    <th>$action.getText('jvm.version')</th>
+                    <td>$nodeInfo.get($node).getProps().get('javaVersion')</td>
+                </tr>
+                <tr>
+                    <th>$action.getText('operating.system')</th>
+                    <td>$nodeInfo.get($node).getProps().get('operatingSystem')</td>
+                </tr>
+                <tr>
+                    <th style="vertical-align: middle">$action.getText('memory.graph.heap')</th>
+                    <td>
+                        #bodytag( "Component" "theme='custom'" "template='memoryusagebar.vm'")
+                            #param ("used" $nodeInfo.get($node).getJVMstats().get('usedMemoryInMegabytes'))
+                            #param ("total" $nodeInfo.get($node).getJVMstats().get('totalMemoryInMegabytes'))
+                        #end
+                    </td>
+                </tr>
+            </table>
+            #end
+        #end
+
+        #parse("/breadcrumbs.vm")
+	</body>
+</html>

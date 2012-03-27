@@ -1,0 +1,28 @@
+* html #content-hover-shadow .tl {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/lt.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .tr {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/rt.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .br {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/rb.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .bl {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/lb.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .b {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/b.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .l {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/l.png', sizingMethod='scale');
+}
+* html #content-hover-shadow .r {
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../images/shadow-light/r.png', sizingMethod='scale');
+}

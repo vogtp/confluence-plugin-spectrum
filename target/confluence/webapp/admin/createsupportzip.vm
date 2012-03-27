@@ -1,0 +1,50 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.admin.actions.CreateSupportZipAction" *#
+<html>
+	<head>
+		<title>$action.getText("create.support.zip.title")</title>
+        #requireResource("confluence.web.resources:aui-forms")
+    </head>
+	<body>
+        <content tag="selectedWebItem">supportutility</content>
+		#parse ( "/template/includes/actionerrors.vm" )
+                #form_xsrfToken()
+                <div class="steptitle">$action.getText("create.support.zip.subtitle")</div>
+                <div class="smalltext">$action.getText("create.support.zip.description.1")</div>
+                <div class="smalltext">$action.getText("create.support.zip.description.2")</div>
+                <div class="smalltext">$action.getText("create.support.zip.description.3")</div>
+                <div class="smalltext">$action.getText("create.support.zip.description.4")</div>
+                #if ($action.isThreadDumpEnabled())
+                    <div class="smalltext">$action.getText("create.support.zip.description.5")</div>
+                #else
+                    <div class="smalltext">$action.getText("create.support.zip.description.5.1")</div>
+                #end
+                <div class="smalltext">$action.getText("create.support.zip.description.6")</div>
+                
+                <br/>
+
+                #applyDecorator("form-aui")
+                    #decoratorParam("formName" "createsupportzip")
+                    #decoratorParam("submitAction"  "$req.contextPath/admin/docreatesupportzip.action")
+                    #decoratorParam("editMode" "$editMode")
+
+                        <h2>$action.getText("create.support.zip.title")</h2>
+        
+                        #parse("/admin/includes/support-zip-fields.vm")
+
+                        #bodytag( "Submit" "theme='aui'" )
+                            #param ("submitValue", "$i18n.getText('create.name')")
+                        #end
+                #end
+        
+                <br/>
+                <div class="steptitle">$action.getText("raise.support.request.title")</div>
+                <div class="smalltext">$action.getText("create.support.zip.support.request.notes")</div>
+
+                <br/>    
+                <div class="steptitle">$action.getText("create.support.zip.environment.field")</div>
+				    #parse ( "/admin/systeminfo.vm" )
+                <div>
+                
+		#parse("/breadcrumbs.vm")
+	</body>
+</html>

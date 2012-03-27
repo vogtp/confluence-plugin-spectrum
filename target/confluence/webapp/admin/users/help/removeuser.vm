@@ -1,0 +1,2 @@
+$action.getText('remove.user.page.description')
+<p>$action.getText('remove.user.mustnt.have.authored.content')

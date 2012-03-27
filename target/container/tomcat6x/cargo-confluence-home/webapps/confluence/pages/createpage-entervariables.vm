@@ -1,0 +1,50 @@
+<html>
+    <head>
+        #requireResource("confluence.web.resources:template-variables")
+        <title>Add Page - Template Variables</title>
+	</head>
+
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("context" "space-pages")
+        #decoratorParam("mode" "create-page")
+
+        <div class="padded">
+
+		<div class="steptitle" style="margin-top: 10px">$action.getText('pagevariables.step2')</div>
+
+		<p>
+		$action.getText('text.pagevariables.step2.instructions')
+		</p>
+
+            <form name="filltemplateform" method="POST" action="doenterpagevariables.action">
+                #tag ("Hidden" "name='templateId'" "value='$pageTemplate.id'")
+                #tag ("Hidden" "name='linkCreation'" "value='$linkCreation'")
+                #tag ("Hidden" "name='title'" "value=title")
+                #tag ("Hidden" "name='parentPageId'" "value=parentPageId")
+                #tag ("Hidden" "name='fromPageId'" "value=fromPageId")
+                #tag ("Hidden" "name='spaceKey'" "value=spaceKey")
+
+                <center><div class="smallfont" style="border: 1px dashed #666666; margin: 10px; padding: 10px; text-align: left">
+                    <div class="wiki-content">
+                    $action.renderedTemplateContent
+                    </div>
+                </div></center>
+
+                <p>
+                <input type="button" value="&lt;&lt; Back" onclick="javascript:history.go(-1)">
+                #tag( "Submit" "name='confirm'" "id='confirm'" "value='insert.variables'" "theme='notable'" )
+            </form>
+
+		#parse ( "/pages/page-breadcrumbs.vm" )
+
+		</div>
+
+    #end
+	</body>
+</html>
+
+

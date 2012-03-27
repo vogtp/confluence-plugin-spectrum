@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>$action.actionName</title>
+	</head>
+	<body>
+        #parse('/template/includes/actionerrors.vm')
+        #parse('/template/includes/actionmessages.vm')
+        <form name="migrate-external-memberships" action="do-migrate-external-memberships.action" method="post" class="aui">
+            <p>$i18n.getText('migrate.external.memberships.description', [$req.contextPath])</p>
+            #form_xsrfToken()
+            <input type="hidden" name="synchronous" value="false" />
+            <input class="button" type="submit" name="migrate" value="$i18n.getText('migrate.name')">
+        </form>
+    </body>
+#parse('/breadcrumbs.vm')
+</html>

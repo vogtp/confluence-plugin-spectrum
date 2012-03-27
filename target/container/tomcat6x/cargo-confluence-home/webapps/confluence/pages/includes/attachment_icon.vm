@@ -1,0 +1,52 @@
+#* @vtlvariable name="fileName" type="java.lang.String" *#
+
+## It is preferable to use i18n for localisation instead of action (e.g. to work correctly in notifications).
+## However there are too many usages of this include to test then all thoroughly hence this 'decision' here
+#if (!$i18n)
+    #set($i18n = $action)
+#end
+    
+
+## Required if the attachment is a search result.
+#if ($attachment.fileName)
+    #set($fileName = $attachment.fileName)
+#else
+    #set($fileName = $attachment.displayTitle)
+#end
+
+#if ($fileName.endsWith('.pdf') || $attachment.contentType.equals('application/pdf'))<span class="icon icon-file-pdf" title="$i18n.getText("pdf.file")">$i18n.getText("pdf.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('image/gif') || $fileName.endsWith('.gif'))<span class="icon icon-file-image" title="$i18n.getText("gif.file")">$i18n.getText("gif.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('image/jpeg') || $fileName.endsWith('.jpeg'))<span class="icon icon-file-image" title="$i18n.getText("jpeg.file")">$i18n.getText("jpeg.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('image/jpeg') || $fileName.endsWith('.jpg'))<span class="icon icon-file-image" title="$i18n.getText("jpeg.file")">$i18n.getText("jpeg.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('image/png') || $fileName.endsWith('.png'))<span class="icon icon-file-image" title="$i18n.getText("png.file")">$i18n.getText("png.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('text/xml') || $fileName.endsWith('.xml'))<span class="icon icon-file-xml" title="$i18n.getText("xml.file")">$i18n.getText("xml.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('text/html') || $fileName.endsWith('.html'))<span class="icon icon-file-html" title="$i18n.getText("html.file")">$i18n.getText("html.file")</span>#*
+*##elseif ($fileName.endsWith('.java') || $fileName.endsWith('.jar'))<span class="icon icon-file-java" title="$i18n.getText("java.file")">$i18n.getText("java.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('text/plain'))<span class="icon icon-file-text" title="$i18n.getText("text.file")">$i18n.getText("text.file")</span>#*
+*##elseif ($attachment.contentType.startsWith('application') && $attachment.contentType.indexOf('zip') != -1)<span class="icon icon-file-zip" title="$i18n.getText("zip.file")">$i18n.getText("zip.file")</span>#*
+*##elseif ($fileName.endsWith('.xlt'))<span class="icon icon-file-excel97-template" title="$i18n.getText("excel97.template.file")">$i18n.getText("excel97.template.file")</span>#*
+*##elseif ($fileName.endsWith('.pot'))<span class="icon icon-file-powerpoint97-template" title="$i18n.getText("powerpoint97.template.file")">$i18n.getText("powerpoint97.template.file")</span>#*
+*##elseif ($fileName.endsWith('.dot'))<span class="icon icon-file-word97-template" title="$i18n.getText("word97.template.file")">$i18n.getText("word97.template.file")</span>#*
+*##elseif ($fileName.endsWith('.xls') || $attachment.contentType.startsWith('application/vnd.ms-excel'))<span class="icon icon-file-excel97" title="$i18n.getText("excel97.file")">$i18n.getText("excel97.file")</span>#*
+*##elseif ($fileName.endsWith('.ppt') || $attachment.contentType.startsWith('application/vnd.ms-powerpoint'))<span class="icon icon-file-powerpoint97" title="$i18n.getText("powerpoint97.file")">$i18n.getText("powerpoint97.file")</span>#*
+*##elseif ($fileName.endsWith('.doc') || $attachment.contentType.startsWith('application/msword'))<span class="icon icon-file-word97" title="$i18n.getText("word97.file")">$i18n.getText("word97.file")</span>#*
+*##elseif ($fileName.endsWith('.xlsm'))<span class="icon icon-file-excel-macro" title="$i18n.getText("excel.macro.file")">$i18n.getText("excel.macro.file")</span>#*
+*##elseif ($fileName.endsWith('.xlsx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))<span class="icon icon-file-excel" title="$i18n.getText("excel.file")">$i18n.getText("excel.file")</span>#*
+*##elseif ($fileName.endsWith('.xlst') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.spreadsheetml.template'))<span class="icon icon-file-excel-template" title="$i18n.getText("excel.template.file")">$i18n.getText("excel.template.file")</span>#*
+*##elseif ($fileName.endsWith('.pptm'))<span class="icon icon-file-powerpoint-macro" title="$i18n.getText("powerpoint.macro.file")">$i18n.getText("powerpoint.macro.file")</span>#*
+*##elseif ($fileName.endsWith('.pptx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.presentationml.presentation'))<span class="icon icon-file-powerpoint" title="$i18n.getText("powerpoint.file")">$i18n.getText("powerpoint.file")</span>#*
+*##elseif ($fileName.endsWith('.ppsx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.presentationml.slideshow'))<span class="icon icon-file-powerpoint-slideshow" title="$i18n.getText("powerpoint.slideshow.file")">$i18n.getText("powerpoint.slideshow.file")</span>#*
+*##elseif ($fileName.endsWith('.potx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.presentationml.template'))<span class="icon icon-file-powerpoint-template" title="$i18n.getText("powerpoint.template.file")">$i18n.getText("powerpoint.template.file")</span>#*
+*##elseif ($fileName.endsWith('.docx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.wordprocessingml.document'))<span class="icon icon-file-word" title="$i18n.getText("word.file")">$i18n.getText("word.file")</span>#*
+*##elseif ($fileName.endsWith('.dotx') || $attachment.contentType.startsWith('application/vnd.openxmlformats-officedocument.wordprocessingml.template'))<span class="icon icon-file-word-template" title="$i18n.getText("word.template.file")">$i18n.getText("word.template.file")</span>#*
+*##elseif ($fileName.endsWith('.swf') || $attachment.contentType.startsWith('application/x-shockwave-flash'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.mov') || $attachment.contentType.startsWith('video/quicktime'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.wma') || $attachment.contentType.startsWith('audio/x-ms-wma'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.wmv') || $attachment.contentType.startsWith('audio/x-ms-wmv'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.mpeg') || $attachment.contentType.startsWith('video/mpeg'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.mpg') || $attachment.contentType.startsWith('video/mpeg'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.ram') || $attachment.contentType.startsWith('audio/x-pn-realaudio'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.rm') || $attachment.contentType.startsWith('application/vnd.rn-realmedia'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.mp3') || $attachment.contentType.startsWith('audio/mpeg'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##elseif ($fileName.endsWith('.avi') || $attachment.contentType.startsWith('video/x-msvideo'))<span class="icon icon-file-multimedia" title="$i18n.getText("multimedia.file")">$i18n.getText("multimedia.file")</span>#*
+*##else<span class="icon icon-file-unknown" title="$i18n.getText("unknown.file")">$i18n.getText("unknown.file")</span>#end

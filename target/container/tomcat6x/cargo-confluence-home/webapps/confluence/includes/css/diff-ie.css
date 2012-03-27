@@ -1,0 +1,13 @@
+.diff-menu .page-navigation {
+    *display: inline; /* just IE7 */
+    zoom: 1;
+}
+
+.page-navigation .page-version {
+    *display: inline; /* just IE7 */
+    zoom: 1;
+}
+
+.diff-navigation {
+    height: 0; /* just IE7 */
+}

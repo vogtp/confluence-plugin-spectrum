@@ -1,0 +1,41 @@
+## View and Edit template for EditorSettingsAction
+##   Expects action properties:
+##      autocompleteDisabled
+##      shortcutsEnabled
+##      linksEnabled
+##      imagesEnabled
+##      usersEnabled
+<html>
+	<head>
+		<title>$generalUtil.htmlEncode($pageTitle)</title>
+		#requireResource("confluence.web.resources:aui-forms")
+    </head>
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  "settings")
+        #decoratorParam("helper" $action.helper)
+        #decoratorParam("infopanel-width" "200px")
+
+        <body>
+            #applyDecorator("form-aui")
+                #decoratorParam("formName" "editeditorsettingsform")
+                #decoratorParam("submitAction"  "doeditmyeditorsettings.action")
+                #decoratorParam("editAction" "editmyeditorsettings.action")
+                #decoratorParam("editMode" "$editMode")
+                #form_xsrfToken()
+
+                <h2>$action.getText("title.edit.editor.preferences")</h2>
+                <fieldset>
+                    #bodytag( "Component" "label='user.editor.preferences.autocomplete.disable'" "name='autocompleteDisabled'" "value=$autocompleteDisabled" "theme='aui'" "template='onofflist.vm'")
+                        #param ("description" "$action.getText('user.editor.preferences.autocomplete.disable.desc')")
+                    #end
+                    #bodytag( "Component" "label='user.editor.preferences.autoformat.disable'" "name='autoformatDisabled'" "value=$autoformatDisabled" "theme='aui'" "template='onofflist.vm'")
+                        #param ("description" "$action.getText('user.editor.preferences.autoformat.disable.desc')")
+                    #end
+                    #tag( "Submit" "theme='aui'" )
+                </fieldset>
+            #end
+        </body>
+    #end
+</html>

@@ -1,0 +1,98 @@
+#requireResource("confluence.web.resources:user-macro-admin")
+<html>
+	<head>
+		<title>$i18n.getText("title.user.macros.$mode")</title>
+		<meta name="help-path" content="/admin/macros/help/usermacro-form.vm"/>
+        <content tag="selectedWebItem">usermacros</content>
+	</head>
+	<body>
+    #requireResource("confluence.web.resources:aui-forms")
+    #requireResource("confluence.web.resources:user-macro-admin")
+
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    <form id="user-macro-form" method="POST" class="aui" name="${mode}usermacro" action="${mode}usermacro.action">
+        #form_xsrfToken()
+        #if ($mode == "update")
+            #tag( "Hidden" "name='originalName'" "value=originalName" )
+        #end
+        #bodytag( "TextField" "label='user.macro.name'" "name='userMacro.name'"
+                    "value=userMacro.name" "size=10" "theme='aui'")
+            #param("description" "$i18n.getText('user.macro.name.desc')")
+            #param("required" "$i18n.getText('required.field')")
+        #end
+
+        <h3>$i18n.getText("sub.title.user.macro.browser.information")</h3>
+        #bodytag( "Radio" "name='showInMacroBrowser'" "value=showInMacroBrowser"
+                    "list={'true', 'false'}" "theme='aui'" "template='i18n-convention-radiolist.vm'")
+            #param("i18nPrefix" "user.macro.visible")
+        #end
+        #bodytag( "TextField" "label='user.macro.title'" "name='userMacro.title'"
+                    "value=userMacro.title" "size=10" "theme='aui'")
+            #param ("maxlength" "64")
+            #param("required" "$i18n.getText('required.field')")
+        #end
+        #tag( "Textarea" "label='user.macro.description'" "name='userMacro.description'"
+                "value=userMacro.description" "rows=3" "cols=80" "theme='aui'")
+        #bodytag( "Select" "label='user.macro.categories'" "name='userMacro.categories'"
+                    "value=userMacro.categories" "list=categories" "listKey=key"
+                    "listValue=value" "theme='aui'")
+            #param("multiple" "true")
+            #param("size" "5")
+        #end
+        #bodytag( "TextField" "label='user.macro.iconLocation'" "name='userMacro.iconLocation'"
+                    "value=userMacro.iconLocation" "size=10" "theme='aui'")
+            #param("description" "$i18n.getText('user.macro.iconLocation.desc')")
+        #end
+        #tag( "TextField" "label='user.macro.documentationUrl'" "name='userMacro.documentationUrl'"
+                "value=userMacro.documentationUrl" "size=10" "theme='aui'")
+
+        <h3>$i18n.getText("sub.title.user.macro.input")</h3>
+        #bodytag( "Radio" "name='userMacro.bodyType'" "value=userMacro.bodyType"
+                    "list=bodyTypes" "theme='aui'" "template='i18n-convention-radiolist.vm'")
+            #param("i18nPrefix" "user.macro.body.type")
+        #end
+        #if ($action.getOutputTypes().size() > 0)
+            #tag( "Select" "id=user-macro-output-type" "label='user.macro.output.type'" "name='userMacro.outputType'" "value=userMacro.outputType" "list=outputTypes" "listKey=key" "listValue=value" "theme='aui'")
+        #end
+        <div id="wiki-template-deprecated-warning" class="errorBox" style="display:none;">
+            <p>$action.getText("user.macro.output.type.wiki.warning")</p>
+            <p>$action.getText("user.macro.output.type.wiki.advice")</p>
+        </div>
+
+        ## Pre-populate the macro template field with an example when adding a new user macro
+        #if ($mode == "add" && $actionErrors.size() == 0 && $fieldErrors.size() == 0)
+            #set ($templateHtml =
+                '## Macro title: My Macro' + "\n" +
+                '## Macro has a body: Y or N' + "\n" +
+                '## Body processing: Selected body processing option' + "\n" +
+                '## Output: Selected output option' + "\n" + '##' + "\n" +
+                '## Developed by: My Name' + "\n" +
+                '## Date created: dd/mm/yyyy' + "\n" +
+                '## Installed by: My Name' + "\n\n" +
+                '## This is an example macro' + "\n" +
+                '## @param Name:title=Name|type=string|required=true|desc=Your name' + "\n" +
+                '## @param Colour:title=Favourite Colour|type=enum|enumValues=red,green,blue|default=red|desc=Choose your favourite colour' + "\n\n" +
+                'Hello, <font color="$paramColour">$paramName</font>!')
+            #bodytag( "Textarea" "label='user.macro.template'" "name='userMacro.template'" "rows=20" "cols=80" "theme='aui'" "value='$templateHtml'")
+                #param("description" $i18n.getText('user.macro.template.desc', [$docBean.getLink('help.user.macro.templates')]))
+                #param("required" "$i18n.getText('required.field')")
+            #end
+        #else
+            #bodytag( "Textarea" "label='user.macro.template'" "name='userMacro.template'" "rows=20" "cols=80" "theme='aui'")
+                #param("description" $i18n.getText('user.macro.template.desc', [$docBean.getLink('help.user.macro.templates')]))
+                #param("required" "$i18n.getText('required.field')")
+            #end
+        #end
+
+        #set ($submitText = $i18n.getText("${mode}.name"))
+        #bodytag( "Submit" "theme='aui'" )
+            #param ("editMode" "true")
+            #param ("submitValue" "$submitText")
+            #param ("cancelValue" "$i18n.getText('cancel.name')")
+        #end
+    </form>
+
+    #parse("/breadcrumbs.vm")
+	</body>
+</html>

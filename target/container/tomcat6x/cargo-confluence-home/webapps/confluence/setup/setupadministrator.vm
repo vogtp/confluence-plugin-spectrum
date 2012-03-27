@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.administrator")</title>
+	</head>
+	<body>
+	    <div class="steptitle" style="width:90%">
+		<div class="stepdesc">$action.getText("setupadmin.step.description")</div>
+        <div class="steptitle">
+            <ul class="step-choice-list">
+                <li>
+                    <div class="steptitle">$action.getText("admin.configure.title")</div>
+                    <form name="setupadministratorform" method="POST" action="setupadministrator.action">
+                        <table border="0" width="100%" class="stepfield setup-admin">
+                            #bodytag( "TextField" "label='username.name'" "name='username'" "size='30'")
+                                #param ("labelwidth" "150")
+                            #end
+                            #tag( "Password" "label='password.name'" "name='password'"  "size='30'")
+                            #tag( "Password" "label='confirm.name'" "name='confirm'" "size='30'")
+                            #tag( "TextField" "label='admin.fullname.name'" "name='fullname'" "size='30'")
+                            #tag( "TextField" "label='email.name'" "name='email'" "size='30'")
+                            #tag( "Submit" "value=getText('next.name')" "align='center'" )
+                        </table>
+                    </form>
+                </li>
+            </ul>
+	    #parse ( "/template/includes/actionerrors.vm" )
+        </div>
+	</body>
+</html>

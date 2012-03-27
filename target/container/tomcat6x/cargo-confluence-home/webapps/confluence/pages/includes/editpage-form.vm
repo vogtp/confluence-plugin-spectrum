@@ -1,0 +1,14 @@
+#if ($contentType == "page")
+    #set ($useContentPermissions = $action.hasSetPagePermissionsPermission())
+    #set ($useLocationEditor = true)
+#end
+
+#bodytag ("Component" "template='content-editor.vm'" "theme='custom'")
+    #param ("formName" "editpageform")
+    #param ("formAction" "doedit${contentType}.action")
+    #param ("contentType" $contentType)
+    #param ("useMinorEdit" "true")
+    #param ("mode" "edit")
+    #param ("useVersionComment" "true")
+    #param ("useContentPermissions" $useContentPermissions)
+#end

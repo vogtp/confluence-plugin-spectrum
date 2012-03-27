@@ -1,0 +1,11 @@
+<p>$action.getText('themes.description')</p>
+<p>$action.getText('themes.description.text.1')</p>
+<p>$action.getText('themes.description.text.2')</p>
+<p>$action.getText('space.admins.can.select.different.theme')</p>
+
+#doc("help.themes.overview" "$action.getText('more.about.themes')")
+
+<h3 id="helpheading" class="helpheading-spacing">$action.getText('get.more.themes')</h3>
+<p>$action.getText('download.more.themes', ["https://plugins.atlassian.com/search/category/78", "$req.contextPath/administrators.action"])</p>
+
+    

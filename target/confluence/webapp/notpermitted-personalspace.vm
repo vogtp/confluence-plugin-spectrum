@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>$action.getText("title.not.permitted")</title>
+</head>
+<body>
+    #parse ( "/breadcrumbs.vm" )
+
+    <div class='PageContent'>
+        $action.getText("not.permitted.space", [$webwork.htmlEncode($space.name)])<br>
+        #if ($username)
+            <p>
+                $action.getText("user.not.granted.permissions", [$username])<br>
+            </p>
+        #end
+        <p style="margin-top:30px;">
+            <img src="$staticResourceUrlPrefix/images/icons/people_directory_32.gif" align='absmiddle' height="32" width="32"> <strong><a href="$req.contextPath/peopledirectory.action"> $action.getText("people.directory.title")</a></strong><span class="smalltext"> - $action.getText("people.directory.description")</span><br>
+        </p>
+    </div>
+
+</body>
+</html>

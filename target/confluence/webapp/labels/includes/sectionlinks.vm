@@ -1,0 +1,11 @@
+<div class="operation-links">
+	$action.getText("view.name"):
+	#foreach ($item in $webInterfaceManager.getDisplayableItems($location, $action.webInterfaceContext))
+		#if ($velocityCount != 1) &middot; #end
+		#if ($mode == $item.key)
+			<span style="padding: 5px; background-color:f0f0f0;"><strong>$item.label.getDisplayableLabel($req, $action.webInterfaceContext)</strong></span>
+		#else
+			<a href="$item.link.getDisplayableUrl($req, $action.webInterfaceContext)">$item.label.getDisplayableLabel($req, $action.webInterfaceContext)</a>
+		#end
+	#end
+</div>

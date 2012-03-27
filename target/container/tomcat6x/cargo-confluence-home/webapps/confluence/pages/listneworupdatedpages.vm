@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>$action.getText("title.new.or.updated.pages.since.last.login")</title>
+</head>
+<body>
+	#parse ( "/template/includes/actionerrors.vm" )
+
+	#if ($actionErrors.size() == 0)
+        #set ($title = $action.getText("new-or-updated-pages-since-last-login"))
+        #bodytag ("Component" "template='general-pagelist.vm'")
+            #param ("mytitle" "$title")
+            #param ("pages" "pagesCreatedOrUpdatedSinceLastLogin")
+        #end
+
+        #parse ("/breadcrumbs.vm")
+
+	#end
+
+</body>
+</html>

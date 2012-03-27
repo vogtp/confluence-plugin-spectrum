@@ -1,0 +1,11 @@
+#if($actionErrors && $actionErrors.size() > 0)
+<div class="aui-message error">
+    <span class="svg-icon error size-18"></span>
+    <strong>$action.getText("errors.occurred")</strong>
+    <ul>
+        #foreach($errorHtml in $actionErrors)
+            <li>$errorHtml</li>
+        #end
+    </ul>
+</div>
+#end

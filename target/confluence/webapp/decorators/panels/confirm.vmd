@@ -1,0 +1,10 @@
+<center>
+<div align="center" class="greyboxfilled" style="width: 60%; padding: 10px">
+    <form name="$params.get('formName')" action="$params.get('formAction')" method="post">
+    #form_xsrfToken()
+        <p>$body</p>
+    #tag ("Submit" "id=confirm" "name='confirm'" "value='ok'" "theme='notable'" )
+    #tag ("Submit" "id=cancel" "name='cancel'" "value='cancel.name'" "theme='notable'" )
+    </form>
+</div>
+</center>

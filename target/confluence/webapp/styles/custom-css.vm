@@ -1,0 +1,11 @@
+#disableAntiXss()
+#if ($stringUtils.isNotEmpty($style))
+
+/* Custom styles for Confluence (included for all themes by default) */
+
+$action.style
+
+/* End custom styles for Confluence */
+
+#end
+

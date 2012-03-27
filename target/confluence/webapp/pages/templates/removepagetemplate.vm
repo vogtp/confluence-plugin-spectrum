@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>$action.getText("title.remove.page.template")</title>
+
+
+        #if (!$textUtil.stringSet($key))
+            <content tag="no-page-header">true</content>
+            <meta name="decorator" content="admin"/>
+        #end
+    </head>
+
+
+    #if ($textUtil.stringSet($key))
+
+        #applyDecorator("root")
+            #decoratorParam("helper" $action.helper)
+            #decoratorParam("context" "space-templates")
+            #decoratorParam("mode" "view-templates")
+
+            <body>
+                <p>
+                #parse ("/pages/templates/common-removepagetemplate.vm")
+            </body>
+
+        #end
+    #else
+        <body>
+            #parse ( "/template/includes/actionerrors.vm" )
+
+            #parse ("/pages/templates/common-removepagetemplate.vm")
+
+            #parse ( "/breadcrumbs.vm" )
+        </body>
+    #end
+
+</html>

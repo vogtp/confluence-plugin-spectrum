@@ -1,0 +1,227 @@
+#requireResource("confluence.web.resources:ajs")
+#requireResource("confluence.web.resources:animation")
+#set ($useWatch = $remoteUser && !$action.userWatchingPage && !$action.userWatchingSpace)
+#set ($commentTextareaTabIndex = 200)
+
+#if ($page.type == "blogpost")
+<div class="hidden parameters">
+    ## TODO - replace this below with something like comment-page-title, hard to refactor :(( Is it even used? Selenium test check?
+    ## Used by macrobrowser smart fields to set the page param for comments.
+    <input type="hidden" id="pageTitle" value="/$page.datePath/$page.title">
+</div>
+#end
+
+#macro (displayCommentActions $commentId $commentActionSection $webInterfaceContext)
+  #set ($items=$webInterfaceManager.getDisplayableItems("system.comment.action/$commentActionSection", $webInterfaceContext))
+  #if ($items)
+    <ul class="comment-actions-$commentActionSection">
+        #foreach ($item in $items)
+            ## provide first class name for IE6 cause first-child selector doesn't work
+            #if ($velocityCount==1) #set ($className="first") #else #set ($className="") #end
+            #if ($item.styleClass) #set($className = "$className $item.styleClass") #end
+            <li class="$className">
+            <a #if ($item.tooltip)title="$item.tooltip.getDisplayableLabel($req, $webInterfaceContext)"#end href="$item.link.getDisplayableUrl($req, $webInterfaceContext)"
+               #if ($item.link.id) id="${item.link.id}-$commentId" #end
+               ><span>$item.label.getDisplayableLabel($req, $webInterfaceContext)</span></a></li>
+        #end
+    </ul>
+  #end
+#end
+
+#macro (displayCommentForm $formname $actionParams $pageId $rte)
+
+    <p class="comment-user-logo">
+        #logoBlock("~$remoteUser.name")
+    </p>
+
+    <div class="comment-header">
+        <h4 class="author">$action.getText("comment.author.byline", ["#usernameLink($remoteUser.name)"])</h4>
+    </div>
+
+    <div class="comment-body">
+        #parse ("/includes/alert-anonymous.vm")
+
+        <form name="$formname" method="post" action="$req.contextPath/pages/doaddcomment.action?${actionParams}">
+            #form_xsrfToken()
+            #if ($rte)
+                #putMetadata('show-comments', true)
+                #requireResourcesForContext("editor")
+                #requireResourcesForContext("comment-editor")
+                #bodytag ("Component" "name='Content'" "theme='aui'" "template='editor.vm'")
+                    #param ("formname" $formname)
+                    #param ("spaceKey" "$generalUtil.urlEncode($spaceKey)")
+                    #param ("tabindex" $commentTextareaTabIndex)
+                    #param ("heartbeat" "true")
+                    #param ("contentId" "$pageId")
+                    #param ("contentType" "comment")
+                    #param ("minEditorHeight" "250")
+                    #param ("useWatch" $useWatch)
+                    #param ("saveDrafts" "false")
+                    #param ("shouldResize" "true")
+                #end
+            #else
+                <div id="comments-text-editor">
+                    <span class="comment-actions">
+                        <ul>
+                            <li>
+                            <a href="$req.contextPath$generalUtil.customGetPageUrl($page)showComments=true&amp;showCommentArea=true#addcomment" id="add-comment-rte" accesskey="$action.getTextStrict("add.comment.accesskey")" class="toolbar-trigger">$action.getText('comment.load.rte')</a>
+                            </li>
+                        </ul>
+                    </span>
+                    <textarea name="textContent" placeholder="$action.getText('comment.add.placeholder')"></textarea>
+                    <div class="text-editor-chrome aui-toolbar">
+                        <ul class="toolbar-group">
+                            <li class="toolbar-item">
+                                <button class="toolbar-trigger" id="text-comment-save" name="confirm" value="$action.getText('save.name')" type="submit">$action.getText('save.name')</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            #end
+        </form>
+    </div>
+#end
+
+#macro (commentThread $comment)
+    #set ($page = $comment.owner)
+    <li id="comment-thread-$comment.id" class="comment-thread">
+        #if ($action.editComment && $action.comment && $action.comment.id == $comment.id && $permissionHelper.canEdit($remoteUser, $comment ))
+            #putMetadata('show-comments', true)
+            #requireResourcesForContext("editor")
+            #requireResourcesForContext("comment-editor")
+            <div class="comment edit" id="comment-$comment.id">
+                <p class="comment-user-logo">
+                    #logoBlock("~$comment.creatorName")
+                </p>
+                <p class="date" title="$dateFormatter.formatDateTime($comment.lastModificationDate)">
+                    $action.formatFriendlyDate($comment.lastModificationDate)
+                </p>
+                <div class="comment-header">
+                    <h4 class="author">$action.getText("comment.author.byline", ["#usernameLink($comment.creatorName)"])</h4>
+                </div>
+
+                <div class="comment-body">
+                    <form name="editcommentform" method="post" action="$req.contextPath/pages/doeditcomment.action?pageId=$page.id&amp;commentId=$comment.id">
+                        #form_xsrfToken()
+                        #bodytag ("Component" "name='Content'" "theme='aui'" "template='editor.vm'")
+                            #param ("formname" "editcommentform")
+                            #param ("spaceKey" "$generalUtil.urlEncode($spaceKey)")
+                            #param ("tabindex" $commentTextareaTabIndex)
+                            #param ("heartbeat" "true")
+                            #param ("wysiwygContent" "$action.getCommentAsXHtmlForWysiwyg()")
+                            #param ("contentId" "$comment.id")
+                            #param ("contentType" "comment")
+                            #param ("minEditorHeight" "250")
+							#param ("useWatch" $useWatch)
+							#param ("saveDrafts" "false")
+							#param ("shouldResize" "true")
+                        #end
+                    </form>
+            </div>
+
+        #else
+            #if ($comment.id == $focusedCommentId)
+                #putMetadata('show-comments', true)
+            #end
+            <div class="comment #if ($comment.id == $focusedCommentId) focused #end " id="comment-$comment.id">
+                <p class="comment-user-logo">
+                    #logoBlock("~$comment.creatorName")
+                </p>
+                <p class="date" title="$dateFormatter.formatDateTime($comment.lastModificationDate)">
+                    $action.formatFriendlyDate($comment.lastModificationDate)
+                </p>
+                <div class="comment-header">
+                    <h4 class="author">$action.getText("comment.author.byline", ["#usernameLink ($comment.creatorName)"])</h4>
+                </div>
+                <div class="comment-body">
+                    <div class="comment-content wiki-content">
+                        $action.getXHtmlComments().get($comment)
+                    </div>
+                    <div class="comment-actions">
+                        #set ($webInterfaceContext = $action.getWebInterfaceContext($comment))
+                        #displayCommentActions($comment.id "secondary" $webInterfaceContext)
+                        #displayCommentActions($comment.id "primary" $webInterfaceContext)
+                    </div>
+                </div>
+            </div>
+
+            #trackbackRdf ($trackbackUtils.getContentIdentifier($comment) $page.title $trackbackUtils.getPingUrl($comment))
+
+            #if ( $action.threadComments && $action.replyToComment == $comment.id && $permissionHelper.canComment($action.remoteUser, $comment.owner) && $action.isPrintableVersion()==false )
+                <ol class="comment-threads">
+                    <li class="comment-thread">
+                        <div class="comment reply">
+                            #displayCommentForm("threadedcommentform", "pageId=${page.id}&parentId=${comment.id}", ${page.id}, true)
+                        </div>
+                    </li>
+                </ol>
+            #end
+        #end
+
+        #if ($threadComments)
+            #if ($comment.children.size() > 0)
+                <ol class="comment-threads">
+                #foreach ($childComment in $comment.children)
+                    #commentThread($childComment)
+                #end
+                </ol>
+            #end
+        #end
+    </li>
+#end
+
+#* make sure you pass in an AbstractPage as a decorator parameter when you call this inline decorator *#
+#set ($page = $params.get("page"))
+
+<div id="comments-section" class="pageSection group">
+    #* If we are showing the "add comment" area, or there are existing comments, show the "Comments" and hide link. *#
+    #if (($action.showCommentArea || $page.comments.size() > 0) && !$action.isPrintableVersion())
+        <div class="section-header #if (!$action.commentsShowing) collapsed #end">
+            <h2 id="comments-section-title" class="section-title">
+                <a href="#" class="comments-show-hide #if($action.commentsShowing)comments-showing#end" name="comments">
+                    #if ($page.comments.size() == 1)
+                        $action.getText("comment.singular")
+                    #else
+                        $action.getText("comment.plural", [$page.comments.size()])
+                    #end
+                </a>
+            </h2>
+            <a title="$i18n.getText('comments.show.hide')" href="#" 
+               class="comments-show-hide icon #if($action.commentsShowing)comments-showing icon-section-opened#else icon-section-closed#end">
+                $i18n.getText("comments.show.hide")
+            </a>
+        </div>
+    #end
+
+    #* Show expanded comments. If there are none, then show nothing at all (no heading, zilch!) *#
+    #if ($page.comments.size() > 0)
+        #if ($threadComments)
+            #set ($topLevelComments = $page.topLevelComments)
+        #else
+            #set ($topLevelComments = $page.comments)
+        #end
+        <ol class="comment-threads top-level #if (!$action.commentsShowing) hidden #end" id="page-comments">
+        #foreach ($comment in $topLevelComments)
+            #commentThread($comment)
+        #end
+        </ol>
+    #end
+
+    #if (!$action.isPrintableVersion() && $permissionHelper.canComment($remoteUser, $page))
+        #if ($action.showCommentArea)
+            <div id="addcomment" class="comment add">
+            #displayCommentForm("inlinecommentform", "pageId=${page.id}", ${page.id}, true)
+            </div>
+        #elseif($darkFeatures.isFeatureEnabled('text.comment.editor'))
+            <div id="addcomment" class="comment add comment-text">
+            #displayCommentForm("textcommentform", "pageId=${page.id}", ${page.id}, false)
+            </div>
+        #else
+            <div id="comments-actions" class="aui-toolbar noprint">
+                <p class="toolbar-group">
+                    <span class="toolbar-item"><a href="$req.contextPath$generalUtil.customGetPageUrl($page)showComments=true&amp;showCommentArea=true#addcomment" id="add-comment-rte" accesskey="$action.getTextStrict("add.comment.accesskey")" class="toolbar-trigger">$action.getText('action.add.comment')</a></span>
+                </p>
+            </div>
+        #end
+    #end
+</div>

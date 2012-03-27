@@ -1,0 +1,40 @@
+## required
+
+#set ($onPopupSubmit = $parameters.onPopupSubmit)
+#set ($url = "$generalUtil.appendAmpsandOrQuestionMark($parameters.url)onPopupSubmit=$onPopupSubmit")
+
+## optional
+
+#set ($windowName = $parameters.windowName)
+#set ($windowProperties = $parameters.windowProperties)
+#set ($imgSrc = $parameters.imgSrc)
+#set ($imgTitle = $parameters.imgTitle)
+#set ($linkId = $parameters.linkId)
+
+#if ($parameters.linkText)
+    #set ($linkText = $i18n.getText($parameters.linkText))
+    #if (!$linkText)
+        #set ($linkText = $parameters.linkText)
+    #end
+#end
+
+#if (!$windowName)
+    #set ($windowName = "Popup")
+#end
+
+#if (!$windowProperties)
+    #set ($windowProperties = "status=yes,resizable=yes,top=100,left=200,width=580,height=550,scrollbars=yes") ## not sure if these are sensible defaults?
+#end
+
+#if (!$linkId)
+    #set ($linkId = 'popup-link')
+#end
+
+#if ($imgSrc)
+<a href="#" id='${linkId}-image' onClick="var picker = window.open('$url', '$windowName', '$windowProperties'); picker.focus(); return false;"><img src="$imgSrc" height=16 width=16 border=0 align="absmiddle" #if ($imgTitle) title="$imgTitle" #end/></a>
+#end
+#if ($linkText)
+<a href="#" id='${linkId}-text' onClick="var picker = window.open('$url', '$windowName', '$windowProperties'); picker.focus(); return false;">$linkText</a>
+#end
+
+

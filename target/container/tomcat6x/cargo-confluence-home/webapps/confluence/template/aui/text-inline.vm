@@ -1,0 +1,11 @@
+#set( $labelValue = $stack.findValue("getText('$parameters.label')") )
+#if( !$labelValue )
+    #set( $labelValue = $parameters.label )
+#end
+
+#if (!$parameters.id)
+    #set( $parameters.id = $parameters.name)
+#end
+
+#parse("/template/aui/text-include.vm")
+

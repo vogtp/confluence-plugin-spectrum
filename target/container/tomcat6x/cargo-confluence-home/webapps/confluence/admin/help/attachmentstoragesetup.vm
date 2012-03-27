@@ -1,0 +1,25 @@
+$action.getText('webdav.page.description')
+
+<p>
+    <strong>$action.getText("webdav.page.filesystem.name"):</strong>
+    <br />
+    $action.getText('webdav.page.filesystem.note')
+</p>
+
+<p>
+    <strong>$action.getText("webdav.page.database.name"):</strong>
+    <br />
+    $action.getText('webdav.page.database.note')
+</p>
+
+<p>
+    <strong>$action.getText("webdav.page.webdav.name"):</strong>
+    <br />
+    $action.getText('webdav.page.webdav.note')
+</p>
+
+<p>
+    <strong>$action.getText('webdav.page.migration.note'):</strong>
+    <br />
+    $action.getText('webdav.page.migration.description')
+</p>

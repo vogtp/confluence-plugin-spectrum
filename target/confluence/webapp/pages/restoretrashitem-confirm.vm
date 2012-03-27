@@ -1,0 +1,29 @@
+<html>
+    <head>
+        #set ($contentType = $type)
+        <title>$action.getActionName($action.getClass().getName())</title>
+    </head>
+
+    <body>
+
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    #applyDecorator ("root")
+        #decoratorParam ("context" "spaceadminpanel")
+        #decoratorParam ("selection" "trash")
+        #decoratorParam ("title" $action.getActionName($action.getClass().getName()))
+        #decoratorParam ("selectedTab" "admin")
+
+        #parse ( "/template/includes/actionerrors.vm" )
+
+        #applyDecorator ("confirm")
+            #decoratorParam ("formAction" "dorestoretrashitem.action")
+            $action.getText("restore.confirm", [$contentType, $spaceContentEntityObject.getTitle()])
+            <input type="hidden" name="key" value="$generalUtil.urlEncode($key)">
+            <input type="hidden" name="contentId" value="$contentId">
+        #end
+    #end
+
+    #parse ( "/breadcrumbs.vm" )
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<title>$action.getText("admin.viewmailservers")</title>
+		<meta name="help-path" content="/admin/help/viewmailservers.vm"/>
+        <content tag="selectedWebItem">mailservers</content>
+	</head>
+
+	<body>
+		#parse ( "/template/includes/actionerrors.vm" )
+            <p>
+            <table class="grid" width="100%">
+                <tr><th>
+                    <p align="left">
+                        $action.getText("smtp.title")
+                    </p>
+                </th></tr>
+                <tr><td>
+                        $action.getText("smtp.desc")
+                </td></tr>
+            </table>
+            #if ($action.smtpMailServers.size() > 0)
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="90%"><tr><td>
+                <table id="mailservers" class="grid" width="99%" border="0">
+                    <tr>
+                        <th>
+                            <strong>$action.getText("column.name")</strong>
+                        </th>
+                        <th class="colHeaderLink">
+                            <strong>$action.getText("column.prefix")</strong>
+                        </th>
+                        <th class="colHeaderLink">
+                            <strong>$action.getText("column.from")</strong>
+                        </th>
+                        <th class="colHeaderLink">
+                            <strong>$action.getText("column.from.name")</strong>
+                        </th>
+                        <th class="colHeaderLink">
+                            <strong>$action.getText("column.operations")</strong>
+                        </th>
+                    </tr>
+                    #foreach ($server in $action.smtpMailServers)
+                        <tr>
+                            <td>
+                                <strong>$server.name</strong>
+                                #if ($server.isSessionServer())
+                                    ($server.jndiLocation)
+                                #else
+                                    ($server.hostname:$server.smtpPort)
+                                #end
+                            </td>
+                            <td align="center">
+                                $!server.prefix
+                            </td>
+                            <td align="center">
+                                $!server.defaultFrom
+                            </td>
+                            <td align="center">
+                                $!server.fromName
+                            </td>
+                            <td class="colHeaderLink" nowrap width="1%">
+                                <a href="editsmtpmailserver.action?id=$server.id">$action.getText("operations.edit")</a> &middot;
+                                <a href="removesmtpmailserver.action?id=$server.id&#url_xsrfToken()" onClick="javascript:if (confirm('$action.getText("remove.mailserver.confirm")')) return true; else return false;">$action.getText("operations.del")</a> &middot;
+                                <a href="sendtestemail.action?id=$server.id&#url_xsrfToken()">$action.getText("operations.sendtestemail")</a>
+                            </td>
+                        </tr>
+                    #end
+                </table>
+            </td></tr></table>
+            #end
+            <div align="center"><a href="createsmtpmailserver.action">$action.getText("operations.addnewserver")</a></div>
+        #set ($viewingservers = true)
+	</body>
+</html>

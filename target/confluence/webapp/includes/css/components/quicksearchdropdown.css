@@ -1,0 +1,86 @@
+a.search-for span {
+    background-image: url(../../../images/icons/classic/16/70.png);
+}
+
+.aui-dropdown a.message span {
+    background-image: url(../../../images/icons/classic/16/2.png);
+    background-repeat: no-repeat;
+}
+
+#header .quick-nav-drop-down {
+    top: 2.22em; /* 2em/.9 */
+    right: 10px;
+    z-index: 15;
+}
+#header .quick-nav-drop-down li a {
+    color: #000;
+}
+#header .quick-nav-drop-down li.active a {
+    color: #fff;
+}
+
+#main .quick-search {
+    position: relative;
+}
+
+#main .quick-search-query {
+    margin: 0;
+    padding: 0;
+}
+
+#main #sidebar .quick-search {
+    text-align: right;
+}
+#main #sidebar .quick-search-query {
+    width: 20em;
+}
+#main #sidebar .quick-nav-drop-down {
+    right: 0;
+    top: 1.75em;
+    text-align: left;
+}
+
+.quick-nav-drop-down li,
+.quick-nav-drop-down li span {
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.quick-nav-drop-down li span em {
+    font-style: normal;
+    line-height: 26px;
+}
+
+.quick-nav-drop-down .aui-dropdown li.with-space-name {
+    height: auto;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#header .quick-nav-drop-down .aui-dropdown li a span {
+    padding-left: 30px;
+}
+
+#header .quick-nav-drop-down .aui-dropdown li a.space-name {
+    height: 13px;
+    line-height: 13px;
+    font-size: 11px;
+    padding-left: 30px;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#header .quick-nav-drop-down .aui-dropdown li.active a.space-name {
+    color: #FFF;
+}
+
+.quick-nav-drop-down li.with-space-name, .quick-nav-drop-down li.with-space-name span {
+    height: 18px;
+    line-height: 18px;
+}
+
+.quick-nav-drop-down li.with-space-name span em {
+    line-height: 20px;
+}

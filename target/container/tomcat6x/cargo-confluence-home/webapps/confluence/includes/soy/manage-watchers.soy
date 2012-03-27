@@ -1,0 +1,68 @@
+{namespace Confluence.Templates.ManageWatchers}
+
+/**
+ * The manage watchers dialog content.
+
+ * @param pageId the id of the page we are managing watchers for
+ * @param xsrfToken a token that will get submitted with the add watcher form
+ */
+{template .dialogContent}
+
+<div class="dialog-content">
+    <div class="column page-watchers">
+        <h3>{getText('manage.watchers.page.watchers.title')}</h3>
+        <p class="description">{getText('manage.watchers.page.watchers.description')}</p>
+        <form action="{contextPath()}/json/addwatch.action" method="POST">
+            <input type="hidden" name="atl_token" value="{$xsrfToken}">
+            <input type="hidden" name="pageId" value="{$pageId}"/>
+            <input type="hidden" id="add-watcher-username" name="username" value=""/>
+            <label for="add-watcher-user">{getText('manage.watchers.user.search.label')}</label>
+            <input id="add-watcher-user" name="userFullName" type="search" class="autocomplete-user"
+               value="" placeholder="{getText('manage.watchers.user.search.placeholder')}" autocomplete="off"
+               data-max="10" data-target="#add-watcher-username" data-dropdown-target="#add-watcher-dropdown"
+               data-template="{literal}{title}{/literal}" data-none-message="{getText('manage.watchers.user.search.no.results')}">
+            <input id="add-watcher-submit" type="submit" name="add" value="{getText('manage.watchers.add.watcher.label')}">
+            <div id="add-watcher-dropdown" class="aui-dd-parent autocomplete"></div>
+            <div class="status hidden"></div>
+        </form>
+        <ul class="user-list">
+            <li class="loading">{getText('manage.watchers.loading')|noAutoescape}</li>
+            <li class="no-users hidden">{getText('manage.watchers.no.page.watchers')}</li>
+        </ul>
+    </div>
+    <div class="column space-watchers">
+        <h3>{getText('manage.watchers.space.watchers.title')}</h3>
+        <p class="description">{getText('manage.watchers.space.watchers.description')}</p>
+        <ul class="user-list">
+            <li class="loading">{getText('manage.watchers.loading')|noAutoescape}</li>
+            <li class="no-users hidden">{getText('manage.watchers.no.space.watchers')}</li>
+        </ul>
+    </div>
+</div>
+{/template}
+
+/**
+ * A template for user list items
+
+ * @param username username of the user
+ * @param fullName full name of the user
+ * @param url url for the user link (personal profile page)
+ * @param iconUrl url for the user icon (profile pic)
+ */
+{template .userItem}
+    <li class="watch-user">
+        <img class="profile-picture confluence-userlink" src="{$iconUrl}" data-username="{$username}">
+        <a class="confluence-userlink" href="{$url}" data-username="{$username}">{$fullName} <span class="username">({$username})</span></a>
+        <span class="remove-watch" title="{getText('manage.watchers.remove.watcher.label')}"
+            data-username="{$username}">{getText('manage.watchers.remove.watcher.label')}</span>
+    </li>
+{/template}
+
+/**
+ * A template for a dialog help link
+ */
+{template .helpLink}
+    {call Confluence.Templates.Dialog.helpLink}
+        {param href: docLink('help.manage.watchers') /}
+    {/call}
+{/template}

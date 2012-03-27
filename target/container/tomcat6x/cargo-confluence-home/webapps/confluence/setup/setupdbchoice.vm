@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.dbchoose")</title>
+    </head>
+	<body>
+        <script language="javascript">
+        function showHideMembers()
+        {
+            var e = document.getElementById('clusterMembers');
+            if (e)
+            {
+                if (e.style.display == 'none')
+                {
+                    e.style.display = "block";
+                }
+                else
+                {
+                    e.style.display = "none";
+                }
+            }
+        }
+        </script>
+        <p>$action.getText("setup.step.description.dbchoice")</p>
+
+        #parse ( "/template/includes/actionerrors.vm" )
+        #if ($action.isLicenceClustered())
+            <div class="steptitle">$action.getText('clustered.database')</div>
+            #if ($action.isClusterDetected())
+                <form method="POST" name="clusteredform" action="setupdbchoice.action">
+                    #tag( "Hidden" "name='dbChoice'" "value='clustered:current'")
+                    <div class="stepdesc">
+                        #if ($action.isSharedConfigPublished())
+                            #if ($action.isSharedConfigUsingEmbedded())
+                                $action.getText("clustered.using.embedded.description")
+                            #else
+                                $action.getText("clustered.description")
+                            #end
+                        #else
+                            $action.getText("clustered.no.config.description")
+                        #end
+                        #set( $clusterInfo = $action.clusterInformation )
+                        <br/>$action.getText("cluster.description.prefix") $clusterInfo.description
+                        (<a href="#" onClick="showHideMembers()">$clusterInfo.memberCount $action.getText("cluster.members")</a>).
+                        <ul id="clusterMembers" style="display:none">
+                            #foreach ($m in $clusterInfo.members)
+                                <li>$m</li>
+                            #end
+                        </ul>
+                    </div>
+                #if ($action.isSharedConfigPublished() && !$action.isSharedConfigUsingEmbedded())
+                    <div class="stepfield" align="right">
+                        <input type="submit" name="clustered" value="$action.getText("clustered.submit") >>"/>
+                    </div>
+                #end
+                </form>
+            #end
+
+            <form method="POST" name="nameclusterform" action="setupdbchoice.action">
+                #tag( "Hidden" "name='dbChoice'" "value='clustered:named'")
+                <div class="stepdesc">$action.getText('clustered.join.existing.by.name')</div>
+                <div class="stepfield" align="right">
+                    <input type="text" name="clusterName" value=""/>
+                    <input type="submit" name="clustered" value="$action.getText('clustered.submit') &gt;&gt;"/>
+                </div>
+            </form>
+        #end
+        #if ($action.isThisNodeClustered())
+            <div class="stepdesc">$action.getText("clustered.so.no.embedded.description")</div>
+        #else
+            <form method="POST" action="setupembeddeddb-default.action">
+                #tag( "Hidden" "name='dbChoice'" "value='embedded'")
+                <div class="steptitle">$action.getText('embedded.database')</div>
+                <div class="stepdesc">$action.getText("embedded.description")</div>
+                <div class="stepdesc warningPanel">$action.getText("embedded.warning")</div>
+                <div class="stepfield" align="right">
+                    <input type="submit" name="embedded" value="$action.getText("embedded.submit") >>"/>
+                </div>
+            </form>
+        #end
+
+        <form method="POST" name="standardform" action="setupdbchoice.action">
+            <div class="steptitle">$action.getText('external.database')</div>
+            <div class="stepdesc">$action.getText("external.description")</div>
+            <div class="stepfield" align="right">
+                #tag("Select" "label='db.choice.choose'" "name='dbChoiceSelect'" "value=dbchoice" "list=databases" "listKey=key" "listValue=value" "theme='simple'")
+                <input type="submit" name="standard" value="$action.getText("external.submit") >>"/>
+            </div>
+        </form>
+    </body>
+</html>

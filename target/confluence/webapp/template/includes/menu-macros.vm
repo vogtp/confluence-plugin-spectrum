@@ -1,0 +1,158 @@
+#* @vtlvariable name="webMenu" type="com.atlassian.confluence.web.WebMenu" *#
+#* @vtlvariable name="section" type="com.atlassian.confluence.web.WebMenuSection" *#
+## This macro file is a temporary holder for all the 'new' menu macros.
+
+#macro (menuMacros_renderBrowseMenu)
+    <content tag="browse-menu">
+        #menuMacros_renderMenu("browse-menu-link", $action.getText("system.space.menu"), "browse", ["system.space", "system.browse"])
+    </content>
+#end
+
+#macro (menuMacros_renderGlobalBrowseMenu)
+    #menuMacros_renderMenu("browse-menu-link", $action.getText("system.space.menu"), "browse", ["system.browse"])
+#end
+
+#macro (menuMacros_renderUserMenu)
+    #if ($bootstrap.isSetupComplete())
+        #if ($user)
+            #if ($user.fullName)
+                #set ($menuName = $user.fullName)
+            #else
+                #set ($menuName = $user.name)
+            #end
+            #menuMacros_renderMenu("user-menu-link", $generalUtil.htmlEncode($menuName), "user", "system.user")
+        #else
+             #foreach ($item in $action.webInterfaceManager.getDisplayableItems("system.user/anonymous", $action.webInterfaceContext))
+                <li class="ajs-menu-item normal">#renderItemLink($item false)</li>
+            #end
+        #end
+    #end
+#end
+
+#macro (menuMacros_renderAddMenu)
+    #menuMacros_renderMenu("add-menu-link", $action.getText("system.content.add.menu"), "add", "system.content.add")
+#end
+
+#macro (menuMacros_renderActionMenu)
+    #menuMacros_renderMenu("action-menu-link", $action.getText("system.content.action.menu"), "action", "system.content.action")
+#end
+
+#* Renders button(s) based on the provided section key. e.g. page view and edit buttons.
+   Optionally, the $mode variable can be set to an item key for a class of 'current' to be applied
+   to the button.
+
+   Method Parameters:
+   * buttonSectionKey - determines the web items to display as buttons
+*#
+#macro (menuMacros_renderButton $buttonSectionKey)
+    #foreach ($item in $webInterfaceManager.getDisplayableItems($buttonSectionKey, $action.webInterfaceContext))
+        #set ($current = false)
+        #if ($mode == $item.key)
+            #set ($current = true)
+        #end
+        <li class="ajs-button normal">#renderItemLink($item $current)</li>
+    #end
+#end
+
+
+#* Renders a drop down menu e.g. content add, action menus.
+
+   Method Parameters:
+   * menuId        - the id of the menu
+   * menuTitle     - the menu title, which is displayed as the drop down menu link text
+   * menuClass     - the class of the menu drop down link
+   * webSectionKeys - determines the web items to display in the menu
+*#
+#macro(menuMacros_renderMenu $menuId $menuTitle $menuClass $webSectionKeys)
+    #set($webMenu = $webMenuManager.getMenu($menuId, $webSectionKeys, $action.webInterfaceContext))
+
+    ## don't display the menu if there are no menu sections
+    #if(!$webMenu.isEmpty())
+    <li class="normal ajs-menu-item">
+        <a id="$webMenu.id" class="$!menuClass trigger ajs-menu-title" href="#"><span><span>$!menuTitle</span></span></a> ## two spans necessary for IE7 backgrounds
+        <div class="assistive ajs-drop-down">
+            #foreach ($section in $webMenu.sections)
+            <ul #if($section.id) id="$section.id"#end
+                #if($section.className) class="$section.className"#end>
+                #foreach ($item in $section.items)
+                    #renderItem($item)
+                #end
+            </ul>
+            #end
+        </div>
+    </li>
+    #end
+#end
+
+#macro (menuMacros_renderLeftNavMenu $menuId $webSectionKey $selection $collapsible)
+    #if ($collapsible)
+        #requireResource("confluence.web.resources:left-nav-panel-resources")
+    #end
+
+    <ul id="$menuId" class="navmenu #if ($collapsible == "true")collapsible-menu#end">
+    $generalUtil.profilePush($webSectionKey)
+
+    #foreach ($section in $webInterfaceManager.getDisplayableSections($webSectionKey, $action.webInterfaceContext))
+    #set ($sectionKey = "$webSectionKey/$section.key")
+    #set ($displayableItems = $webInterfaceManager.getDisplayableItems($sectionKey, $action.webInterfaceContext))
+
+    #if (!$displayableItems.isEmpty())        
+    <li id="section-$section.key" class="menu-section">
+        <div id="section-menuheading-$section.key" class="menuheading">$section.label.getDisplayableLabel($req, $action.webInterfaceContext)</div>
+        <ul id="section-list-$section.key" class="menu-section-list">
+            #foreach ($item in $displayableItems)
+            #set ($itemRenderedUrl = $item.link.getDisplayableUrl($req, $action.webInterfaceContext))
+            #set ($itemLabel = $item.label.getDisplayableLabel($req, $action.webInterfaceContext))
+            <li #if($item.key == $selection) class="active"#end>
+                <a #if ($item.link.id) id="$item.link.id"#end href="$itemRenderedUrl" title="$itemLabel">
+                    #if ($item.icon)
+                        #set ($icon = $item.icon)
+                        <img src="$icon.url.getDisplayableUrl($req, $action.webInterfaceContext)" height="$icon.height" width="$icon.width" border="0" align="absmiddle" title="$itemLabel">
+                    #end
+                    $itemLabel
+                </a>
+            </li>
+            #end
+        </ul>
+    </li>
+    #end
+    #end
+    $generalUtil.profilePop($webSectionKey)
+</ul>
+#end
+
+#macro (renderItem $item $webInterfaceContext)
+    #set ($isCurrent = ($context == $item.key))
+    <li>#renderItemLink($item $isCurrent $webInterfaceContext)</li>
+#end
+
+#macro (renderItemLink $item $isCurrent $webInterfaceContext)
+
+    #if (!$webInterfaceContext)
+        #set ($webInterfaceContext = $action.webInterfaceContext)
+    #end
+
+    #set ($itemRenderedUrl = $item.link.getDisplayableUrl($req, $webInterfaceContext))
+    #if ($itemRenderedUrl == "")
+        #set ($itemRenderedUrl = "#")
+    #end
+    #set ($itemLabel = $item.label.getDisplayableLabel($req, $webInterfaceContext))
+    #set ($itemTooltip = $generalUtil.htmlEncode($item.tooltip.getDisplayableLabel($req, $webInterfaceContext)))
+    #set ($itemClass = '')
+    #set ($itemClass = $item.styleClass)
+
+    #if ($isCurrent)
+        #addClassName($itemClass "current")
+    #end
+
+    <a #if ($item.link.id) id="$item.link.id"#end href="$itemRenderedUrl" #if ($itemClass) class="$itemClass"#end #if ($item.link.hasAccessKey()) accessKey="$item.link.getAccessKey($helper)"#end #if ($itemTooltip) title="$itemTooltip"#end>
+        #if ($item.icon)
+            #set ($icon = $item.icon)
+            <span>
+                <img alt="$itemLabel" src="$icon.url.getDisplayableUrl($req, $webInterfaceContext)" height="$icon.height" width="$icon.width" title="$itemLabel">
+                $itemLabel
+            </span></a>## span for IE
+        #else
+           <span>$itemLabel</span></a>## span for IE
+        #end
+#end

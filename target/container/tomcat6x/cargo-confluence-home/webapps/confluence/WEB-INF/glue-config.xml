@@ -1,0 +1,424 @@
+<?xml version='1.0'?>
+
+<!--
+  Welcome to the Glue configuration file.
+
+  A copy of this file is located in glue.jar with the name "glue-default-config.xml".
+  If Glue runs a web application and no "glue-config.xml" is found in the application's
+  class path or WEB-INF directory, the file "glue-default-config.xml" is used instead.
+-->
+<config>
+    <product>
+        <name>Glue</name>
+        <version>
+            <major>5</major>
+            <minor>0</minor>
+            <patch>0</patch>
+        </version>
+    </product>
+
+    <logging>
+        <logger>
+            <name>default</name>
+            <constructor>
+                <class>electric.util.log.WriterLogger</class>
+                <args>
+                    <logDateTime>false</logDateTime>
+                    <logDateTimeFormat>MM:dd:yy HH:mm:ss</logDateTimeFormat>
+                    <logThreadName>false</logThreadName>
+                    <logToFile>false</logToFile>
+                    <fileName>log/default.log</fileName>
+                    <append>true</append>
+                </args>
+            </constructor>
+
+            <!--list of logging channels-->
+            <log enabled="yes">STARTUP</log>
+            <log enabled="yes">ERROR</log>
+            <log enabled="yes">COMMENT</log>
+            <log enabled="yes">WARNING</log>
+            <log enabled="yes">SCHEMA</log>
+            <log enabled="yes">SECURITY</log>
+            <log enabled="no">SECURITY_DETAIL</log>
+            <log enabled="no">SECURITY_DEBUG</log>
+            <log enabled="no">CONSOLE_DEBUG</log>
+            <log enabled="no">DEPLOYMENT</log>
+            <log enabled="no">CLASSLOADER</log>
+            <log enabled="no">COMMAND</log>
+            <log enabled="no">EXCEPTION</log>
+            <log enabled="no">HTTP</log>
+            <log enabled="no">JMS</log>
+            <log enabled="no">MAPPING</log>
+            <log enabled="no">SERVLET</log>
+            <log enabled="no">SOAP</log>
+            <log enabled="no">SOURCE</log>
+            <log enabled="no">RESOURCES</log>
+        </logger>
+    </logging>
+
+    <instrumentation>
+        <!--gather statistics for individual services?-->
+        <instrumentServices>yes</instrumentServices>
+
+        <!--gather statistics for individual http calls?-->
+        <instrumentHttp>yes</instrumentHttp>
+    </instrumentation>
+
+    <hotDeployment>
+        <!--enable hot deployment?-->
+        <enabled>yes</enabled>
+
+        <!--milliseconds between checks for resource changes-->
+        <syncCycle>5000</syncCycle>
+    </hotDeployment>
+
+    <!--maximum number of threads in shared thread pool-->
+    <threadPoolSize>50</threadPoolSize>
+
+    <sockets>
+        <!--max socket connections kept alive in server-side socket pool-->
+        <maxInboundKeepAlive>50</maxInboundKeepAlive>
+
+        <!--max socket connections kept alive in client-side socket pool-->
+        <maxOutboundKeepAlive>30</maxOutboundKeepAlive>
+
+        <!--keep alive connections by default?-->
+        <keepAlive>yes</keepAlive>
+
+        <!--timeout in milliseconds for a client reading a response, 0 => infinite-->
+        <clientReadTimeout>0</clientReadTimeout>
+
+        <!--timeout in milliseconds for a server reading a request, 0 => infinite-->
+        <serverReadTimeout>15000</serverReadTimeout>
+
+        <!--buffer size in bytes for socket streams-->
+        <bufferSize>8192</bufferSize>
+
+        <!--max queue length for incoming connection requests-->
+        <backlog>200</backlog>
+    </sockets>
+
+    <!--list of socket factories-->
+    <socketFactories>
+        <factory>electric.net.socket.tcp.TCPSocketFactory</factory>
+        <factory>electric.net.socket.ssl.SSLSocketFactory</factory>
+    </socketFactories>
+
+    <!--list of servlet message factories-->
+    <messageFactories>
+        <factory>electric.webserver.messages.tcp.TCPMessageFactory</factory>
+        <factory>electric.webserver.messages.ssl.SSLMessageFactory</factory>
+    </messageFactories>
+
+    <http>
+        <!--buffer size in bytes for streaming http responses-->
+        <responseBufferSize>2048</responseBufferSize>
+
+        <!--buffer size in bytes for copying files from docbase to http response-->
+        <copyBufferSize>16384</copyBufferSize>
+
+        <!--the default http authentication method (basic/digest)-->
+        <defaultAuthMethod>basic</defaultAuthMethod>
+    </http>
+
+    <soapOptimizations>
+        <!--omit xsi:type attributes when possible?-->
+        <typeOmission>yes</typeOmission>
+
+        <!--dynamically compress tags? (glue to glue only)-->
+        <tagSubstitution>yes</tagSubstitution>
+
+        <!--omit envelope when there's just a simple body? (glue to glue only)-->
+        <envelopeOmission>yes</envelopeOmission>
+
+        <!--inline hrefs? (glue to glue only)-->
+        <hrefInlining>yes</hrefInlining>
+    </soapOptimizations>
+
+    <soapOperationLookupFactories>
+        <!--list of operation lookup factories-->
+        <factory>electric.soap.local.handlers.service.rpc.RPCOperationLookupFactory</factory>
+        <factory>electric.soap.local.handlers.service.wrapped.WrappedOperationLookupFactory</factory>
+    </soapOperationLookupFactories>
+
+    <soapAttachments>
+        <!--default style, may be overridden in service descriptors-->
+        <defaultStyle>mime</defaultStyle>
+
+        <!--content id of soap message inside of attachments-->
+        <rootContentId>http://www.themindelectric.com/rootpart.xml</rootContentId>
+
+        <!--buffer size in bytes for writing soap requests in soap Attachments-->
+        <streamSourceBufferSize>2048</streamSourceBufferSize>
+    </soapAttachments>
+
+    <wsdl>
+        <!--list of bindings-->
+        <binding>soap</binding>
+
+        <!--target namespace prefix-->
+        <targetNamespacePrefix>http://www.atlassian.com/software/confluence/</targetNamespacePrefix>
+
+        <!--list of get/post protocols-->
+        <getPostProtocol>http</getPostProtocol>
+        <getPostProtocol>https</getPostProtocol>
+
+        <!-- process wsdl faults -->
+        <wsdlFaults>true</wsdlFaults>
+    </wsdl>
+
+
+    <services>
+        <!--default messaging style (rpc/document)-->
+        <defaultStyle>rpc</defaultStyle>
+
+        <!--wrapper class for objects published as web services-->
+        <wrapper>electric.service.object.ObjectService</wrapper>
+
+        <!--list of handlers for initializing a service from a descriptor-->
+        <initializer>electric.service.descriptor.initializer.Default</initializer>
+        <initializer>electric.service.descriptor.initializer.Security</initializer>
+        <initializer>electric.service.descriptor.initializer.Role</initializer>
+        <initializer>electric.service.descriptor.initializer.ServiceContext</initializer>
+        <initializer>electric.service.descriptor.initializer.Attachments</initializer>
+        <initializer>electric.soap.security.initializer.Security</initializer>
+    </services>
+
+    <soapHandlerFactories>
+        <!--setup handler-->
+        <factory>
+            <name>setup</name>
+            <constructor>
+                <class>electric.soap.handlers.setup.SetupHandlerFactory</class>
+            </constructor>
+            <priority>1</priority>
+        </factory>
+
+        <!--logging-->
+        <factory>
+            <name>logging</name>
+            <constructor>
+                <class>electric.soap.handlers.logging.SOAPLoggingHandlerFactory</class>
+            </constructor>
+            <priority>2</priority>
+        </factory>
+
+        <!--ws-routing-->
+        <factory>
+            <name>ws-routing</name>
+            <constructor>
+                <class>electric.soap.routing.RoutingHandlerFactory</class>
+            </constructor>
+            <priority>3</priority>
+        </factory>
+
+        <!--user-defined interceptors-->
+        <factory>
+            <name>interceptors</name>
+            <constructor>
+                <class>electric.soap.handlers.interceptor.SOAPInterceptorHandlerFactory</class>
+            </constructor>
+            <priority>4</priority>
+        </factory>
+
+        <!--ws-security-->
+        <factory>
+            <name>ws-security</name>
+            <constructor>
+                <class>electric.soap.security.handlers.SecurityHandlerFactory</class>
+            </constructor>
+            <priority>5</priority>
+        </factory>
+
+        <!--objects that implement IService-->
+        <factory>
+            <name>soap-to-service</name>
+            <constructor>
+                <class> electric.soap.local.handlers.service.SOAPToServiceHandlerFactory </class>
+            </constructor>
+            <priority>6</priority>
+        </factory>
+
+        <!--objects that implement ISOAPHandler-->
+        <factory>
+            <name>soap-to-user-handler</name>
+            <constructor>
+                <class> electric.soap.local.handlers.user.SOAPToUserHandlerFactory </class>
+            </constructor>
+            <priority>7</priority>
+        </factory>
+    </soapHandlerFactories>
+
+
+    <!--***************************************************************-->
+    <!--SOAP REFERENCE FACTORIES-->
+    <!--***************************************************************-->
+
+    <soapReferenceFactories>
+        <!--user-defined interceptors-->
+        <factory>
+            <name>interceptors</name>
+            <constructor>
+                <class>electric.soap.references.interceptor.InterceptorSOAPReferenceFactory</class>
+            </constructor>
+            <priority>1</priority>
+        </factory>
+
+        <!--ws-routing-->
+        <factory>
+            <name>ws-routing</name>
+            <constructor>
+                <class>electric.soap.routing.RoutingReferenceFactory</class>
+            </constructor>
+            <priority>2</priority>
+        </factory>
+
+        <!--ws-security-->
+        <factory>
+            <name>ws-security</name>
+            <constructor>
+                <class>electric.soap.security.references.SecuritySOAPReferenceFactory</class>
+            </constructor>
+            <priority>3</priority>
+        </factory>
+
+        <!--logging-->
+        <factory>
+            <name>logging</name>
+            <constructor>
+                <class>electric.soap.references.logging.LoggingSOAPReferenceFactory</class>
+            </constructor>
+            <priority>4</priority>
+        </factory>
+
+        <!--transport: soap to local service loaded by different classloader-->
+        <factory>
+            <name>soap-local</name>
+            <constructor>
+                <class>electric.soap.local.reference.SOAPLocalTransportFactory</class>
+            </constructor>
+            <priority>5</priority>
+        </factory>
+
+        <!--transport: soap over http-->
+        <factory>
+            <name>soap-to-http</name>
+            <constructor>
+                <class>electric.soap.http.reference.SOAPToHTTPFactory</class>
+            </constructor>
+            <priority>6</priority>
+        </factory>
+
+        <!--transport: soap over jms-->
+        <factory>
+            <name>soap-to-jms</name>
+            <constructor>
+                <class>electric.soap.jms.reference.SOAPToJMSFactory</class>
+            </constructor>
+            <priority>6</priority>
+        </factory>
+    </soapReferenceFactories>
+
+
+    <!--***************************************************************-->
+    <!--REGISTRIES-->
+    <!--***************************************************************-->
+
+    <registries>
+        <!--local services-->
+        <registry>
+            <name>local</name>
+            <constructor>
+                <class>electric.registry.local.LocalRegistry</class>
+            </constructor>
+            <priority>3</priority>
+        </registry>
+    </registries>
+
+    <jaxp>
+        <DOMFactory>org.apache.xerces.jaxp.DocumentBuilderFactoryImpl</DOMFactory>
+        <SAXFactory>org.apache.xerces.jaxp.SAXParserFactoryImpl</SAXFactory>
+    </jaxp>
+
+    <javaMapping>
+        <!--use direct field access?-->
+        <directFieldAccess>yes</directFieldAccess>
+
+        <!--suppress javabean properties if at least one public field?-->
+        <propertySuppression>yes</propertySuppression>
+
+        <!--use java serialization by default?-->
+        <useJavaSerializationByDefault>no</useJavaSerializationByDefault>
+
+        <!--namespace prefix-->
+        <namespacePrefix>http://www.atlassian.com</namespacePrefix>
+
+        <!--include xsi:type attributes when writing in literal mode?-->
+        <writeTypesForLiteral>yes</writeTypesForLiteral>
+    </javaMapping>
+
+
+    <typeFactories>
+        <!--list of type factories (order is significant)-->
+        <factory>electric.xml.io.mapping.MappingTypeFactory</factory>
+        <factory>electric.xml.io.array.ArrayTypeFactory</factory>
+        <factory>electric.xml.io.elements.ElementTypeFactory</factory>
+        <factory>electric.xml.io.serialize.SerializeTypeFactory</factory>
+        <factory>electric.xml.io.simple.SimpleTypeFactory</factory>
+        <factory>electric.xml.io.complex.ComplexTypeFactory</factory>
+
+        <defaultArrayType>electric.xml.io.array.ArrayType</defaultArrayType>
+    </typeFactories>
+
+
+    <schema>
+        <!--list of xsd versions-->
+        <xsd>http://www.w3.org/1999/XMLSchema</xsd>
+        <xsd>http://www.w3.org/2000/10/XMLSchema</xsd>
+        <xsd>http://www.w3.org/2001/XMLSchema</xsd>
+
+        <!--default xsd version to be used during publishing-->
+        <defaultXSD>http://www.w3.org/2001/XMLSchema</defaultXSD>
+        <defaultMinOccurs>1</defaultMinOccurs>
+    </schema>
+
+
+    <!--***************************************************************-->
+    <!--XML ENCODINGS-->
+    <!--***************************************************************-->
+
+    <xmlEncodings>
+        <!--list of encodings to try in order when decyphering an xml document-->
+        <encoding>UTF-16BE</encoding>
+        <encoding>UTF-16LE</encoding>
+        <encoding>cp037</encoding>
+        <encoding>UTF8</encoding>
+    </xmlEncodings>
+
+
+    <httpEncoding>
+        <!--some protocols declare things bytes, but are used as Strings/char[]s-->
+        <!--internally for other reasons. basic authentication in http is a-->
+        <!--good example of this. this setting is used to set the encoding to-->
+        <!--use for those situations.-->
+        <assumed>UTF8</assumed>
+
+        <!--http requires that certain things be in ascii (the method/version of-->
+        <!--request, and the status of the response. in japan, and other asian-->
+        <!--countries, however, the request-uri of the service or file could contain-->
+        <!--Shift-JIS or KOI-8 characters. since there is no way to represent these-->
+        <!--in ascii, we offer this setting to control this behaviour. the encoding-->
+        <!--specified should be ascii compliant, or you will have problems-->
+        <!--communicating with other http compliant servers and clients-->
+        <protocol>UTF8</protocol>
+    </httpEncoding>
+
+
+    <soapEncoding>
+        <!--character encoding for soap documents-->
+        <!--<xmlEncoding>UTF-8</xmlEncoding>-->
+
+        <!--use system default encoding for soap documents?-->
+        <useSystemDefault>no</useSystemDefault>
+    </soapEncoding>
+</config>

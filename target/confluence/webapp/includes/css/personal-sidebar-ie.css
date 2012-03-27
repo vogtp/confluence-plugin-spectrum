@@ -1,0 +1,30 @@
+/* Css for personal sidebar in IE */
+#personal-info-sidebar {
+    position: static;
+    width: 350px;
+}
+.sidebar-collapse {
+    display: inline;
+    position: relative;
+    text-indent: 0;
+    margin-right: -10px;
+    float: right;
+    width: 10px;
+    height: 100px;
+}
+#personal-info-sidebar.collapsed {
+    width: 0;
+    overflow: hidden;
+}
+#personal-info-sidebar.collapsed .sidebar-content {
+    display: none;
+}
+#personal-info-sidebar .sidebar-content {
+    _overflow: hidden;
+}
+#main.has-personal-sidebar #content table {
+    _margin: 0 -1% 0 0;
+}
+#personal-info-sidebar .vcard {
+    position: static;
+}

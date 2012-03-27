@@ -1,0 +1,107 @@
+<html>
+<head>
+  <title>$action.getActionName($action.getClass().getName())</title>
+  <meta name="help-path" content="/admin/indexing/help/index-summary.vm"/>
+</head>
+<body>
+  #includeJavascript ('/includes/js/ajax.js')
+  <script>
+     function reloadProgressBar()
+     {
+        statusDiv = document.getElementById("reindexstatus");
+
+        xmlhttp = getXmlHttp();
+        xmlhttp.open("GET", "$req.contextPath/admin/reindexstatus.action");
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4) {
+                resp = xmlhttp.responseXML;
+                document.getElementById("taskCurrentStatus").innerHTML = getTagContent(resp, "currentStatus");
+                document.getElementById("taskElapsedTime").innerHTML = getTagContent(resp, "elapsed");
+                document.getElementById("taskTimeRemaining").innerHTML = getTagContent(resp, "remaining");
+                document.getElementById("percentComplete").innerHTML = getTagContent(resp, "percentComplete");
+
+                percentCompleteText = getTagContent(resp, "percentComplete");
+                progressComplete = parseInt(percentCompleteText, 10);
+
+                if (progressComplete > 99)
+                {
+                    document.getElementById("taskProgressBar").removeChild(document.getElementById("taskGrayBar"));                    
+                    window.clearInterval(repeatingThingy);
+                    document.getElementById("reindexButton").value = "$action.getText("reindex")";
+                    document.getElementById("reindexButton").disabled = false;
+                    document.getElementById("reindexStatus").innerHtml = "$action.getText("indexqueue.reindex.idle")";
+                }
+                if (progressComplete > 0)
+                {
+                    greenBar = document.getElementById("taskGreenBar");
+                    if (greenBar == null)
+                    {
+                        progressBar = document.getElementById("taskProgressBar");
+                        greenBar = document.createElement("td");
+                        greenBar.className="greenBar";
+                        greenBar.id = "taskGreenBar";
+                        greenBar.innerHTML = "&nbsp;";
+                        progressBar.insertBefore(greenBar, progressBar.firstChild);
+                    }
+                    greenBar.width = percentCompleteText + "%";
+                }
+            }
+        }
+        xmlhttp.send(null)
+     }
+
+     function getTagContent(response, tagName)
+     {
+        return response.getElementsByTagName(tagName)[0].firstChild.data
+     }
+  </script>
+   #set ($selectedTab = "summary")
+   #parse("/admin/indexing/indexing-tabs.vm")
+
+   <p>$action.getText("indexqueue.about")</p>
+
+<form method="POST" name="reindexform" action="reindex.action">
+<div id="reindexstatus" class="functionbox" style="width: 550px">
+    <table>
+        <tr><td align="right" valign="top" NOWRAP><strong>$action.getText("indexqueue.status")</strong></td><td>#if ($action.flushing)$action.getText("viewindex.status.flushing")#else$action.getText("viewindex.status.idle")#end</td></tr>
+        #if ($action.lastNonEmptyFlushStats)
+        <tr>
+            <td align="right" valign="top" NOWRAP><strong>$action.getText("indexqueue.lastflush")</strong></td>
+            <td>
+                $action.getText("viewindex.lastflush.started") - $dateFormatter.formatDateTime($action.lastNonEmptyFlushStats.started)<br />
+                <strong>$action.getText("viewindex.lastflush.tasks")</strong>: $action.lastNonEmptyFlushStats.queueSize<br />
+                <strong>$action.getText("viewindex.lastflush.duration")</strong>: ${action.lastNonEmptyFlushStats.elapsedMilliseconds}ms<br />
+                <strong>$action.getText("viewindex.lastflush.recreated")</strong>: #yesno ($action.lastNonEmptyFlushStats.wasRecreated())<br />
+                <strong>$action.getText("viewindex.lastflush.optimised")</strong>: #yesno ($action.lastNonEmptyFlushStats.wasOptimised())<br />
+            </td>
+        </tr>
+        #end
+        <tr><td align="right" valign="top" NOWRAP><strong>$action.getText("indexqueue.reindex")</strong></td><td><span id="reindexStatus">#if (!$action.lastReindexTask || $action.lastReindexTask.complete)$action.getText("indexqueue.reindex.idle")#else$action.getText("indexqueue.reindex.running")#end</span></td></tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input id="reindexButton" type="submit" value="$action.getText("reindex")"/>
+            </td>
+        </tr>
+   </table>
+</div>
+</form>
+
+   #if ($action.lastReindexTask)
+       <div id="reindexstatus" class="functionbox" style="width: 550px">
+            #set ($task = $action.lastReindexTask)
+            #parse("/template/xhtml/longrunningtask.vm")
+       </div>
+       <div id="debug"></div>
+   #end
+
+   #if ($action.lastReindexTask && !$action.lastReindexTask.complete)
+   <script>
+    document.getElementById("reindexButton").value = "$action.getText("rebuild.in.progress")";
+    document.getElementById("reindexButton").disabled = true;
+    var repeatingThingy = window.setInterval("reloadProgressBar()", 5000);
+   </script>
+   #end
+   #parse("/breadcrumbs.vm")
+</body>

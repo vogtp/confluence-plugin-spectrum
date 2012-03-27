@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$action.getText("title.checklist") - Confluence</title>
+
+    #standardHeader()
+</head>
+<body onload="placeFocus()">
+
+<div id="PageContent">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td rowspan=2 class="logocell"><a href="$req.contextPath/"><img src="$req.contextPath/images/logo/confluence_header.png" border="0"></a></td>
+        </tr>
+    </table>
+
+    <table border="0" cellpadding="0" cellspacing="12" width="100%">
+        <tr>
+			<td valign="top" class="pagebody">
+            <div class="pageheader">
+                <span class="pagetitle">$action.getText("title.checklist")</span>
+            </div>
+	    <p>$action.getText("welcome.message")</p>
+
+	    <p>$action.getText("checklist.description")</p>
+
+        <table border="0" align="center" width="80%" class="grid">
+            <tr>
+                <th width="70%">&nbsp;</th>
+                <th width="5%" nowrap class="setup-checklist-box">$action.getText("status.name")</th>
+            </tr>
+			<tr>
+                <td>
+                    <strong>$action.getText("jdk.required")</strong>
+                    <br/>
+                    <span class="content">
+                        $action.getText("found"): $jdkName
+                    </span>
+                </td>
+                <td align="center">
+                    #if( $jdk14 )
+                        <img src="$req.getContextPath()/images/icons/emoticons/check.png" width="16" height="16" border="0">
+                    #else
+                        <img src="$req.getContextPath()/images/icons/emoticons/error.png" width="16" height="16" border="0">
+                    #end
+                </td>
+            </tr>
+			<tr>
+                <td>
+                    <strong>$action.getText("servlet23.required")</strong>
+                    <br/>
+                    <span class="content">
+                        $action.getText("appserver"): $serverName
+                    </span>
+                </td>
+                <td align="center">
+                    #if( $servlet23 )
+                        <img src="$req.getContextPath()/images/icons/emoticons/check.png" width="16" height="16" border="0">
+                    #else
+                        <img src="$req.getContextPath()/images/icons/emoticons/error.png" width="16" height="16" border="0">
+                    #end
+                </td>
+            </tr>
+			<tr>
+                <td>
+                    <strong>$action.getText("home.required")</strong> $!bootstrapManager.configuredApplicationHome
+                    <br/>
+                    <span class="content">
+                    #if( $confluenceHomeOk )
+                        $action.getText("confluence.home.ok")
+                    #else
+                        $action.getText("home.error")
+                    #end
+                    </span>
+                </td>
+                <td align="center">
+                    #if( $confluenceHomeOk )
+                        <img src="$req.getContextPath()/images/icons/emoticons/check.png" width="16" height="16" border="0">
+                    #else
+                        <img src="$req.getContextPath()/images/icons/emoticons/error.png" width="16" height="16" border="0">
+                    #end
+                </td>
+            </tr>
+            #if (!$resin3Ok)
+            <tr>
+                <td>
+                    <strong>$action.getText("resin3.patch.required")</strong>
+                    <br/>
+                    <span class="content">
+                        $action.getText("resin3.patch.explanation")
+                    </span>
+                </td>
+                <td align="center">
+                    #if( $resin3Ok )
+                        <img src="$req.getContextPath()/images/icons/emoticons/check.png" width="16" height="16" border="0">
+                    #else
+                        <img src="$req.getContextPath()/images/icons/emoticons/error.png" width="16" height="16" border="0">
+                    #end
+                </td>
+            </tr>
+            #end
+		</table>
+
+        #if( $everythingOk )
+                <form method="POST" action="checklist-finish.action">
+                    #tag( "Submit" "value=getText('next.name')" "align='center'" )
+                </form>
+        #else
+            $action.getText("correct.and.reload")
+        #end
+			</td>
+        </tr>
+    </table>
+</div>
+
+#parse ("/decorators/includes/footer.vm")
+
+</body>
+</html>

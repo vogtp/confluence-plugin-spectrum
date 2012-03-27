@@ -1,0 +1,37 @@
+#if ($textUtil.stringSet($parameters.label))
+<tr>
+    <td nowrap align="right" valign="top" width="$!{parameters.width}%" #if ($parameters.cssClassForLabel) class="$parameters.cssClassForLabel" #end>$action.getText($parameters.label):</td>
+    <td>
+#end
+
+#if ($textUtil.stringSet($parameters.yesno))
+    #set ($positive = "$action.getText('yes.name')")
+    #set ($negative = "$action.getText('no.name')")
+#else
+    #set ($positive = "$action.getText('common.words.on.small')")
+    #set ($negative = "$action.getText('common.words.off.small')")
+#end
+
+<input type="radio" value="true" name="$parameters.name" 
+	#if($parameters.disabled) disabled #end 
+	#if ($parameters.nameValue == 'true') checked="checked" #end 
+	id="${parameters.name}radio_on"> 
+<label for="${parameters.name}radio_on">$positive</label>
+<input type="radio" value="false" name="$parameters.name" 
+	#if($parameters.disabled) disabled #end 
+	#if ($parameters.nameValue == 'false') checked="checked" #end 
+	id="${parameters.name}radio_off"> 
+<label for="${parameters.name}radio_off">$negative</label>
+
+#if ($parameters.description)
+    #if ($i18n.getText($parameters.description))
+        <div class="smallfont">$i18n.getText($parameters.description)</div>
+    #else
+        <div class="smallfont">$parameters.description</div>
+    #end
+#end
+
+#if ($textUtil.stringSet($parameters.label))
+    </td>
+</tr>
+#end

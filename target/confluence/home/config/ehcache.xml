@@ -1,0 +1,178 @@
+<ehcache>
+    <!-- Cache configuration file. If a cache is created and isn't listed in this file, EHCache will log a complaint -->
+
+    <!-- All caches are configured not to overflow to disk, but we have to set this just in case -->
+    <diskStore path="java.io.tmpdir"/>
+
+        <!--Default Cache configuration. These will applied to caches programmatically created through
+        the CacheManager.
+
+        The following attributes are required for defaultCache:
+
+        maxInMemory       - Sets the maximum number of objects that will be created in memory
+        eternal           - Sets whether elements are eternal. If eternal,  timeouts are ignored and the element
+                            is never expired.
+        timeToIdleSeconds - Sets the time to idle for an element before it expires.
+                            i.e. The maximum amount of time between accesses before an element expires.
+                            Is only used if the element is not eternal.
+        timeToLiveSeconds - Sets the time to live for an element before it expires.
+                            i.e. The maximum time between creation time and when an element expires. 
+                            Is only used if the element is not eternal.
+        overflowToDisk    - Sets whether elements can overflow to disk when the in-memory cache
+                            has reached the maxInMemory limit.
+
+        -->
+    <defaultCache
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="3600"
+        timeToLiveSeconds="0"
+        overflowToDisk="false"
+        />
+
+   <!-- Some easily cut-and-pasteable cache definitions that correspond to the caching schemes in the coherence configuration
+       <cache name="default" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="large" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="medium" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="small" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="large-transient" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="large-no-expiry" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="user" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false"/>
+   -->
+
+    <cache name="bucket.user.persistence.dao.hibernate.BucketUserDAO.findUserByUsername()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="bucket.user.propertyset.BucketPropertySetItem" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="bucket.user.providers.CachingAccessProvider.handles()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="bucket.user.providers.CachingAccessProvider.inGroup()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="bucket.user.providers.CachingCredentialsProvider" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.bandana.BandanaPersister" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.BodyContent" maxElementsInMemory="5000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.attachments" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.bodyContents" maxElementsInMemory="5000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.labellings" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.outgoingLinks" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.permissions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.previousVersions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.referralLinks" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.trackbackLinks" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    
+    <!-- Caches page diffs -->
+    <cache name="com.atlassian.confluence.diffs" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.html.diffs" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="com.atlassian.confluence.security.ContentPermission" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.PersistentDecorator" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.labels.Label" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.labels.Labelling" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.links.ReferralLink" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.links.TrackbackLink" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.comments" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Attachment.previousVersions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Comment.children" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Draft" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Page.ancestors" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Page.children" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.templates.PageTemplate.previousVersions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.SpacePermission" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.setup.bandana.ConfluenceBandanaRecord" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.spaces.Space" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.user.persistence.dao.CachingPersonalInformationDao.usernameToId" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.util.velocity.ConfluenceVelocityResourceCache" maxElementsInMemory="300" eternal="false" timeToIdleSeconds="1800" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateExternalEntity" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateExternalEntity.groups" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateGroup" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateGroup.externalMembers" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateGroup.localMembers" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateUser" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.DefaultHibernateUser.groups" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.CachingExternalEntityDAO.externalEntityName" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.opensymphony.user.provider.hibernate.impl.HibernateGroupImpl" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.opensymphony.user.provider.hibernate.impl.HibernateUserImpl" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.opensymphony.user.provider.hibernate.impl.HibernateUserImpl.groups" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="net.sf.hibernate.cache.StandardQueryCache" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="net.sf.hibernate.cache.UpdateTimestampsCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.lock-cache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.rpc.auth.TokenAuthenticationManager.tokens" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="1800" timeToLiveSeconds="0" overflowToDisk="false" memoryStoreEvictionPolicy="FIFO" />
+    <cache name="bucket.user.providers.CachingProfileProvider.getPropertySet()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="bucket.user.providers.CachingProfileProvider.handles()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.cluster.safety.DefaultClusterSafetyManager.safetyNumber" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.PermissionCheckDispatcher.isPermitted()" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.persistence.dao.hibernate.legacy.HibernateKey" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.trust.ConfluenceTrustedApplication" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.trust.ConfluenceTrustedApplication.restrictions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.trust.TrustedApplicationRestriction" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.themes.persistence.hibernate.DefaultPersistentDecoratorDao" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.util.i18n.I18NBeanFactory.by.locale" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.CachingInheritedContentPermissionManager.getInheritedContentPermissionSets()" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.persistence.dao.PageDao.getPage()" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.CachingSpacePermissionManager.permissions" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="1200" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.spaces.persistence.dao.SpaceDao.getSpace()" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.util.UserChecker" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.cache.jcaptcha.ConfluenceCachingCaptchaStore" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.DefaultContentPropertyManager" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.spaces.SpaceGroup" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.hosted.SpaceGroupPermission" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.spaces.persistence.dao.SpaceGroupDao.getSpaceGroup()" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.ContentEntityObject.contentPermissionSets" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.ContentPermissionSet" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.ContentPermissionSet.contentPermissions" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.published-cache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.core.DefaultHeartbeatManager.activities" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.Attachment" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.pages.attachments.AttachmentCache" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.security.persistence.dao.hibernate.AliasedKey" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.properties.HibernatePropertySetFactory.propertysets" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.follow.Connection" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="confluence.fifo.buffer.mail" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="confluence.fifo.buffer.task" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="confluence.fifo.buffer.mail-error" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.groups_hasMembership" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateGroupManager.hibernateRepository.repositories" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.users" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.repository" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.hibernateRepository.users_ro" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.ldapRepository.users" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.hibernate.HibernateUserManager.ldapRepository.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.groups_hasMembership" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPGroupManagerReadOnly.ldapRepository.repositories" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.users" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.repository" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.user.impl.ldap.LDAPUserManagerReadOnly.ldapRepository.users_ro" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdGroupManager.embeddedCrowd.groups" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdGroupManager.embeddedCrowd.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdGroupManager.embeddedCrowd.groups_hasMembership" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdGroupManager.embeddedCrowd.repositories" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdUserManager.embeddedCrowd.users" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdUserManager.embeddedCrowd.groups_getGroupsForUser" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdUserManager.embeddedCrowd.repository" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdUserManager.embeddedCrowd.users_ro" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.crowd.embedded.atlassianuser.EmbeddedCrowdPropertySetFactory.propertysets" maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <cache name="com.atlassian.confluence.security.login.DefaultLoginManager" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <!-- caches without names -->
+    <cache name="com.atlassian.confluence.extra.jira.OldRssMacro" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.extra.jira.JiraIssuesMacro" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.links.DefaultReferralManager.hotReferrers" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="0" overflowToDisk="false" />
+    <cache name="com.atlassian.confluence.user.DefaultUserAccessor.deactivatedUsers" maxElementsInMemory="100000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+
+    <!-- Scheduled Job Caches -->
+    <cache name="com.atlassian.confluence.schedule.ScheduledJobStatus" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false" />
+</ehcache>

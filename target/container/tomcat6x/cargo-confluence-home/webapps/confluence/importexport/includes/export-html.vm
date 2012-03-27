@@ -1,0 +1,26 @@
+#**
+ * Required context variables:
+ *
+ * $displayTree      - if true then display the tree select form; otherwise do not show it
+ * $action           - the WebWork Action presenting this view
+ * $formAction       - the value for the export form's action attribute
+ * $includeComments  - a variable indicating whether the include comments checkbox should be ticked.
+*#
+$action.getText("text.description.export.space.html")
+
+#if ($displayTree)
+    <div class="export-space-body">
+        <form name="exportspaceform" method="post" action="$formAction" class="aui">
+            #form_xsrfToken()
+            <input type="hidden" name="synchronous" value="false"/>
+            <input type="hidden" name="exportType" value="TYPE_HTML" />
+            #tag ("Submit" "name='confirm'" "value='export.name'" "theme='notable'" )
+
+            #if( $action.spaceHasPages() )
+                #set ($includeCommentsOption = true)
+                #parse ("/importexport/includes/export-spacetree-checkboxes.vm")
+                #tag ("Submit" "name='confirm'" "value='export.name'" "theme='notable'" )
+            #end
+        </form>
+    </div>
+#end

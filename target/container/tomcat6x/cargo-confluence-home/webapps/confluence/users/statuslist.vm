@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>$generalUtil.htmlEncode($pageTitle)</title>
+    </head>
+
+    #set($mode = "view-status")
+    #set( $contextPathHtml = "$req.contextPath/display/status/${username}/list?" )
+
+    #applyDecorator("root")
+        #decoratorParam("context" "profile")
+        #decoratorParam("mode"  $mode)
+        #decoratorParam("helper" $action.helper)
+        <body>
+            <div class="statuslist-wrapper">
+                #if($viewingMyProfile==true)
+                <h2 class="subheading">$action.getText("status.list.yours")</h2>
+                #else
+                <h2 class="subheading">$action.getText("status.list.for",$generalUtil.htmlEncode($user.fullName),"")</h2>
+                #end
+                #bodytag ("Component" "template='general-statuslist.vm'")
+                    #param ("statusList" "statusList")
+                    #param ("statusId" "$statusId")
+                    #param ("contextPath" "$contextPathHtml")
+                    #param ("user" "$user")
+                    #param ("viewingMyProfile" "$viewingMyProfile")
+                #end
+            </div>
+        </body>
+    #end
+</html>

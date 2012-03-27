@@ -1,0 +1,91 @@
+#* Must specify $package *#
+#* Optionally specify $nextButton an id for the button to enable after task completion *#
+
+
+#includeJavascript ('/includes/js/ajax.js')
+#putMetadata("taskId" $!action.taskId)
+
+<script>
+LongRunningTask = {};
+LongRunningTask.reloadIntervalID = null;
+(function(document, $) {
+    LongRunningTask.reloadProgressBar = function(nextButton) {
+        var statusDiv = document.getElementById("status"),
+            taskId = AJS.Meta.get("taskId"),
+            xmlhttp = getXmlHttp(),
+            params = "";
+        if(taskId) {
+            params = "?taskId=" + taskId;
+        }
+        xmlhttp.open("GET", "$req.contextPath/$!{package}longrunningtaskxml.action" + params);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                var resp = xmlhttp.responseXML;
+                var percentCompleteText = getTagContent(resp, "percentComplete");
+                var progressComplete = parseInt(percentCompleteText, 10);
+                var isSuccessful = getTagContent(resp, "isSuccessful");
+
+                document.getElementById("taskCurrentStatus").innerHTML = getTagContent(resp, "currentStatus");
+                document.getElementById("taskElapsedTime").innerHTML = getTagContent(resp, "elapsed");
+                document.getElementById("taskTimeRemaining").innerHTML = getTagContent(resp, "remaining");
+                document.getElementById("percentComplete").innerHTML = percentCompleteText;
+
+                if (progressComplete > 99) {
+                    document.getElementById("taskProgressBar").removeChild(document.getElementById("taskGrayBar"));
+                    if (LongRunningTask.reloadIntervalID) window.clearInterval(LongRunningTask.reloadIntervalID);
+
+                    document.getElementById("status").innerHtml = "$action.getText('task.idle')";
+                    if (nextButton && nextButton.length > 0) document.getElementById(nextButton).removeAttribute("disabled");
+                    $(document).trigger("long-running-task-complete");
+                }
+                if (progressComplete > 0) {
+                    var greenBar = document.getElementById("taskGreenBar");
+                    if (greenBar == null) {
+                        var progressBar = document.getElementById("taskProgressBar");
+                        greenBar = document.createElement("td");
+
+                        greenBar.id = "taskGreenBar";
+                        greenBar.className="greenBar";
+                        greenBar.innerHTML = "&nbsp;";
+                        progressBar.insertBefore(greenBar, progressBar.firstChild);
+                    }
+                    if (isSuccessful == "false") {
+                        greenBar.className="redBar";
+                        $(document).trigger("long-running-task-failed");
+                    }
+                    greenBar.width = percentCompleteText + "%";
+                }
+            }
+        };
+        xmlhttp.send(null);
+    };
+
+    var getTagContent = function(response, tagName) {
+        return response.getElementsByTagName(tagName)[0].firstChild.data;
+    }
+})(document, jQuery);
+</script>
+
+#if ($action.task)
+    <div id="status" class="functionbox" style="width: 550px">
+        #set ($task = $action.task)
+        #if ($longrunningtasktemplate)
+            #parse($longrunningtasktemplate)
+        #else
+            #parse("/template/xhtml/longrunningtask.vm")
+        #end
+    </div>
+    <div id="debug"></div>
+#else
+    <div id="status" class="functionbox" style="width: 550px">
+       <span class="smalltext" style="text-align:center" id="taskCurrentStatus">$action.getText('error.no.task')</span>
+    </div>
+#end
+
+#if ($action.task && !$action.task.complete)
+    <script>
+    (function(window) {
+       LongRunningTask.reloadIntervalID = window.setInterval("LongRunningTask.reloadProgressBar(\"$!nextButton\")", 5000);
+    })(window);
+    </script>
+#end

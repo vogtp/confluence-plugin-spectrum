@@ -1,0 +1,1 @@
+AJS.Confluence.SpaceDetails={setUsersToAddTextField:function(a){var b=document.forms.convertspace.usersToAdd;if(a!=""){if(b.value==""){b.value=a}else{b.value=b.value+", "+a}}}};

@@ -1,0 +1,3 @@
+$action.getText('license.page.description.help')
+</br>
+$action.getText('license.page.description.can.update.here')
