@@ -25,7 +25,7 @@ import com.opensymphony.util.TextUtils;
  * Use this example macro to toy around, and then quickly move on to the next example - this macro doesn't
  * really show you all the fun stuff you can do with Confluence.
  */
-public class ExampleMacro implements Macro
+public class AlarmTableMacro implements Macro
 {
 
     private final SettingsManager settingsManager;
@@ -34,7 +34,7 @@ public class ExampleMacro implements Macro
     // You just need to know *what* you want to inject and use.
 
 
-    public ExampleMacro(SettingsManager settingsManager)
+    public AlarmTableMacro(SettingsManager settingsManager)
     {
         this.settingsManager = settingsManager;
     }
@@ -53,11 +53,6 @@ public class ExampleMacro implements Macro
         // this is something you absolutely don't want to do once you start writing plugins for real. Refer
         // to the next example for better ways to render content.
         StringBuffer result = new StringBuffer();
-        result.append("Username: ").append(settingsManager.getPluginSettings("username"));
-        
-        for (String key : parameters.keySet()) {
-			result.append("<p />").append(key).append(": ").append(parameters.get(key)).append("<p />");
-		}
         
 		RequestConfig settings = new RequestConfig(parameters);
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(settings);
@@ -69,13 +64,23 @@ public class ExampleMacro implements Macro
 	        result.append("Spectrum alarms on:").append(settings.getSpectroServerName());
 	        result.append("<p>");
 	        result.append("<table class=\"confluenceTable\">");
-	        result.append("<thead><tr><th class=\"confluenceTh\">Alarm Title</th><th class=\"confluenceTh\">Model Name</th></tr></thead>");
+	        result.append("<thead><tr>");
+	        result.append("<th class=\"confluenceTh\">Severity</th>");
+	        result.append("<th class=\"confluenceTh\">Alarm Title</th>");
+	        result.append("<th class=\"confluenceTh\">Model Name</th>");
+	        result.append("<th class=\"confluenceTh\">Occurences</th>");
+	        result.append("</tr></thead>");
 	        result.append("<tbody>");
 	        for (GenericModel model : alarms.values())
 	        {
 	        	Map<String, String> attrs = model.getAttributes();
-	            String pageWithChildren = "<tr><td class=\"confluenceTd\">" + attrs.get(SpectrumAttibute.ALARM_TITLE) + "</td><td class=\"confluenceTd\" style=\"text-align:right\">" + attrs.get(SpectrumAttibute.MODEL_NAME) + "</td></tr>";
-	            result.append(pageWithChildren);
+	            result.append("<tr>");
+	            int severity = Integer.parseInt(attrs.get(SpectrumAttibute.SEVERITY));
+				result.append("<td class=\"confluenceTd\">").append(AlarmModelAccess.severityToString(severity)).append("</td>");
+	            result.append("<td class=\"confluenceTd\">").append(attrs.get(SpectrumAttibute.ALARM_TITLE)).append("</td>");
+	            result.append("<td class=\"confluenceTd\">").append(attrs.get(SpectrumAttibute.MODEL_NAME)).append("</td>");
+	            result.append("<td class=\"confluenceTd\">").append(attrs.get(SpectrumAttibute.OCCURENCES)).append("</td>");
+	            result.append("</tr>");
 	        }
 	        result.append("</tbody>");
 	        result.append("</table>");
@@ -84,6 +89,10 @@ public class ExampleMacro implements Macro
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			result.append("Error: ").append(e.getMessage());
+			result.append("<p />").append("parameters:").append("<p />");
+			  for (String key : parameters.keySet()) {
+					result.append("<p />").append(key).append(": ").append(parameters.get(key)).append("<p />");
+				}
 		}
 
 

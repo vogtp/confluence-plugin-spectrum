@@ -3,16 +3,17 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="username" >XXX</param>
+       
     </plugin-info>
 
-    <xhtml-macro name="confluence-plugin-spectrum" class="ch.unibas.urz.confluence.spectrum.ExampleMacro" key="my-macro">
+    <xhtml-macro name="confluence-plugin-spectrum" class="ch.unibas.urz.confluence.spectrum.AlarmTableMacro" key="my-macro">
         <parameters>
         	<parameter name="secureconnection" type="boolean" default="true" />
         	
         	<parameter name="username" type="string" required="true" />
         	<parameter name="password" type="string" required="true" />
         	<parameter name="servername" type="string" required="true" />
+        	<parameter name="serverport" type="string" />
                
         	<parameter name="URLpath" type="string" default="spectrum" />
         </parameters> 
