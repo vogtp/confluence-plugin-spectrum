@@ -1,6 +1,0 @@
-#applyDecorator ("confirm")
-    #decoratorParam ("formAction" "doremovepagetemplate.action?pageTemplateId=${pageTemplate.id}&key=$!key")
-    #decoratorParam ("formName" "confirmTemplateRemove")
-
-    $action.getText("alert.remove.page.template", [$pageTemplate.name])
-#end

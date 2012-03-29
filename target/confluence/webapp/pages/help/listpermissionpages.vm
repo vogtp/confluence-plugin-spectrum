@@ -1,2 +1,0 @@
-<p>$action.getText("listpermissionpages.line1")</p>
-<p>$action.getText("listpermissionpages.line2")</p>

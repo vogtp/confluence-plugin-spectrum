@@ -1,3 +1,0 @@
-#parse("/template/xhtml/controlheader.vm")
-    <input type="checkbox" name="${parameters.name}" id="${parameters.name}" value="true" #if( ${parameters.nameValue.toString()} == "true" )checked="checked"#end/>
-#parse("/template/xhtml/controlfooter.vm")

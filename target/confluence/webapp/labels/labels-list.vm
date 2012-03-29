@@ -1,9 +1,0 @@
-#* @vtlvariable name="labels" type="java.util.List<com.atlassian.confluence.labels.Label>" *#
-<span id="labels-section-title-none" class="no-labels-message" #if($labels && $labels.size() > 0) style="display: none;"#end>
-$action.getText('labels.none')
-</span>
-#if ($labels && $labels.size())
-<ul class="label-list">
-#parse('/labels/label-listitems.vm')
-</ul>
-#end

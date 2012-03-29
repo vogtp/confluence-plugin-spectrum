@@ -1,9 +1,0 @@
-$action.getText('renamepage.page.description')
-
-<p>
-$action.getText('renamepage.confluence.can.update.links')
-</p>
-
-<p>
-$action.getText('renamepage.note')
-</p>

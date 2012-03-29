@@ -1,4 +1,0 @@
-$action.getText('attachfile.page.description')
-<p>
-<strong>$action.getText('note.word'):</strong> $action.getText('attachments.listed.at.bottom')
-</p>

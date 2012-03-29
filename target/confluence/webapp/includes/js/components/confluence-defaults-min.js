@@ -1,1 +1,0 @@
-(function(a){Confluence.Defaults={maxResults:50}})(AJS.$);

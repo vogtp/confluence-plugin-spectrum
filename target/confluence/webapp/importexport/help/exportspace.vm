@@ -1,2 +1,0 @@
-$action.getText('export.space.description')<br/>
-<strong>$action.getText('note.word'):</strong> $action.getText('export.page.note.pages.can.be.selected')

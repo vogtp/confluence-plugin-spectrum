@@ -1,3 +1,0 @@
-#applyDecorator("root")
-    #decoratorParam("context" "search")
-#end

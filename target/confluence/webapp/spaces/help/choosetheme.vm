@@ -1,7 +1,0 @@
-<p>$action.getText('choosetheme.theme.description',[$docBean.getLink('help.themes.overview')])</p>
-<p>$action.getText('choosetheme.select.theme.consequences')</p>
-<p>$action.getText('choosetheme.notheme.consequence')</p>
-<p>
-<h3 id="helpheading" class="helpheading-spacing">$action.getText('get.more.themes')</h3>
-<p>$action.getText('download.more.themes', ["https://plugins.atlassian.com/search/category/78", "$req.contextPath/administrators.action"])</p>
-</p>

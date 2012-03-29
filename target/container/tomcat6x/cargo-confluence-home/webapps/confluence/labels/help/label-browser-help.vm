@@ -1,5 +1,0 @@
-<p>$action.getText('labelbrowser.description')</p>
-#parse("/labels/help/labels-help.vm")
-<p>
-    $action.getText('related.labels.description')
-</p>

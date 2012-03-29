@@ -1,1 +1,0 @@
-AJS.$.ajaxSetup({traditional:true});AJS.isIE6=!window.XMLHttpRequest;AJS.applyPngFilter=function(a,c,b){if(!AJS.isIE6){return false}c=c||a.src;b=b||"scale";a.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+c+"', sizingMethod='"+b+"')";return true};

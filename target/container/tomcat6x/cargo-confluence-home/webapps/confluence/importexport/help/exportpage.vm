@@ -1,3 +1,0 @@
-$action.getText('export.page.description')
-<p>
-$action.getText('export.page.can.export.whole.space.at.once',["$req.contextPath/spaces/exportspace.action?key=$space.key"])

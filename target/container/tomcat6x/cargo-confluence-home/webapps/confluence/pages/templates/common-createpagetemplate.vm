@@ -1,7 +1,0 @@
-#parse ( "/template/includes/actionerrors.vm" )
-
-#if ($actionErrors.size() == 0)
-    <div style="margin: 10px 0 0 10px">
-        #parse ("/pages/includes/createpagetemplate-form.vm")
-    </div>
-#end

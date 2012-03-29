@@ -1,5 +1,0 @@
-$action.getText('paths.description')
-
-$action.getText('paths.description.2')
-
-#doc("help.configure.server.URL" "$action.getText('more.about.server.base.url')")

@@ -1,1 +1,0 @@
-Confluence.storageManager=function(a){return AJS.storageManager("confluence",a)};

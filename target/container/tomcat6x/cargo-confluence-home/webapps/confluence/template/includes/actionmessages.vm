@@ -1,9 +1,0 @@
-#if($actionMessages && $actionMessages.size() > 0)
-    <div class="successBox">
-    <ul>
-        #foreach($message in $actionMessages)
-        <li>$message</li>
-        #end
-    </ul>
-    </div>
-#end
