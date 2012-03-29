@@ -1,7 +1,14 @@
 package ch.unibas.urz.confluence.spectrum;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 import ch.almana.spectrum.rest.access.AlarmModelAccess;
@@ -57,9 +64,23 @@ public class AlarmTableMacro implements Macro
 		RequestConfig settings = new RequestConfig(parameters);
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(settings);
 		AlarmModelAccess ama = new AlarmModelAccess(requestHandler );
-		Map<String, GenericModel> alarms;
 		try {
-			alarms = ama.getEntities(ama.getList());
+			final Map<String, GenericModel> entities = ama.getEntities(ama.getList());
+			
+			SortedSet<GenericModel> alarms = new TreeSet<GenericModel>(new Comparator<GenericModel>() {
+
+				@Override
+				public int compare(GenericModel o1, GenericModel o2) {
+					int severity1 = Integer.parseInt(o1.getAttributes().get(SpectrumAttibute.SEVERITY));
+					int severity2 = Integer.parseInt(o2.getAttributes().get(SpectrumAttibute.SEVERITY));
+					int cmp = (new Integer(severity2)).compareTo(severity1);
+					if (cmp == 0){
+						cmp =1;
+					}
+					return cmp;
+				}
+			} );
+			alarms.addAll(entities.values());
 	        result.append("<p>");
 	        result.append("Spectrum alarms on:").append(settings.getSpectroServerName());
 	        result.append("<p>");
@@ -71,7 +92,7 @@ public class AlarmTableMacro implements Macro
 	        result.append("<th class=\"confluenceTh\">Occurences</th>");
 	        result.append("</tr></thead>");
 	        result.append("<tbody>");
-	        for (GenericModel model : alarms.values())
+	        for (GenericModel model : alarms)
 	        {
 	        	Map<String, String> attrs = model.getAttributes();
 	            result.append("<tr>");
