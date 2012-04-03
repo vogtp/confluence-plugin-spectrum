@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>confluence-plugin-spectrum</name>
-  <comment>This is the ch.unibas.urz.confluence.spectrum:confluence-plugin-spectrum plugin for Atlassian Confluence. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects>
-    <project>spectrum-restfull</project>
-  </projects>
-  <buildSpec>
-    <buildCommand>
-      <name>org.eclipse.jdt.core.javabuilder</name>
-    </buildCommand>
-  </buildSpec>
-  <natures>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-  </natures>
+	<name>confluence-plugin-spectrum</name>
+	<comment>This is the ch.unibas.urz.confluence.spectrum:confluence-plugin-spectrum plugin for Atlassian Confluence. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+	<projects>
+		<project>spectrum-restfull</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
 </projectDescription>
