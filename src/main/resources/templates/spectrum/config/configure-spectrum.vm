@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<title>Configure spectrum plugin</title>
+	</head>
+	<body>
+        #parse ( "/template/includes/actionmessages.vm" )
+		#parse ( "/template/includes/actionerrors.vm" )
+    
+                    <form name="configuration" action="save.action" method="POST">
+                        <table width="100%">
+                            <tr colspan="2">
+                                <th>Authentification</th>
+                            </tr>
+                        
+                                    <tr>
+                                        <td >
+                                            Username
+                                        </td>
+                                        <td>
+                                            <input type="text" name="username"  value="$username" size="50">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Password
+                                        </td>
+                                        <td>
+                                            <input type="password" name="password" value="$password" size="50">
+                                        </td>
+                                    </tr>
+                                 
+                            <tr colspan="2">
+                                <th>SpectroServer Configuration</th>
+                            </tr>
+                                    <tr>
+                                        <td >
+                                            Spectrum servername
+                                        </td>
+                                        <td>
+                                            <input type="text" name="spectroServerName"  value="$spectroServerName" size="50">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Protocol
+                                        </td>
+                                        <td>
+                                            <input type="text" name="connectionType"  value="$connectionType" size="50">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Port
+                                        </td>
+                                        <td>
+                                            <input type="text" name="spectroServerPort" value="$spectroServerPort"  size="50">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Url Path
+                                        </td>
+                                        <td>
+                                            <input type="text" name="spectroServerUrlPath" value="$spectroServerUrlPath" size="50">
+                                        </td>
+                                    </tr>
+                        </table>
+                        <input type="submit" value="save">
+                    </form>
+
+
+		#parse ( "/admin/admin-breadcrumbs.vm" )
+	</body>
+</html>

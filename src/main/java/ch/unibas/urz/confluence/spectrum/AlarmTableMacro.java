@@ -16,7 +16,6 @@ import ch.almana.spectrum.rest.net.HttpClientRequestHandler;
 import com.atlassian.confluence.content.render.xhtml.ConversionContext;
 import com.atlassian.confluence.macro.Macro;
 import com.atlassian.confluence.macro.MacroExecutionException;
-import com.atlassian.confluence.setup.settings.SettingsManager;
 
 /**
  * This very simple macro shows you the very basic use-case of displaying
@@ -26,14 +25,14 @@ import com.atlassian.confluence.setup.settings.SettingsManager;
  */
 public class AlarmTableMacro implements Macro {
 
-	private final SettingsManager settingsManager;
+	private final SpectrumManager spectrumManager;
 
 	// We just have to define the variables and the setters, then Spring injects
 	// the correct objects for us to use. Simple and efficient.
 	// You just need to know *what* you want to inject and use.
 
-	public AlarmTableMacro(SettingsManager settingsManager) {
-		this.settingsManager = settingsManager;
+	public AlarmTableMacro(SpectrumManager spectrumManager) {
+		this.spectrumManager = spectrumManager;
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class AlarmTableMacro implements Macro {
 
 	private void doOutputPreview(Map<String, String> parameters, String body,
 			ConversionContext context, StringBuffer result) {
-		RequestConfig settings = new RequestConfig(parameters);
+
 //		result.append("\n" + 
 //				"<form action=\"#\" method=\"post\" class=\"aui\">\n" + 
 //				"  <div class=\"field-group\">\n" + 
@@ -80,12 +79,12 @@ public class AlarmTableMacro implements Macro {
 //				"</form>");
 //		debugOutput(parameters, body, context, result);
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(
-				settings);
+				spectrumManager);
 		CollectionModelAccess cma = new CollectionModelAccess(requestHandler);
 		try {
 						result.append("<p>");
 			result.append("Spectrum Collections on:").append(
-					settings.getSpectroServerName());
+					spectrumManager.getSpectroServerName());
 			result.append("<p>");
 			result.append("<table class=\"confluenceTable\">");
 			result.append("<thead><tr>");
@@ -122,9 +121,8 @@ public class AlarmTableMacro implements Macro {
 
 	private void doOutputDisplay(Map<String, String> parameters, String body,
 			ConversionContext context, StringBuffer result) {
-		RequestConfig settings = new RequestConfig(parameters);
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(
-				settings);
+				spectrumManager);
 		AlarmModelAccess ama = new AlarmModelAccess(requestHandler);
 		String detailDescription = "";
 		try {
@@ -164,7 +162,8 @@ public class AlarmTableMacro implements Macro {
 			alarms.addAll(entities.values());
 			result.append("<p>");
 			result.append("Spectrum alarms").append(detailDescription)
-					.append(" (").append(settings.getSpectroServerName())
+					.append(" (")
+					.append(spectrumManager.getSpectroServerName())
 					.append(")");
 			result.append("<p>");
 			result.append("<table class=\"confluenceTable\">");
