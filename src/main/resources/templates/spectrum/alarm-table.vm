@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>Spectrum Alarm Table</title>
+	</head>
+	<body>
+        #parse ( "/template/includes/actionmessages.vm" )
+		#parse ( "/template/includes/actionerrors.vm" )
+		<p>
+    		Spectrum alarms $detailDescription
+    	</p>
+    		<table class="confluenceTable">
+    		<thead><tr>
+				<th class="confluenceTh">Severity</th>
+				<th class="confluenceTh">Alarm Title</th>
+				<th class="confluenceTh">Model Name</th>
+				<th class="confluenceTh">Occurences</th>
+			</tr></thead>
+			<tbody>
+				#foreach($alarm in $alarms)
+				<tr>
+					#set($attrs = $alarm.Attributes)
+					<td class="confluenceTd"> $SpectrumAttibute.severityToString( $attrs.get($spectrumAttibute.get("SEVERITY"))) </td>
+					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("ALARM TITLE"))</td>
+					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("MODEL NAME"))</td>
+					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("OCCURENCES"))</td>
+				</tr>
+				#end 
+			</tbody>
+			</table>
+		<p>
+   			 SpectroServer: $spectrumManager.SpectroServerName
+    	</p>
+	</body>
+</html>

@@ -4,27 +4,24 @@
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
         <param name="configure.url">/admin/plugins/spectrum/configure.action</param>
-       
     </plugin-info>
 
-    <component name="spectrumManager" class="ch.unibas.urz.confluence.spectrum.SpectrumManager" key="spectrumManager"/>
+    <component name="Spectrum Data Manager" class="ch.unibas.urz.confluence.spectrum.SpectrumManager" key="spectrumManager"/>
     
-    <xhtml-macro name="confluence-plugin-spectrum" class="ch.unibas.urz.confluence.spectrum.AlarmTableMacro" key="my-macro">
+    <xhtml-macro name="Spectrum Alarm Table" class="ch.unibas.urz.confluence.spectrum.AlarmTableMacro" key="spectrum-alarm-table">
         <parameters>
-        <!-- 
-        	<parameter name="secureconnection" type="boolean" default="true" />
-        	<parameter name="username" type="string" required="true" />
-        	<parameter name="password" type="string" required="true" />
-        	<parameter name="servername" type="string" required="true" />
-        	<parameter name="serverport" type="string" />
-        	<parameter name="URLpath" type="string" default="spectrum" />
-        	 -->
+        	<parameter name="collection" type="string" />
+        </parameters> 
+         
+    </xhtml-macro>
+    <xhtml-macro name="Spectrum Alarm Tablev (OLD)" class="ch.unibas.urz.confluence.spectrum.AlarmTableMacroOld" key="spectrum-alarm-table-old">
+        <parameters>
         	<parameter name="collection" type="string" />
         </parameters> 
          
     </xhtml-macro>
     
-    <xwork name="Configure spectrum" key="configure-confluence-plugin-spectrum">
+    <xwork name="Spectrum Plugin Configuration" key="configure-confluence-plugin-spectrum">
         <package name="confluence-plugin-spectrum" extends="default" namespace="/admin/plugins/spectrum">
             <default-interceptor-ref name="defaultStack"/>
             <action name="configure" class="ch.unibas.urz.confluence.spectrum.config.ConfigureSpectrumAction" method="input">

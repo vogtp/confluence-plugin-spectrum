@@ -5,7 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.unibas.urz.confluence.spectrum</groupId>
-	<artifactId>confluence-plugin-spectrum</artifactId>
+	<artifactId>spectrum-plugin</artifactId>
 	<version>0.1</version>
 
 	<organization>
@@ -13,8 +13,8 @@
 		<url>http://urz.unibas.ch/</url>
 	</organization>
 
-	<name>confluence-plugin-spectrum</name>
-	<description>This is the ch.unibas.urz.confluence.spectrum:confluence-plugin-spectrum plugin for Atlassian Confluence.</description>
+	<name>Spectrum Monitoring Plugin</name>
+	<description>The Spectrum Monitoring Plugin collects data from a CA Spectrum server by quering the restful API.</description>
 	<packaging>atlassian-plugin</packaging>
 
 	<dependencies>

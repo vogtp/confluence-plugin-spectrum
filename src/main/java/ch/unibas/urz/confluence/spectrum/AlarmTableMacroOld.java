@@ -16,8 +16,6 @@ import ch.almana.spectrum.rest.net.HttpClientRequestHandler;
 import com.atlassian.confluence.content.render.xhtml.ConversionContext;
 import com.atlassian.confluence.macro.Macro;
 import com.atlassian.confluence.macro.MacroExecutionException;
-import com.atlassian.confluence.renderer.radeox.macros.MacroUtils;
-import com.atlassian.confluence.util.velocity.VelocityUtils;
 
 /**
  * This very simple macro shows you the very basic use-case of displaying
@@ -25,7 +23,7 @@ import com.atlassian.confluence.util.velocity.VelocityUtils;
  * to toy around, and then quickly move on to the next example - this macro
  * doesn't really show you all the fun stuff you can do with Confluence.
  */
-public class AlarmTableMacro implements Macro {
+public class AlarmTableMacroOld implements Macro {
 
 	private final SpectrumManager spectrumManager;
 
@@ -33,7 +31,7 @@ public class AlarmTableMacro implements Macro {
 	// the correct objects for us to use. Simple and efficient.
 	// You just need to know *what* you want to inject and use.
 
-	public AlarmTableMacro(SpectrumManager spectrumManager) {
+	public AlarmTableMacroOld(SpectrumManager spectrumManager) {
 		this.spectrumManager = spectrumManager;
 	}
 
@@ -53,13 +51,15 @@ public class AlarmTableMacro implements Macro {
 		// writing plugins for real. Refer
 		// to the next example for better ways to render content.
 		StringBuffer result = new StringBuffer();
+		result.append("<h1>this is the old version</h1>");
 
 		if ("preview".equals(context.getOutputType())) {
 			doOutputPreview(parameters, body, context, result);
-			return result.toString();
 		} else {
-			return doOutputDisplay(parameters, body, context);
+			doOutputDisplay(parameters, body, context, result);
 		}
+
+		return result.toString();
 	}
 
 	private void doOutputPreview(Map<String, String> parameters, String body,
@@ -120,30 +120,12 @@ public class AlarmTableMacro implements Macro {
 		}
 	}
 
-	private String doOutputDisplay(Map<String, String> parameters, String body,
-			ConversionContext context) {
-		StringBuffer result = new StringBuffer();
+	private void doOutputDisplay(Map<String, String> parameters, String body,
+			ConversionContext context, StringBuffer result) {
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(
 				spectrumManager);
 		AlarmModelAccess ama = new AlarmModelAccess(requestHandler);
 		String detailDescription = "";
-		Map<String, Object> velocityContext = MacroUtils.defaultVelocityContext();
-		SortedSet<GenericModel> alarms = new TreeSet<GenericModel>(
-				new Comparator<GenericModel>() {
-
-					@Override
-					public int compare(GenericModel o1, GenericModel o2) {
-						int severity1 = Integer.parseInt(o1.getAttributes()
-								.get(SpectrumAttibute.SEVERITY));
-						int severity2 = Integer.parseInt(o2.getAttributes()
-								.get(SpectrumAttibute.SEVERITY));
-						int cmp = (new Integer(severity2)).compareTo(severity1);
-						if (cmp == 0) {
-							cmp = 1;
-						}
-						return cmp;
-					}
-				});
 		try {
 			final Map<String, GenericModel> entities;
 			String collection = parameters.get("collection");
@@ -161,14 +143,60 @@ public class AlarmTableMacro implements Macro {
 				detailDescription = " for collection " + collectionName;
 			}
 			
+			SortedSet<GenericModel> alarms = new TreeSet<GenericModel>(
+					new Comparator<GenericModel>() {
 
+						@Override
+						public int compare(GenericModel o1, GenericModel o2) {
+							int severity1 = Integer.parseInt(o1.getAttributes()
+									.get(SpectrumAttibute.SEVERITY));
+							int severity2 = Integer.parseInt(o2.getAttributes()
+									.get(SpectrumAttibute.SEVERITY));
+							int cmp = (new Integer(severity2))
+									.compareTo(severity1);
+							if (cmp == 0) {
+								cmp = 1;
+							}
+							return cmp;
+						}
+					});
 			alarms.addAll(entities.values());
-
-			velocityContext.put("detailDescription", detailDescription);
-			velocityContext.put("spectrumManager", spectrumManager);
-			velocityContext.put("spectrumAttibute", new SpectrumAttibute());
-			velocityContext.put("SpectrumAttibute", SpectrumAttibute.class);
-			velocityContext.put("alarms", alarms);
+			result.append("<p>");
+			result.append("Spectrum alarms").append(detailDescription)
+					.append(" (")
+					.append(spectrumManager.getSpectroServerName())
+					.append(")");
+			result.append("<p>");
+			result.append("<table class=\"confluenceTable\">");
+			result.append("<thead><tr>");
+			result.append("<th class=\"confluenceTh\">Severity</th>");
+			result.append("<th class=\"confluenceTh\">Alarm Title</th>");
+			result.append("<th class=\"confluenceTh\">Model Name</th>");
+			result.append("<th class=\"confluenceTh\">Occurences</th>");
+			result.append("</tr></thead>");
+			result.append("<tbody>");
+			for (GenericModel model : alarms) {
+				Map<String, String> attrs = model.getAttributes();
+				result.append("<tr>");
+				int severity = Integer.parseInt(attrs
+						.get(SpectrumAttibute.SEVERITY));
+				result.append("<td class=\"confluenceTd\">")
+						.append(AlarmModelAccess.severityToString(severity))
+						.append("</td>");
+				result.append("<td class=\"confluenceTd\">")
+						.append(attrs.get(SpectrumAttibute.ALARM_TITLE))
+						.append("</td>");
+				result.append("<td class=\"confluenceTd\">")
+						.append(attrs.get(SpectrumAttibute.MODEL_NAME))
+						.append("</td>");
+				result.append("<td class=\"confluenceTd\">")
+						.append(attrs.get(SpectrumAttibute.OCCURENCES))
+						.append("</td>");
+				result.append("</tr>");
+			}
+			result.append("</tbody>");
+			result.append("</table>");
+			result.append("</p>");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -179,8 +207,6 @@ public class AlarmTableMacro implements Macro {
 						.append(parameters.get(key)).append("<p />");
 			}
 		}
-		return VelocityUtils.getRenderedTemplate(
-				"templates/spectrum/alarm-table.vm", velocityContext);
 	}
 
 	private void debugOutput(Map<String, String> parameters, String body,
