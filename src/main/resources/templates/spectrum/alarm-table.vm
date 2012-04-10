@@ -19,10 +19,10 @@
 				#foreach($alarm in $alarms)
 				<tr>
 					#set($attrs = $alarm.Attributes)
-					<td class="confluenceTd"> $SpectrumAttibute.severityToString( $attrs.get($spectrumAttibute.get("SEVERITY"))) </td>
-					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("ALARM TITLE"))</td>
-					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("MODEL NAME"))</td>
-					<td class="confluenceTd"> $attrs.get($spectrumAttibute.get("OCCURENCES"))</td>
+					<td class="confluenceTd"> $SpectrumAttibute.severityToString( $attrs.get($SpectrumAttibute.get("SEVERITY"))) </td>
+					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("ALARM TITLE"))</td>
+					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("MODEL NAME"))</td>
+					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("OCCURENCES"))</td>
 				</tr>
 				#end 
 			</tbody>

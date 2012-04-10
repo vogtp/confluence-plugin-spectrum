@@ -166,7 +166,6 @@ public class AlarmTableMacro implements Macro {
 
 			velocityContext.put("detailDescription", detailDescription);
 			velocityContext.put("spectrumManager", spectrumManager);
-			velocityContext.put("spectrumAttibute", new SpectrumAttibute());
 			velocityContext.put("SpectrumAttibute", SpectrumAttibute.class);
 			velocityContext.put("alarms", alarms);
 		} catch (Exception e) {
