@@ -12,13 +12,6 @@
         <parameters>
         	<parameter name="collection" type="string" />
         </parameters> 
-         
-    </xhtml-macro>
-    <xhtml-macro name="Spectrum Alarm Tablev (OLD)" class="ch.unibas.urz.confluence.spectrum.AlarmTableMacroOld" key="spectrum-alarm-table-old">
-        <parameters>
-        	<parameter name="collection" type="string" />
-        </parameters> 
-         
     </xhtml-macro>
     
     <xwork name="Spectrum Plugin Configuration" key="configure-confluence-plugin-spectrum">

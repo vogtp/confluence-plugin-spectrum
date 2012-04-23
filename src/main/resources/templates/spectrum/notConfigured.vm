@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>Spectrum Plugin Not Configures</title>
+	</head>
+	<body>
+        #parse ( "/template/includes/actionmessages.vm" )
+		#parse ( "/template/includes/actionerrors.vm" )
+		<p>
+    		The spectrum plugin has not been properly configured.
+    	</p>
+    	$errorMsg
+		<p>
+   			 Ask you confluence admin to <a href="/confluence/admin/plugins/spectrum/configure.action">configure the plugin</a> 
+    	</p>
+	</body>
+</html>

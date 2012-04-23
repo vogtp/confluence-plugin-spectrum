@@ -8,6 +8,8 @@ import com.atlassian.extras.common.log.Logger;
 import com.atlassian.extras.common.log.Logger.Log;
 
 public class SpectrumManager implements IRequestConfig {
+	private static final String DEFAULT_VALUE = "";
+
 	private static final Log logger = Logger.getInstance(SpectrumManager.class);
 
 	private BandanaManager bandanaManager;
@@ -24,7 +26,7 @@ public class SpectrumManager implements IRequestConfig {
 	}
 
 	private String getProperty(String key) {
-		return getProperty(key, "");
+		return getProperty(key, DEFAULT_VALUE);
 	}
 
 	private String getProperty(String key, String defaultValue) {
@@ -35,7 +37,7 @@ public class SpectrumManager implements IRequestConfig {
 			return defaultValue;
 		}
 		Object value = bandanaManager.getValue(bandanaContext, key);
-		if (value.equals(key)) {
+		if (value == null || value.equals(key)) {
 			logger.info("SpectrumManager: " + key + " has value " + value);
 			return defaultValue;
 		}
@@ -79,6 +81,24 @@ public class SpectrumManager implements IRequestConfig {
 			return;
 		}
 		bandanaManager.setValue(bandanaContext, key, key);
+	}
+
+	public boolean isNotConfigured() {
+		return DEFAULT_VALUE.equals(getSpectroServerName()) || DEFAULT_VALUE.equals(getUsername()) || DEFAULT_VALUE.equals(getPassword());
+	}
+
+	public String getConfiguredError() {
+		String ret = "";
+		if (DEFAULT_VALUE.equals(getSpectroServerName())) {
+			ret += "No servername\n";
+		}
+		if (DEFAULT_VALUE.equals(getUsername())) {
+			ret += "No username\n";
+		}
+		if (DEFAULT_VALUE.equals(getPassword())) {
+			ret += "No password\n";
+		}
+		return ret;
 	}
 
 	public String getSpectroServerProtocoll() {

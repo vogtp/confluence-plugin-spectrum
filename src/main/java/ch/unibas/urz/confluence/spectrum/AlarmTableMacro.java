@@ -122,12 +122,16 @@ public class AlarmTableMacro implements Macro {
 
 	private String doOutputDisplay(Map<String, String> parameters, String body,
 			ConversionContext context) {
-		StringBuffer result = new StringBuffer();
+		Map<String, Object> velocityContext = MacroUtils.defaultVelocityContext();
+		//StringBuffer result = new StringBuffer(); // FIXME remove
+		if (spectrumManager.isNotConfigured()) {
+			velocityContext.put("errorMsg", spectrumManager.getConfiguredError());
+			return VelocityUtils.getRenderedTemplate("templates/spectrum/notConfigured.vm", velocityContext);
+		}
 		HttpClientRequestHandler requestHandler = new HttpClientRequestHandler(
 				spectrumManager);
 		AlarmModelAccess ama = new AlarmModelAccess(requestHandler);
 		String detailDescription = "";
-		Map<String, Object> velocityContext = MacroUtils.defaultVelocityContext();
 		SortedSet<GenericModel> alarms = new TreeSet<GenericModel>(
 				new Comparator<GenericModel>() {
 
@@ -166,20 +170,14 @@ public class AlarmTableMacro implements Macro {
 
 			velocityContext.put("detailDescription", detailDescription);
 			velocityContext.put("spectrumManager", spectrumManager);
-			velocityContext.put("SpectrumAttibute", SpectrumAttibute.class);
+			velocityContext.put("SpectrumAttibute", new SpectrumAttibute());
 			velocityContext.put("alarms", alarms);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			result.append("Error: ").append(e.getMessage());
-			result.append("<p />").append("parameters:").append("<p />");
-			for (String key : parameters.keySet()) {
-				result.append("<p />").append(key).append(": ")
-						.append(parameters.get(key)).append("<p />");
-			}
+			velocityContext.put("errorMsg", e.getMessage());
+			return VelocityUtils.getRenderedTemplate("templates/spectrum/notConfigured.vm", velocityContext);
 		}
-		return VelocityUtils.getRenderedTemplate(
-				"templates/spectrum/alarm-table.vm", velocityContext);
+		return VelocityUtils.getRenderedTemplate("templates/spectrum/alarm-table.vm", velocityContext);
 	}
 
 	private void debugOutput(Map<String, String> parameters, String body,
