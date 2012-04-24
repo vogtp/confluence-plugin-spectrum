@@ -17,13 +17,14 @@
 			</tr></thead>
 			<tbody>
 				#foreach($alarm in $alarms)
-				<tr>
 					#set($attrs = $alarm.Attributes)
-					<td class="confluenceTd">  $attrs.get($SpectrumAttibute.get("SEVERITY"))</td>
-					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("ALARM TITLE"))</td>
-					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("MODEL NAME"))</td>
-					<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("OCCURENCES"))</td>
-				</tr>
+					#set($severity = $attrs.get($SpectrumAttibute.get("SEVERITY")))
+					<tr style="background: $spectrumManager.getAlarmColor($severity);">
+						<td class="confluenceTd"> $SpectrumAttibute.severityToString($severity)</td>
+						<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("ALARM TITLE"))</td>
+						<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("MODEL NAME"))</td>
+						<td class="confluenceTd"> $attrs.get($SpectrumAttibute.get("OCCURENCES"))</td>
+					</tr>
 				#end 
 			</tbody>
 			</table>

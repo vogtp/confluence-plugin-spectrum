@@ -1,5 +1,6 @@
 package ch.unibas.urz.confluence.spectrum;
 
+import ch.almana.spectrum.rest.model.SpectrumAttibute;
 import ch.almana.spectrum.rest.net.IRequestConfig;
 
 import com.atlassian.bandana.BandanaManager;
@@ -14,7 +15,9 @@ public class SpectrumManager implements IRequestConfig {
 
 	private BandanaManager bandanaManager;
 
-	private ConfluenceBandanaContext bandanaContext;;
+	private ConfluenceBandanaContext bandanaContext;
+
+	private SpectrumAttibute spectrumAttibute;;
 
 	public SpectrumManager() {
 		super();
@@ -31,9 +34,7 @@ public class SpectrumManager implements IRequestConfig {
 
 	private String getProperty(String key, String defaultValue) {
 		if (bandanaManager == null) {
-			logger.warn(
-					"bandanaManager is null  - cannot get " + key
-							+ " returning default value " + defaultValue);
+			logger.warn("bandanaManager is null  - cannot get " + key + " returning default value " + defaultValue);
 			return defaultValue;
 		}
 		Object value = bandanaManager.getValue(bandanaContext, key);
@@ -49,9 +50,7 @@ public class SpectrumManager implements IRequestConfig {
 
 	private int getProperty(String key, int defaultValue) {
 		if (bandanaManager == null) {
-			logger.info(
-					"bandanaManager is null - cannot get " + key
-							+ " returning default value " + defaultValue);
+			logger.info("bandanaManager is null - cannot get " + key + " returning default value " + defaultValue);
 			return defaultValue;
 		}
 		Object value = bandanaManager.getValue(bandanaContext, key);
@@ -64,9 +63,7 @@ public class SpectrumManager implements IRequestConfig {
 
 	private void setProperty(String key, String value) {
 		if (bandanaManager == null) {
-			logger.info(
-					"bandanaManager is null - cannot set " + key + " to "
-							+ value);
+			logger.info("bandanaManager is null - cannot set " + key + " to " + value);
 			return;
 		}
 		logger.info("SpectrumManager: set " + key + " to value " + value);
@@ -75,9 +72,7 @@ public class SpectrumManager implements IRequestConfig {
 
 	private void setProperty(String key, int value) {
 		if (bandanaManager == null) {
-			logger.info(
-					"bandanaManager is null - cannot set " + key + " to "
-							+ value);
+			logger.info("bandanaManager is null - cannot set " + key + " to " + value);
 			return;
 		}
 		bandanaManager.setValue(bandanaContext, key, key);
@@ -152,6 +147,27 @@ public class SpectrumManager implements IRequestConfig {
 
 	public void setServerPort(int port) {
 		setProperty("serverport", port);
+	}
+
+	public SpectrumAttibute getSpectrumAttibute() {
+		if (spectrumAttibute == null) {
+			spectrumAttibute = new SpectrumAttibute();
+		}
+		return spectrumAttibute;
+	}
+
+	public String getAlarmColor(String severity) {
+		switch (Integer.parseInt(severity)) {
+		case 3:
+			return "red";
+		case 2:
+			return "orange";
+		case 1:
+			return "yellow";
+		case 0:
+			return "greenl";
+		}
+		return "";
 	}
 
 }
